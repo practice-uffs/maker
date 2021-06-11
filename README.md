@@ -21,28 +21,110 @@ Aqui você pode colocar uma screenshot do produto resultante desse projeto. Desc
 
 ## 🚀 Começando
 
-### 1. Primeiro passo para começar
+### 1. Dependências
 
-Geralmente o primeiro passo para começar é instalar dependências para rodar o projeto. Rode:
+Para executar o projeto, você precisa ter o seguinte instalado:
 
-```
-apt get install dependencia
-```
+- [Git](https://git-scm.com);
+- [PHP](https://www.php.net/downloads);
+- [Composer](https://getcomposer.org/download/);
+- [NodeJS](https://nodejs.org/en/);
+- [NPM](https://www.npmjs.com/package/npm);
 
-Recomenda-se que cada comando seja colocado em uma linha diferente:
-
-```
-apt get install outra-coisa
-```
-
-Dessa forma os usuários podem copiar e colar sem ler as documentação (que é o que geralmente acontece).
-
-### 2. Outro(s) passo(s)
-
-Geralmente os próximos passos ensinam como instalar e configurar o projeto para uso/desenvolvimento. Rode:
+Você precisa de várias extensões PHP instaladas também:
 
 ```
-git clone https://github.com/ccuffs/template template
+sudo apt install php-cli php-mbstring php-zip php-xml php-curl
+```
+
+### 2. Configuração
+
+Feito a instalação das dependências, é necessário obter uma cópia do projeto. A forma recomendada é clonar o repositório para a sua máquina.
+
+Para isso, rode:
+
+```
+git clone --recurse-submodules https://github.com/practice-uffs/template && cd template
+```
+
+Isso criará e trocará para a pasta `template` com o código do projeto.
+
+#### 2.1 PHP
+
+Instale as dependências do PHP usando o comando abaixo:
+
+```
+composer install
+```
+
+#### 2.2 Banco de Dados
+
+O banco de dados mais simples para uso é o SQLite. Para criar uma base usando esse SGBD, rode:
+
+```
+touch database/database.sqlite
+```
+
+#### 2.3 Node
+
+Instale também as dependências do NodeJS executando:
+
+```
+npm install
+```
+
+#### 2.4 Laravel
+
+Crie o arquivo `.env` a partir do arquivo `.env.example` gerado automaticamente pelo Laravel:
+
+```
+cp .env.example .env
+```
+
+Criação as tabelas do banco de dados com as migrações esquemas:
+
+```
+php artisan migrate
+```
+
+Por fim execute o comando abaixo para a geração da chave de autenticação da aplicação:
+
+```
+php artisan key:generate
+```
+
+Gere os recursos JavaScript e CSS:
+
+```
+npm run dev
+```
+
+>*DICA:* enquanto estiver desenvolvendo, rode `npm run watch` para manter os scripts javascript sendo gerados sob demanda quando alterados.
+
+### 3. Utilizacão
+
+#### 3.1 Rodando o projeto
+
+Depois de seguir todos os passos de instalação, inicie o servidor do Laravel:
+
+```
+php artisan serve
+```
+Após isso a aplicação estará rodando na porta 8000 e poderá ser acessada em [localhost:8000](http://localhost:8000).
+
+#### 3.2 Utilização da API
+
+Se você utilizar a API dessa aplicacão, todos endpoints estarão acessivel em `/api`, por exemplo [localhost:8000/api](http://localhost:8000/api). Os endpoints que precisam de uma chave de autenticação devem ser utilizar o seguinte cabeçalho HTTP:
+
+```
+Authorization: Bearer XXX
+```
+
+onde `XXX` é o valor da sua chave de acesso (api token do Jetstream), por exemplo `c08cbbfd6eefc83ac6d23c4c791277e4`.
+Abaixo está um exemplo de requisição para o endpoint `user` utilizando a chave de acesso acima:
+
+```bash
+curl -H 'Accept: application/json' -H "Authorization: Bearer c08cbbfd6eefc83ac6d23c4c791277e4" http://localhost:8080/api/user
 ```
 
 ## 🤝 Contribua
@@ -60,10 +142,9 @@ Esse projeto é licenciado nos termos da licença open-source [MIT](https://choo
 
 Veja todas as alterações desse projeto no arquivo [CHANGELOG.md](CHANGELOG.md).
 
-## 🧪 Projetos semelhates
+## 🧪 Links úteis
 
 Abaixo está uma lista de links interessantes e projetos similares:
 
-* [Outro projeto](https://github.com/projeto)
-* [Projeto inspiração](https://github.com/projeto)
-* [Ferramenta semelhante](https://github.com/projeto)
+* [Universidade Federal da Fronteira Sul](https://www.uffs.edu.br)
+* [Programa Practice](https://practice.uffs.cc)
