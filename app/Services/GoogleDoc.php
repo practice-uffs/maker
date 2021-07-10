@@ -2,6 +2,8 @@
 
 require __DIR__ . '../../../vendor/autoload.php';
 
+use League\HTMLToMarkdown\HtmlConverter;
+
 class GoogleDoc {
     protected $client;
     protected $service;
@@ -38,7 +40,7 @@ class GoogleDoc {
         return $client;
     }   
 
-    public function getFilesFromSpecificFolderInArray(){
+    public function getFilesFromSpecificFolderInArrayAsHtml(){
         if (!isset($this->client)){
             $this->client = $this->getClient();
         }
@@ -60,6 +62,35 @@ class GoogleDoc {
                 $response = $this->service->files->export($file->getId(), 'text/html', array('alt' => 'media' ));
                 $content = $response->getBody()->getContents();
                 $arrayOfFiles [$count] = $content;
+                $count++;
+            }
+            return $arrayOfFiles;
+        }
+    }
+    public function getFilesFromSpecificFolderInArrayAsMarkdown(){
+        if (!isset($this->client)){
+            $this->client = $this->getClient();
+        }
+        if (!isset($this->service)){
+            $this->service = new Google_Service_Drive($this->client);
+        }
+        // TODO : Use the folder ID from config/google.php
+        $folderId = '1rfKpEqhv5WGCwfAqx8xYGTPlzj-748YC';
+        $parameters = [
+            'q' => "'$folderId' in parents"];
+        $files = $this->service->files->listFiles($parameters);
+        $arrayOfFiles = [];
+        $count = 0;
+        if (count($files->getFiles()) == 0) {
+            return false;
+        } 
+        else{
+            foreach ($files->getFiles() as $file) {
+                $response = $this->service->files->export($file->getId(), 'text/html', array('alt' => 'media' ));
+                $content = $response->getBody()->getContents();
+                $converter = new HtmlConverter(array('strip_tags' => true));
+                $markdown = $converter->convert($content);
+                $arrayOfFiles [$count] = $markdown;
                 $count++;
             }
             return $arrayOfFiles;
@@ -89,14 +120,19 @@ class GoogleDoc {
                 $data = $content;
                 $name = $file->getName();
                 file_put_contents("../../storage/app/public/DigitalContent/html/$name.html",$data);
+
+                $converter = new HtmlConverter(array('strip_tags' => true));
+                $html = file_get_contents("../../storage/app/public/DigitalContent/html/$name.html");
+                file_put_contents("../../storage/app/public/DigitalContent/markdown/$name.md",$converter->convert($html));
             }
             return true;
         }
     }
 }
 // Usage example
-$class = new GoogleDoc();
-$class->downloadDocsFromSpecificFolder();
-
+// $class = new GoogleDoc();
+// $class->downloadDocsFromSpecificFolder();
+// var_dump($class->getFilesFromSpecificFolderInArrayAsMarkdown());
+// var_dump($class->getFilesFromSpecificFolderInArrayAsHtml());
 
 
