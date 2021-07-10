@@ -88,15 +88,15 @@ class GoogleDoc {
                 $content = $response->getBody()->getContents();
                 $data = $content;
                 $name = $file->getName();
-                file_put_contents("../../storage/app/public/DigitalContent/$name.html",$data);
+                file_put_contents("../../storage/app/public/DigitalContent/html/$name.html",$data);
             }
             return true;
         }
     }
 }
 // Usage example
-// $class = new GoogleDoc();
-// $class->downloadDocsFromSpecificFolder();
+$class = new GoogleDoc();
+$class->downloadDocsFromSpecificFolder();
 
 
 
