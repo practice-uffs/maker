@@ -24,17 +24,56 @@ class GoogleDrive
 
     public function config($key, $defaulValue = null)
     {
-        if(!is_array($this->config) || !isset($this->config['drive'])) {
+        if(!is_array($this->config) || !isset($this->config['docs'])) {
             return $defaulValue;
         }
 
-        if(isset($this->config['drive'][$key])) {
-            return $this->config['drive'][$key];
+        if(isset($this->config['docs'][$key])) {
+            return $this->config['docs'][$key];
         }
 
         return $defaulValue;
     }
-    
+
+    public function getFilesAsHtml(){
+        $folderId = $this->config('digital_content_folder_id', '');
+        $parameters = [
+            'q' => "'$folderId' in parents"];
+        $files = $this->service->files->listFiles($parameters);
+        $arrayOfFiles = [];
+        $count = 0;
+        if (count($files->getFiles()) == 0) {
+            return false;
+        } 
+        else{
+            foreach ($files->getFiles() as $file) {
+                $response = $this->service->files->export($file->getId(), 'text/html', array('alt' => 'media' ));
+                $content = $response->getBody()->getContents();
+
+                $parameters = array();
+                $parameters['fields'] = "permissions(*)";
+                $permissions = $this->service->permissions->listPermissions($file->id, $parameters);
+                $countPermissions = 0;
+                
+                foreach ($permissions->getPermissions() as $permission){
+                    $arrayOfFiles [$count]['ownerEmail'][$countPermissions] = $permission['emailAddress'];
+                    $countPermissions++;
+                }
+
+                $startBody = strpos($content, '<body');
+                $finishBody = strpos($content, '</body>');
+                $body = substr($content, $startBody, $finishBody);
+                $body = preg_replace('/<\/body><\/html>/', '', $body);
+                $body = preg_replace('/<body(.*?)>/', '', $body);
+                $arrayOfFiles [$count]['content'] = $body;
+                $arrayOfFiles [$count]['title'] = $file->getName();
+                
+                $count++;
+            }
+            return $arrayOfFiles;
+        }
+    }
+
     /**
      * Returns an authorized API client.
      * @return Google_Client the authorized client object
