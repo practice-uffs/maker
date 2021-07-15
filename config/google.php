@@ -8,11 +8,11 @@ return [
     |
     | Informações relacionadas aos serviços do Google Drive.
     |
-    |  tasks_folder_id:
-    |      id da pasta "Tarefas" usada pela equipe no Google Drive.
+    |  digital_content_folder_id:
+    |      id da pasta "DigitalContent" no google Drive
     |
     */
-    'drive' => [
-        'tasks_folder_id' => env('GOOGLE_DRIVE_TASKS_FOLDER_ID', '1aBjyA92_IdiPJokAJyBF9HtIKzMIVqvQ'),
+    'doc' => [
+        'digital_content_folder_id' => env('GOOGLE_DRIVE_DIGITAL_CONTENT_FOLDER_ID', '1n0Lvl_C_M6KDj2iDz98SgvsWelfneuVb'),
     ],    
 ];

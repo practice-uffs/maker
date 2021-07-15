@@ -22,74 +22,6 @@ class GoogleDrive
         return $this->service;
     }
 
-    public function findFoldersWhoseNameContains($string, $parent_id = '')
-    {
-        $parentQuery = $parent_id != '' ? "and '$parent_id' in parents" : '';
-
-        $optParams = array(
-            'q' => "mimeType='application/vnd.google-apps.folder' and name contains '$string' " . $parentQuery,
-            'pageSize' => 10,
-            'fields' => 'nextPageToken, files(id, name, webViewLink)'
-        );
-
-        $results = $this->service->files->listFiles($optParams);
-        return $results->getFiles();
-    }
-
-    public function getFolderByName($string, $parent_id = '')
-    {
-        $parentQuery = $parent_id != '' ? "and '$parent_id' in parents" : '';
-
-        $optParams = array(
-            'q' => "mimeType='application/vnd.google-apps.folder' and name='$string' " . $parentQuery,
-            'pageSize' => 10,
-            'fields' => 'nextPageToken, files(id, name, webViewLink)'
-        );
-
-        $results = $this->service->files->listFiles($optParams);
-        $files = $results->getFiles();
-
-        $folder = count($files) > 0 ? $files[0]: null;
-
-        return $folder;
-    }
-
-    public function findIssueWorkingFolders($repo = 'programa')
-    {
-        $folders = $this->findFoldersWhoseNameContains($repo . '#');
-        return $folders;
-    }
-
-    public function getIssueWorkingFolderByName($name)
-    {
-        $folder = $this->getFolderByName($name);
-        return $folder;
-    }
-
-    /**
-     * @param {string} $name name formatted as 'repo#issue_number', ex.: 'programa#222'.
-     * @return {array} array in the format ['folder' => issue_folder_obj, 'in' => folder_obj, 'out' => folder_obj], null if nothing is found.
-     */
-    public function getIssueWorkingFolderStructureByName($name)
-    {
-        $folder = $this->getIssueWorkingFolderByName($name);
-
-        if($folder == null) {
-            return null;
-        }
-
-        $ins = $this->findFoldersWhoseNameContains('Entrada', $folder->getId());
-        $outs = $this->findFoldersWhoseNameContains('Saída', $folder->getId());
-
-        $ret = [
-            'folder' => $folder,
-            'in'     => count($ins) > 0 ? $ins[0] : null,
-            'out'    => count($outs) > 0 ? $outs[0] : null,
-        ];
-
-        return $ret;
-    }
-
     public function config($key, $defaulValue = null)
     {
         if(!is_array($this->config) || !isset($this->config['drive'])) {
@@ -102,43 +34,7 @@ class GoogleDrive
 
         return $defaulValue;
     }
-
-    public function createIssueWorkingFolder($number, $repo = 'programa')
-    {
-        if(empty($number)) {
-            throw new \InvalidArgumentException('Param $number requires a value.');
-        }
-
-        $name = $repo . '#' . $number;
-        $folder = $this->getIssueWorkingFolderByName($name);
-
-        if($folder != null) {
-            return $this->getIssueWorkingFolderStructureByName($name);
-        }
-
-        $tasks_folder_id = $this->config('tasks_folder_id', '');
-        
-        $folder = $this->createFolder($name, $tasks_folder_id);
-        $in_folder = $this->createFolder('Entrada', $folder->getId());
-        $out_folder = $this->createFolder('Saída', $folder->getId());
-
-        return $this->getIssueWorkingFolderStructureByName($name);
-    }
-
-    public function createFolder($name, $parentId = '') {
-        $folderMeta = new \Google\Service\Drive\DriveFile();
-
-        $folderMeta->setName($name);
-        $folderMeta->setMimeType('application/vnd.google-apps.folder');
-
-        if(!empty($parentId)) {
-            $folderMeta->parents[] = $parentId;
-        }
-        
-        $folder = $this->service->files->create($folderMeta);
-        return $folder;
-    }
-
+    
     /**
      * Returns an authorized API client.
      * @return Google_Client the authorized client object
@@ -152,7 +48,7 @@ class GoogleDrive
         ]));
 
         $client->setApplicationName('Practice Google Drive');
-        $client->setScopes(Drive::DRIVE_FILE);
+        $client->setScopes(Drive::DRIVE);
         $client->setAuthConfig(config_path('google/credentials.json'));
         $client->setAccessType('offline');
         $client->setPrompt('select_account consent');
