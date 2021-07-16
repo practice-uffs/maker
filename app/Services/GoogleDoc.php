@@ -3,21 +3,22 @@
 namespace App\Services;
 
 use Google\Client;
-use Google\Service\Drive;
+use Google_Service_Drive;
 
-class GoogleDrive
+
+class GoogleDoc
 {
-    protected Client $client;
-    protected Drive $service;
+    protected $client;
+    protected $service;
 
     public function __construct(array $config = [])
     {
-        $this->config = $config;
+        $this->config = config('google');
         $this->client = $this->getGoogleClient();
-        $this->service = new Drive($this->client);
+        $this->service = new Google_Service_Drive($this->client);
     }
 
-    public function getService(): Drive
+    public function getService(): Google_Service_Drive
     {
         return $this->service;
     }
@@ -27,23 +28,24 @@ class GoogleDrive
         if(!is_array($this->config) || !isset($this->config['docs'])) {
             return $defaulValue;
         }
-
         if(isset($this->config['docs'][$key])) {
             return $this->config['docs'][$key];
         }
-
-        return $defaulValue;
+        return $defaulValue;    
     }
 
     public function getFilesAsHtml(){
-        $folderId = $this->config('digital_content_folder_id', '');
+        $folderId = $this->config('digital_content_folder_id','');
+        if($folderId == ''){
+            return null;
+        }
         $parameters = [
             'q' => "'$folderId' in parents"];
         $files = $this->service->files->listFiles($parameters);
         $arrayOfFiles = [];
         $count = 0;
         if (count($files->getFiles()) == 0) {
-            return false;
+            return null;
         } 
         else{
             foreach ($files->getFiles() as $file) {
@@ -74,6 +76,43 @@ class GoogleDrive
         }
     }
 
+    public function getFilesAsPlainText(){
+        $folderId = $this->config('digital_content_folder_id','');
+        if($folderId == ''){
+            return null;
+        }
+        $parameters = [
+            'q' => "'$folderId' in parents"];
+        $files = $this->service->files->listFiles($parameters);
+        $arrayOfFiles = [];
+        $count = 0;
+        if (count($files->getFiles()) == 0) {
+            return null;
+        } 
+        else{
+            foreach ($files->getFiles() as $file) {
+                $response = $this->service->files->export($file->getId(), 'text/plain', array('alt' => 'media' ));
+                $content = $response->getBody()->getContents();
+
+                $parameters = array();
+                $parameters['fields'] = "permissions(*)";
+                $permissions = $this->service->permissions->listPermissions($file->id, $parameters);
+                $countPermissions = 0;
+                
+                foreach ($permissions->getPermissions() as $permission){
+                    $arrayOfFiles [$count]['ownerEmail'][$countPermissions] = $permission['emailAddress'];
+                    $countPermissions++;
+                }
+
+                $arrayOfFiles [$count]['content'] = $content;
+                $arrayOfFiles [$count]['title'] = $file->getName();
+                
+                $count++;
+            }
+            return $arrayOfFiles;
+        }
+    }
+
     /**
      * Returns an authorized API client.
      * @return Google_Client the authorized client object
@@ -87,7 +126,7 @@ class GoogleDrive
         ]));
 
         $client->setApplicationName('Practice Google Drive');
-        $client->setScopes(Drive::DRIVE);
+        $client->setScopes(Google_Service_Drive::DRIVE);
         $client->setAuthConfig(config_path('google/credentials.json'));
         $client->setAccessType('offline');
         $client->setPrompt('select_account consent');
