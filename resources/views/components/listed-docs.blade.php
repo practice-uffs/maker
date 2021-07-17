@@ -36,7 +36,7 @@
                                     Mostrar Conteúdo
                                     </button>
                                 </p> 
-                                <div x-show="show" class="bg-white border px-4 py-3 my-2 text-gray-700 rounded-lg break-words">
+                                <div x-show="show" class="bg-white border px-4 py-3 my-2 text-gray-700 rounded-lg">
                                     <?php echo $doc['content'];?>
                                 </div>
                             </div>
@@ -83,7 +83,11 @@
                                         </button>
                                     </p> 
                                     <div x-show="show" class="bg-white border px-4 py-3 my-2 text-gray-700 rounded-lg">
-                                        <?php echo "<pre>".$doc['content']."</pre>";?>
+                                        <?php   
+                                            echo '<div style="white-space: pre-wrap;">';
+                                            echo $doc['content'];
+                                            echo "</div>";
+                                        ?>
                                     </div>
                                 </div>
                             </dd>

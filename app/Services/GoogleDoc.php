@@ -5,7 +5,6 @@ namespace App\Services;
 use Google\Client;
 use Google_Service_Drive;
 
-
 class GoogleDoc
 {
     protected $client;
