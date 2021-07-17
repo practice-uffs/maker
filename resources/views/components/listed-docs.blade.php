@@ -47,6 +47,8 @@
                 </li>
             @endforeach
             </ul>
+        @else
+        <h3 class="text-lg leading-6 font-medium text-black p-9 text-center ">Não há docs em html ou ou o id da pasta está errado</h3>
         @endif
         @if ($docs->getFilesAsPlainText() != null)
             <h3 class="text-lg leading-6 font-medium text-black p-9 text-center ">Em Texto</h3>
@@ -91,6 +93,8 @@
                     </li>
                 @endforeach
                 </ul>
+            @else
+            <h3 class="text-lg leading-6 font-medium text-black p-9 text-center ">Não há docs em texto ou ou o id da pasta está errado</h3>
             @endif
     </section>
 </div>
