@@ -3,11 +3,11 @@
         <header class="flex items-center justify-between">
         <h2 class="text-lg leading-6 font-medium text-black">Conteúdos digitais</h2>
         </header>
-        @if ($docs->getFilesAsHtml() != null)
+        @if ($this->getHtmlDocs() != null)
             <h3 class="text-lg leading-6 font-medium text-black text-center">Em HTML</h3>
             <form class="relative">
             <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-4">
-            @foreach ($docs->getFilesAsHtml() as $doc)
+            @foreach ($this->getHtmlDocs() as $doc)
                 <li x-for="item in items">
                     <a :href="item.url" class="bg-purple-100 hover:bg-purple-500 hover:border-transparent hover:shadow-lg group block rounded-lg p-4 border border-purple-900">
                     <dl class="grid sm:block lg:grid xl:block grid-cols-2 grid-rows-2 items-center">
@@ -50,10 +50,10 @@
         @else
         <h3 class="text-lg leading-6 font-medium text-black p-9 text-center ">Não há docs em html ou ou o id da pasta está errado</h3>
         @endif
-        @if ($docs->getFilesAsPlainText() != null)
+        @if ($this->getPlainTextDocs() != null)
             <h3 class="text-lg leading-6 font-medium text-black p-9 text-center ">Em Texto</h3>
             <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-4">
-                @foreach ($docs->getFilesAsPlainText() as $doc)
+                @foreach ($this->getPlainTextDocs() as $doc)
                     <li x-for="item in items">
                         <a :href="item.url" class="bg-green-100 hover:bg-green-500 hover:border-transparent hover:shadow-lg group block rounded-lg p-4 border border-green-900">
                         <dl class="grid sm:block lg:grid xl:block grid-cols-2 grid-rows-2 items-center">
