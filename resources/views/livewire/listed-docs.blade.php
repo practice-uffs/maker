@@ -14,30 +14,28 @@
                         <div>
                         <dt class="sr-only">Título</dt>
                         <dd class="group-hover:text-white leading-6 font-medium text-black">
-                            <?php echo $doc['title'];?>
+                            {{ $doc['title'] }}
                         </dd>
                         </div>
                         <div>
                         <dt class="sr-only">Category</dt>
                         <dd class="group-hover:text-light-red-200 text-sm font-medium sm:mb-4 lg:mb-0 xl:mb-4">
                             <p>Donos deste documento:</p>
-                            <?php 
-                            foreach ($doc['ownerEmail'] as $owner) {
-                                if(isset($owner)){
-                                    echo $owner."<br>";
-                                }  
-                            }
-                            ?>
+                            @foreach ($doc['ownerEmail'] as $owner)
+                                @if(isset($owner))
+                                    <p>{{ $owner }}<p>
+                                @endif  
+                            @endforeach
                         </dd>
                         <dd class="group-hover:text-light-red-200 text-sm font-medium sm:mb-4 lg:mb-0 xl:mb-4">
-                            <div x-data={show:false}>
+                            <div x-data="{show:false}">
                                 <p class="flex">
                                     <button  @click="show=!show" class="bg-purple-400 text-gray-200 rounded hover:bg-purple-700 px-4 py-3 text-sm focus:outline-none" type="button">
                                     Mostrar Conteúdo
                                     </button>
                                 </p> 
                                 <div x-show="show" class="bg-white border px-4 py-3 my-2 text-gray-700 rounded-lg">
-                                    <?php echo $doc['content'];?>
+                                    {!! $doc['content'] !!}
                                 </div>
                             </div>
                         </dd>
@@ -60,34 +58,30 @@
                             <div>
                             <dt class="sr-only">Título</dt>
                             <dd class="group-hover:text-white leading-6 font-medium text-black">
-                                <?php echo $doc['title'];?>
+                                {{ $doc['title'] }}
                             </dd>
                             </div>
                             <div>
                             <dt class="sr-only">Category</dt>
                             <dd class="group-hover:text-light-red-200 text-sm font-medium sm:mb-4 lg:mb-0 xl:mb-4">
                                 <p>Donos deste documento:</p>
-                                <?php 
-                                foreach ($doc['ownerEmail'] as $owner) {
-                                    if(isset($owner)){
-                                        echo $owner."<br>";
-                                    }  
-                                }
-                                ?>
+                                @foreach ($doc['ownerEmail'] as $owner)
+                                    @if(isset($owner))
+                                        <p>{{ $owner }}<p>
+                                    @endif  
+                                @endforeach
                             </dd>
                             <dd class="group-hover:text-light-red-200 text-sm font-medium sm:mb-4 lg:mb-0 xl:mb-4">
-                                <div x-data={show:false}>
+                                <div x-data="{show:false}">
                                     <p class="flex">
                                         <button  @click="show=!show" class="bg-green-400 text-gray-200 rounded hover:bg-green-700 px-4 py-3 text-sm focus:outline-none" type="button">
                                         Mostrar Conteúdo
                                         </button>
                                     </p> 
                                     <div x-show="show" class="bg-white border px-4 py-3 my-2 text-gray-700 rounded-lg">
-                                        <?php   
-                                            echo '<div style="white-space: pre-wrap;">';
-                                            echo $doc['content'];
-                                            echo "</div>";
-                                        ?>
+                                        <div style="white-space: pre-wrap;">
+                                            {{ $doc['content'] }}
+                                        </div>
                                     </div>
                                 </div>
                             </dd>

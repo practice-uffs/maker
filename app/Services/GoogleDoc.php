@@ -39,25 +39,25 @@ class GoogleDoc
             return null;
         }
         $parameters = [
-            'q' => "'$folderId' in parents"];
+            'q' => "'$folderId' in parents"
+        ];
         $files = $this->service->files->listFiles($parameters);
         $arrayOfFiles = [];
         $count = 0;
         if (count($files->getFiles()) == 0) {
             return null;
-        } 
-        else{
+        } else {
             foreach ($files->getFiles() as $file) {
                 $response = $this->service->files->export($file->getId(), 'text/html', array('alt' => 'media' ));
                 $content = $response->getBody()->getContents();
 
                 $parameters = array();
-                $parameters['fields'] = "permissions(*)";
+                $parameters['fields'] = 'permissions(*)';
                 $permissions = $this->service->permissions->listPermissions($file->id, $parameters);
                 $countPermissions = 0;
                 
                 foreach ($permissions->getPermissions() as $permission){
-                    $arrayOfFiles [$count]['ownerEmail'][$countPermissions] = $permission['emailAddress'];
+                    $arrayOfFiles[$count]['ownerEmail'][$countPermissions] = $permission['emailAddress'];
                     $countPermissions++;
                 }
 
@@ -66,8 +66,8 @@ class GoogleDoc
                 $body = substr($content, $startBody, $finishBody);
                 $body = preg_replace('/<\/body><\/html>/', '', $body);
                 $body = preg_replace('/<body(.*?)>/', '', $body);
-                $arrayOfFiles [$count]['content'] = $body;
-                $arrayOfFiles [$count]['title'] = $file->getName();
+                $arrayOfFiles[$count]['content'] = $body;
+                $arrayOfFiles[$count]['title'] = $file->getName();
                 
                 $count++;
             }
@@ -81,30 +81,30 @@ class GoogleDoc
             return null;
         }
         $parameters = [
-            'q' => "'$folderId' in parents"];
+            'q' => "'$folderId' in parents"
+        ];
         $files = $this->service->files->listFiles($parameters);
         $arrayOfFiles = [];
         $count = 0;
         if (count($files->getFiles()) == 0) {
             return null;
-        } 
-        else{
+        } else {
             foreach ($files->getFiles() as $file) {
                 $response = $this->service->files->export($file->getId(), 'text/plain', array('alt' => 'media' ));
                 $content = $response->getBody()->getContents();
 
                 $parameters = array();
-                $parameters['fields'] = "permissions(*)";
+                $parameters['fields'] = 'permissions(*)';
                 $permissions = $this->service->permissions->listPermissions($file->id, $parameters);
                 $countPermissions = 0;
                 
                 foreach ($permissions->getPermissions() as $permission){
-                    $arrayOfFiles [$count]['ownerEmail'][$countPermissions] = $permission['emailAddress'];
+                    $arrayOfFiles[$count]['ownerEmail'][$countPermissions] = $permission['emailAddress'];
                     $countPermissions++;
                 }
 
-                $arrayOfFiles [$count]['content'] = $content;
-                $arrayOfFiles [$count]['title'] = $file->getName();
+                $arrayOfFiles[$count]['content'] = $content;
+                $arrayOfFiles[$count]['title'] = $file->getName();
                 
                 $count++;
             }
