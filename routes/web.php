@@ -23,3 +23,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/poster', PosterController
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
+Route::middleware(['auth:sanctum', 'verified'])->get('/digital-content', function () {
+    return view('digital-content');
+})->name('digital-content');
+

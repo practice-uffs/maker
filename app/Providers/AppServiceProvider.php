@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+
+use App\Services\GoogleDoc;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +15,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton(GoogleDoc::class, function($app) {
+            return new GoogleDoc(config('google.docs'));
+        });
     }
 
     /**
