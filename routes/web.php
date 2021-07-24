@@ -16,7 +16,7 @@ use App\Http\Controllers\PosterController;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/poster', PosterController::class . '@index')->name('poster');;
 
