@@ -1,48 +1,69 @@
-<x-guest-layout>
-    <x-jet-authentication-card>
-        <x-slot name="logo">
-            <x-jet-authentication-card-logo />
-        </x-slot>
+@extends("layouts.base-raw", ["view_name" => "Login"])
 
-        <x-jet-validation-errors class="mb-4" />
+@section('content')
+<div class="login container row mx-auto my-5 pt-5" >
+    <!-- For Demo Purpose -->
+    <div class="login-img col-md-5 pr-lg-5 mb-5 mb-md-0 mt-5">
+        <img src="assets/img/undow.co/login.svg" alt="" class="img-fluid">
+        <h1>Conecte-se ao PRACTICE <b>Mural</b></h1>
+        <p class="font-italic text-muted mb-0">Utilize do seu idUFFS para conectar-se e aproveitar tudo que nossa plataforma oferece</p>
+    </div>
 
-        @if (session('status'))
-            <div class="mb-4 font-medium text-sm text-green-600">
-                {{ session('status') }}
+    <form id="login-form" class="login-form col-md-6 mx-auto form-signin text-center " action="" method="post" >
+        @csrf
+        <a href="/"><img class="mb-5" src="https://practice.uffs.cc/images/logo.png" alt="" width="272" ></a>
+        <h1 class="h4 mb-3 font-weight-normal">Entre com seu idUFFS</h1>
+        @if ($errors->any()) 
+            <div class="alert-error">
+                @foreach ($errors->all() as $error)
+                    {{ $error }}
+                @endforeach
             </div>
         @endif
 
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
-
-            <div>
-                <x-jet-label for="email" value="{{ __('idUFFS') }}" />
-                <x-jet-input id="email" class="block mt-1 w-full" type="text" name="email" :value="old('email')" required autofocus />
+        
+        <!-- idUFFS -->
+        <div class="input-group col-lg-6 mb-4">
+            <div class="input-group-prepend">
+                <span class="input-group-text bg-white px-4 border-md border-right-0">
+                    <i class="bi bi-person text-muted"></i>
+                </span>
             </div>
-
-            <div class="mt-4">
-                <x-jet-label for="password" value="{{ __('Senha') }}" />
-                <x-jet-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" />
+            <input type="text" id="inputEmail" placeholder="idUFFS" required="" autofocus=""
+                name="email" value="{{ old('email') }}" placeholder="idUFFS"
+                class="form-control validate @error('email') is-invalid @enderror card__input" >
+            
+        </div>
+        <!-- Password -->
+        <div class="input-group col-lg-6 mb-4">
+            <div class="input-group-prepend">
+                <span class="input-group-text bg-white px-4 border-md border-right-0">
+                    <i class="bi bi-lock-fill text-muted"></i>
+                </span>
             </div>
+            <input type="password" id="inputPassword" name="password"  placeholder="Senha" required="" placeholder="Senha"
+                   class="form-control @error('password') is-invalid @enderror validate card__input"
+                   autocomplete="current-password">
+        </div>
 
-            <div class="block mt-4">
-                <label for="remember_me" class="flex items-center">
-                    <input id="remember_me" type="checkbox" class="form-checkbox" name="remember">
-                    <span class="ml-2 text-sm text-gray-300">{{ __('Lembrar informações') }}</span>
-                </label>
-            </div>
+        <button id="btn-submit" class="btn btn-lg btn-block btn-warning col-12" type="submit">ENTRAR</button>
+        <button id="btn-loading" class="btn btn-lg btn-block btn-warning col-12" type="button" disabled>
+            <span class="spinner-border spinner-border-md" role="status" aria-hidden="true"></span>
+            Entrando...
+          </button>
 
-            <div class="flex items-center justify-end mt-4">
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
-                    </a>
-                @endif
-
-                <x-jet-button class="ml-4">
-                    {{ __('Entrar') }}
-                </x-jet-button>
-            </div>
-        </form>
-    </x-jet-authentication-card>
-</x-guest-layout>
+        <!-- Divider Text -->
+        <div class="form-group col-lg-12 mx-auto d-flex align-items-center my-4">
+            <div class="border-bottom w-100 ml-5"></div>
+            <div class="border-bottom w-100 mr-5"></div>
+        </div>
+        <nav class="login-help-links text-center mx-auto" role="navigation">
+            <a href="https://id.uffs.edu.br/id/XUI/?realm=/#forgotUsername/">Não sabe seu IdUFFS?</a>
+            <div>|</div>
+            <a href="https://id.uffs.edu.br/id/XUI/?realm=/#passwordReset/">Esqueceu a Senha?</a>
+            <div>|</div>
+            <a href="https://ati.uffs.edu.br/public.pl?CategoryID=17">Ajuda</a>
+        </nav>
+    </form>
+</div>
+@endsection
