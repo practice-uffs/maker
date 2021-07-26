@@ -1,11 +1,13 @@
 :root {
-  --ccuffs-primary: #71C9B8;
-  --ccuffs-secondary: #FCAE17;
-  --ccuffs-tertiary: #F0556B;
-  --ccuffs-bg: #343433;
-  --ccuffs-bg-light: #424242;
-  --ccuffs-bg-strong: #2a2a2a;
-  --ccuffs-bg-ui: #21262D;
+  --ccuffs-primary: #012970;
+  --ccuffs-secondary: #4154f1;
+  --ccuffs-tertiary: #08da4e;
+  --ccuffs-quaternary: #444;
+  --ccuffs-quintenary: #ffc107;
+  --ccuffs-bg: #f6f9ff;
+  --ccuffs-bg-light: #fff;
+  --ccuffs-bg-strong: #fff;
+  --ccuffs-bg-ui: #fff;
   --ccuffs-line: #717081;
   --ccuffs-line-ui: #30363D;
 }
@@ -54,6 +56,10 @@
   color: var(--ccuffs-tertiary);
 }
 
+.text-ccuffs-quaternary {
+  color: var(--ccuffs-quaternary);
+}
+
 /** Border */
 
 .border-ccuffs-primary {
@@ -72,6 +78,9 @@
   border-color: var(--ccuffs-line-ui);
 }
 
+.border-ccuffs-boxshadow{
+  box-shadow: 0px 0 30px rgb(1 41 112 / 8%);
+}
 /* https://codepen.io/liamj/pen/vYYLGZj */
 
 :root {

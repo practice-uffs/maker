@@ -9,9 +9,9 @@
 
     <x-slot name="form">
         <div class="col-span-5">
-            <p class="font-medium text-xl font-semibold text-gray-100">
+            <p class="font-medium text-xl font-semibold ">
                 <x-fas-link class="h-5 w-5 inline-block mr-1" />
-                <span class="text-gray-400">cc.uffs.edu.br/pessoa/</span>{{ $user->uid }}
+                <span>cc.uffs.edu.br/pessoa/</span>{{ $user->uid }}
             </p>
         </div>
 
@@ -32,8 +32,8 @@
             </p>
         </div>
 
-        <div class="col-span-7 text-gray-400">
-            <p class="text-gray-100 font-bold">
+        <div class="col-span-7 ">
+            <p class=" font-bold">
                 <x-fab-github class="h-4 w-4 inline-block mr-1" />
                 Conteúdo
             </p>
@@ -41,10 +41,10 @@
         </div>
 
         @if ($site->enabled)
-            <div class="col-span-7 text-gray-400">
+            <div class="col-span-7 ">
                 @if ($site->buildInfo() !== null)
                     @if ($site->buildInfo()['ret_code'] == 0)
-                        <p class="text-gray-100 font-bold">
+                        <p class=" font-bold">
                             <x-fas-check-circle class="h-4 w-4 text-green-300 inline-block mr-1" />
                             Tudo certo
                         </p>

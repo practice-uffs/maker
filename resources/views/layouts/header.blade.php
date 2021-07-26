@@ -11,10 +11,12 @@
       <nav id="navbar" class="navbar">
         <ul>
           @if(Auth::check())
-          <li><a class="nav-link scrollto @if (request()->routeIs('home')) active @endif" href="{{ route('home') }}">Inicial</a></li>
-          <li><a class="nav-link scrollto @if (request()->routeIs('feedbacks')) active @endif" href="{{ route('feedbacks') }}">Ideias</a></li>
-          <li><a class="nav-link scrollto @if (request()->routeIs('servicos/acompanhar')) active @endif" href="{{ route('servicos/acompanhar') }}">Acompanhar serviços</a></li>
-          <li><a class="nav-link scrollto @if (request()->routeIs('servicos/solicitar')) active @endif" href="{{ route('servicos/solicitar') }}">Solicitar serviço</a></li>
+          {{-- <li><a class="nav-link scrollto @if (request()->routeIs('home')) active @endif" href="{{ route('home') }}">Inicial</a></li>
+          <li><a class="nav-link scrollto @if (request()->routeIs('feedbacks')) active @endif" href="{{ ('feedbacks') }}">Ideias</a></li>
+          <li><a class="nav-link scrollto @if (request()->routeIs('servicos/acompanhar')) active @endif" href="{{ ('servicos/acompanhar') }}">Acompanhar serviços</a></li>
+          <li><a class="nav-link scrollto @if (request()->routeIs('servicos/solicitar')) active @endif" href="{{ ('servicos/solicitar') }}">Solicitar serviço</a></li> --}}
+          <li><a class="nav-link scrollto @if (request()->routeIs('/dashboard')) active @endif" href="{{ route('dashboard') }}">Dashboard</a></li>
+
             @if(Auth()->user()->type == "admin")
               <li><a class="nav-link scrollto @if (request()->routeIs('admin')) active @endif" href="{{ route('admin') }}">Admin</a></li>
             @endif
@@ -22,11 +24,16 @@
           @if (Auth::check())
             <li class="dropdown mx-4">
                 <a href="#">
-                    <span class="px-2">{{ Auth()->user()->username }}</span>
+                    <span class="px-2">{{ Auth::user()->name}}</span>
                     <i class="bi bi-chevron-down"></i>
                 </a>
                 <ul class="mx-4">
-                    <li><a href="{{ route('logout') }}">Sair<i class="bi bi-box-arrow-right"></i></a></li>
+                  <li>
+                    <form method="POST" action="{{ route('logout') }}" id="form_logout">
+                      @csrf
+                      <a href="javascript:document.querySelector('#form_logout').submit();">Sair<i class="bi bi-box-arrow-right"></i></a>
+                    </form>
+                  </li>
                 </ul>
             </li>
           @else
