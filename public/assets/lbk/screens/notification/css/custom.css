@@ -1,0 +1,58 @@
+body {
+	margin: 0;
+	padding: 0;
+}
+
+#notification-shape {
+	top: 40px;
+	right: 40px;
+}
+
+.ns-close {
+    display: none;
+}
+
+.ns-thumb.cc img {
+    width: 80px;
+    height: 80px;
+}
+
+.ns-effect-thumbslider .ns-content {
+	background: #fff;
+	color: #343434;
+    font-size: 26px;
+    font-family: 'Roboto';
+    font-weight: 400 !important;
+	padding: 7px 40px 0 100px;
+	height: 80px;
+	line-height: 0;
+}
+
+.ns-effect-thumbslider .ns-content p {
+	line-height: 40px;
+}
+
+.ns-effect-thumbslider .ns-content small {
+    line-height: 10px;
+    font-size: 18px;
+    font-weight: 300 !important;
+}
+
+.ns-effect-cornerexpand .icon {
+	color: #5a7d98;
+	background: #fff;
+	display: block;
+	width: 4em;
+	height: 4em;
+	line-height: 4.7;
+	margin: 0.10em auto 0;
+	border-radius: 50%;
+}
+
+.ns-effect-cornerexpand p {
+    font-size: 1.2em;
+}
+
+.ns-effect-cornerexpand strong {
+    font-size: 1.3em;
+}
