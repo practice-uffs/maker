@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PosterController;
 use App\Http\Controllers\Auth\LoginController;
-
+use App\Http\Controllers\BookController;
 
 use \App\Http\Controllers\ServiceController;
 use \App\Http\Controllers\LousaController;
@@ -27,15 +27,14 @@ Route::get('/', function () {
 })->name('home');
 
 
-
-
+Route::middleware(['auth:sanctum', 'verified'])->get('/livro', [BookController::class ,'index'])->name('book');
 Route::middleware(['auth:sanctum', 'verified'])->get('/poster', PosterController::class . '@index')->name('poster');
-
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
-
-
+Route::middleware(['auth:sanctum', 'verified'])->get('/digital-content', function () {
+    return view('digital-content');
+})->name('digital-content');
 
 
 // Routes autenticadas
