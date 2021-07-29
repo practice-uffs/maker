@@ -1,6 +1,8 @@
 name: deploy
-on: [push]
-    
+on:
+  push:
+    branches:    
+      - master
 env:
   PROD_HOST: maker.practice.uffs.cc
   PROD_WEB_DIRECTORY: /home/practicemaker/maker.practice.uffs.cc
