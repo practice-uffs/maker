@@ -7,15 +7,15 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-6 d-flex flex-column justify-content-center">
-          <h1 data-aos="fade-up">Central de Serviços e Ideias</h1>
+          <h1 data-aos="fade-up">Cendal de Serviços e Ideias</h1>
           <h2 data-aos="fade-up" data-aos-delay="400">Uma ponte entre você e a construção de uma universidade melhor</h2>
           <div data-aos="fade-up" data-aos-delay="600">
             <div class="text-center text-lg-start">
-              <a href="/servicos/solicitar" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+              <a href="/servicos/solicitar" class="btn-get-started d-inline-flex align-items-center justify-content-center align-self-center">
                   <span>Solicitar serviço</span>
                   <i class="bi bi-arrow-right-circle"></i>
               </a>
-              <a href="/" class="btn-get-outline scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+              <a href="/feedbacks" class="btn-get-outline d-inline-flex align-items-center justify-content-center align-self-center">
                   <span>Ideias</span>
                   <i class="bi bi-lightbulb"></i>
               </a>
@@ -61,10 +61,5 @@
       </div>
 
     </section><!-- End About Section -->
-    @include('components.valores')
-    @include('components.contador')
-    @include('components.servicos')
-    @include('components.testemunho')   
   </main><!-- End #main -->
-  {{-- @include('components.newsletter') --}}
 @endsection
