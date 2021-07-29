@@ -1,7 +1,7 @@
 
             <?php
             return [
-                'title' => 'Livro Teste',
+                'title' => '',
                 'author' => 'PRACTICE',
                 'fonts' => [],
                 'document' => [
