@@ -8,7 +8,7 @@
         <nav id="navbar" class="navbar">
             <ul>
                 @auth
-                    <li><a href="{{ route('home') }}" class="nav-link @if (Route::is('home')) active @endif" >Inicial</a></li>
+                    <li><a href="{{ route('home') }}" class="nav-link @if (Route::is('home')) active @endif" >Ferramentas</a></li>
                     @admin
                         <li class="dropdown ml-3">
                             <div tabindex="0" class="btn btn-primary btn-outline">Admin <i class="bi bi-chevron-down"></i></div>
