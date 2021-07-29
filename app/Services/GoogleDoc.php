@@ -112,6 +112,44 @@ class GoogleDoc
         }
     }
 
+    public function findFileById($fileId){
+        $fileInfo = [];
+        try {
+            $response = $this->service->files->export($fileId, 'text/plain', array('alt' => 'media' ));
+            $content = $response->getBody()->getContents();
+
+            $parameters = array();
+            $parameters['fields'] = 'permissions(*)';
+            $permissions = $this->service->permissions->listPermissions($fileId, $parameters);
+            
+            $countPermissions = 0;
+            foreach ($permissions->getPermissions() as $permission){
+                $fileInfo['ownerEmail'][$countPermissions] = $permission['emailAddress'];
+                $countPermissions++;
+            }
+            $fileInfo['content'] = $content;
+            $fileInfo['title'] =  $this->service->files->get($fileId)->getName();
+            $fileInfo['error'] = 'File Found';
+            return $fileInfo;
+        } catch (\Google_Service_Exception $e){
+            $fileInfo['error'] = 'Arquivo não encontrado';
+            return $fileInfo;
+        }
+    }
+
+    public function downloadFileById($fileId){
+        try {
+            $response = $this->service->files->export($fileId, 'text/plain', array('alt' => 'media' ));
+            $content = $response->getBody()->getContents();
+            $data = $content;
+            $title = $this->service->files->get($fileId)->getName();
+            file_put_contents("book/content/$title.md",$data);
+            return true;
+        } catch (\Google_Service_Exception $e){
+            return false;
+        }
+    }
+
     /**
      * Returns an authorized API client.
      * @return Google_Client the authorized client object
