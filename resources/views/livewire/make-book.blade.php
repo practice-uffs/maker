@@ -38,9 +38,14 @@
                                     Está tudo certo, transforme em um e-book!
                                 </button>
                             </div>
+                            @if ($createBookError)
+                                <div class="pt-4  flex justify-center">
+                                    <p class="text-center font-medium text-red-700 font-bold pt-4">Algum erro ocorreu durante a criação do seu e-book.</p>
+                                </div>
+                            @endif
                             @if ($pdf != null)
                                 <div class="pt-4  flex justify-center">
-                                    <a href="/book/export/{{ $pdf }}.pdf" download="newfilename" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Faça o download em PDF</a>
+                                    <a href="/book/export/{{ str_replace(' ','-', $pdf) }}-light.pdf" download="{{ $docsContent['title'] }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Faça o download em PDF</a>
                                 </div>
                             @endif
                         </div>
