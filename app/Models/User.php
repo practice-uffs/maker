@@ -66,11 +66,17 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    /**
-     * Meta information about Livewire crud crud
-     *
-     * @var array
-     */
+    public function books() {
+        return $this->hasMany(Book::class);
+    }
+
+    public function arts() {
+        return $this->hasMany(Art::class);
+    }
+
+    public function sites() {
+        return $this->hasMany(Site::class);
+
     public static $crud = [
         'fields' => [
             'name' => [
