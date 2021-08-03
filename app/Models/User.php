@@ -66,17 +66,6 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function books() {
-        return $this->hasMany(Book::class);
-    }
-
-    public function arts() {
-        return $this->hasMany(Art::class);
-    }
-
-    public function sites() {
-        return $this->hasMany(Site::class);
-
     public static $crud = [
         'fields' => [
             'name' => [
@@ -105,7 +94,19 @@ class User extends Authenticatable
                 'list_column' => true
             ],
         ]
-    ];
+    ];    
+
+    public function books() {
+        return $this->hasMany(Book::class);
+    }
+
+    public function arts() {
+        return $this->hasMany(Art::class);
+    }
+
+    public function sites() {
+        return $this->hasMany(Site::class);
+    }
 
     public function isAdmin() {
         return $this->type == SELF::ADMIN;
