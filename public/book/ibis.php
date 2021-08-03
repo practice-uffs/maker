@@ -1,7 +1,7 @@
 
             <?php
             return [
-                'title' => '',
+                'title' => 'Livro Digital muito lindo',
                 'author' => 'PRACTICE',
                 'fonts' => [],
                 'document' => [
