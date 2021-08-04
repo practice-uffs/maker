@@ -1,6 +1,23 @@
 @extends('layouts.base')
 @section('content')
 
+@section('wideTopContent')
+    <div class="float-cube-area">
+        <ul class="float-cube">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+@endsection
+
 <section class="text-gray-600 body-font hero">
     <div class="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
         <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0" data-aos="zoom-out" data-aos-delay="200">
@@ -11,8 +28,8 @@
                 Crie conteúdo digital
             </h1>
             <p data-aos="fade-up" data-aos-delay="400" class="mb-8 leading-relaxed">
-                Crie diversos materiais digitais de forma rápida e descomplicada. O melhor de tudo? Não precisa de conhecimento técnico algum! 
-                Deixe essa parte para o Maker fazer por você. Se preocúpe com o conteúdo, o resto é criado automaticamente.
+                Crie diversos materiais digitais de forma rápida e descomplicada. E o melhor de tudo? Não precisa de conhecimento técnico algum! 
+                Deixe essa parte para o <strong>Maker</strong> fazer por você. Se preocupe com o conteúdo, o resto é criado automaticamente.
             </p>
             <div data-aos="fade-up" data-aos-delay="600" class="flex justify-center">
                 <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Button</button>
