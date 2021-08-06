@@ -6,6 +6,7 @@ use App\Http\Controllers\PosterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\BookController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,6 +33,7 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/inicial', [HomeController::class, 'index'])->name('home');
     Route::get('/poster', [PosterController::class, 'index'])->name('poster');
+    Route::get('/livro', [BookController::class, 'index'])->name('book');
 
     // Admin
     Route::group(['middleware' => 'check.admin'], function () {
