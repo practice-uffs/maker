@@ -76,6 +76,7 @@ class User extends Authenticatable
 
     public function sites() {
         return $this->hasMany(Site::class);
+    }
 
     public static $crud = [
         'fields' => [
