@@ -66,6 +66,7 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
+
     public static $crud = [
         'fields' => [
             'name' => [
