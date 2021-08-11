@@ -33,7 +33,10 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/inicial', [HomeController::class, 'index'])->name('home');
     Route::get('/poster', [PosterController::class, 'index'])->name('poster');
-    Route::get('/livro', [BookController::class, 'index'])->name('book');
+
+    Route::get('/livro/create', [BookController::class, 'create'])->name('book.create');
+    Route::get('/livro/index', [BookController::class, 'index'])->name('books');
+    Route::get('/livro/{book}', [BookController::class, 'show'])->name('book.show');
 
     // Admin
     Route::group(['middleware' => 'check.admin'], function () {

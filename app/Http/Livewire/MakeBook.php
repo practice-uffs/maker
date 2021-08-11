@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Services\GoogleDoc;
+use App\Models\Book;
 
 class MakeBook extends Component
 {
@@ -45,6 +46,7 @@ class MakeBook extends Component
     }
 
     public function createBook(){
+       
         $docs = new GoogleDoc(config('google.docs'));
         $output = [];
         if ($docs->downloadFileById($this->parseUrl($this->docsUrl))){
@@ -81,6 +83,19 @@ class MakeBook extends Component
             $cmd = 'cd book & ibis build';
             exec($cmd, $output, $code);
             array_map('unlink', glob("book/content/*.md"));
+        
+
+            auth()->user()->books()->create([
+                'name' => $this->docsContent['title'],
+                'description' => '',
+                'google_drive_url' => $this->docsUrl,
+                'build_status' => 'done',
+                'build_output' => 'testando',
+                'pdf_path' => '/book/export/'.str_replace(' ','-',$this->sanitizeString($this->docsContent['title'])).'-light.pdf'
+            ]);
+
+            return redirect(route('books'));
+            
         } else {
             $this->createBookError = true;
         }
