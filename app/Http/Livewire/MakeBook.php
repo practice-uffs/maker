@@ -4,7 +4,8 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Services\GoogleDoc;
-use App\Models\Book;
+use App\Jobs\MakeBookJob;
+use stdClass;
 
 class MakeBook extends Component
 {
@@ -50,50 +51,14 @@ class MakeBook extends Component
         $docs = new GoogleDoc(config('google.docs'));
         $output = [];
         if ($docs->downloadFileById($this->parseUrl($this->docsUrl))){
-            $code = -1;
-            $content = '
-            <?php
-            return [
-                \'title\' => \''.$this->docsContent['title'].'\',
-                \'author\' => \'PRACTICE\',
-                \'fonts\' => [],
-                \'document\' => [
-                    \'format\' => [210, 297],
-                    \'margin_left\' => 27,
-                    \'margin_right\' => 27,
-                    \'margin_bottom\' => 14,
-                    \'margin_top\' => 14,
-                ],
-                \'cover\' => [
-                    \'position\' => \'position: absolute; left:0; right: 0; top: -.2; bottom: 0;\',
-                    \'dimensions\' => \'width: 210mm; height: 297mm; margin: 0;\',
-                ],
-                \'sample\' => [
-                    [1, 3],
-                    [80, 85],
-                    [100, 103]
-                ],
-                \'sample_notice\' => \'This is a sample from "Laravel Queues in Action" by Mohamed Said. <br> 
-                                    For more information, <a href="https://www.learn-laravel-queues.com/">Click here</a>.\',
-            ];';
-            $file = "book/ibis.php";
-            $fh = fopen($file, 'w') or die("can't open file");
-            fwrite($fh, $content);
-            fclose($fh);
-            $cmd = 'cd book & ibis build';
-            exec($cmd, $output, $code);
-            array_map('unlink', glob("book/content/*.md"));
-        
-
-            auth()->user()->books()->create([
-                'name' => $this->docsContent['title'],
-                'description' => '',
-                'google_drive_url' => $this->docsUrl,
-                'build_status' => 'done',
-                'build_output' => 'testando',
-                'pdf_path' => '/book/export/'.str_replace(' ','-',$this->sanitizeString($this->docsContent['title'])).'-light.pdf'
-            ]);
-
+            $book = new stdClass();
+            $book->name = $this->docsContent['title'];
+            $book->description = '';
+            $book->google_drive_url = $this->docsUrl;
+            $book->build_status = 'done';
+            $book->build_output = '';
+            $book->pdf_path = '/book/export/'.str_replace(' ','-',$this->sanitizeString($this->docsContent['title'])).'-light.pdf';
+            MakeBookJob::dispatch($book, auth()->user());
             return redirect(route('books'));
             
         } else {
