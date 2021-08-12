@@ -1,7 +1,7 @@
 
         <?php
         return [
-            'title' => 'livro digital',
+            'title' => 'Artigo de Grafos, Resume',
             'author' => 'PRACTICE',
             'fonts' => [],
             'document' => [

@@ -11,7 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use App\Models\Book;
 use App\Models\User;
 
-class MakeBookJob implements ShouldQueue
+class UpdateBookJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -79,5 +79,6 @@ class MakeBookJob implements ShouldQueue
             'build_output' => $this->book->build_output,
             'pdf_path' => $this->book->pdf_path
         ]);
+
     }
 }

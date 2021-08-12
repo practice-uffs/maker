@@ -49,7 +49,6 @@ class MakeBook extends Component
     public function createBook(){
        
         $docs = new GoogleDoc(config('google.docs'));
-        $output = [];
         if ($docs->downloadFileById($this->parseUrl($this->docsUrl))){
             $book = new stdClass();
             $book->name = $this->docsContent['title'];

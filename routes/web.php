@@ -36,7 +36,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/livro/create', [BookController::class, 'create'])->name('book.create');
     Route::get('/livro/index', [BookController::class, 'index'])->name('books');
-    Route::get('/livro/{book}', [BookController::class, 'show'])->name('book.show');
+    Route::get('/livro/show/{book}', [BookController::class, 'show'])->name('book.show');
+    Route::get('/livro/update/{bookToUpdate}', [BookController::class, 'update'])->name('book.update');
 
     // Admin
     Route::group(['middleware' => 'check.admin'], function () {
