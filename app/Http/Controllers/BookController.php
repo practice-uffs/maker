@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\GoogleDoc;
+use Illuminate\Support\Str;
 use App\Models\Book;
-use App\Jobs\MakeBookJob;
+use App\Jobs\UpdateBookJob;
 use stdClass;
 
 class BookController extends Controller
@@ -27,13 +28,12 @@ class BookController extends Controller
         $docs = new GoogleDoc(config('google.docs'));
         if ($docs->downloadFileById($this->parseUrl($bookToUpdate->google_drive_url))){
             $book = new stdClass();
-            $book->name = $bookToUpdate->name;
-            $book->description = $bookToUpdate->description;
             $book->google_drive_url = $bookToUpdate->google_drive_url;
-            $book->build_status = 'updating';
-            $book->build_output = '';
-            $book->pdf_path = $bookToUpdate->pdf_path;
-            MakeBookJob::dispatch($book, auth()->user());
+            $book->id = $bookToUpdate->id;
+            $book->name = $bookToUpdate->name;
+            $book->docs_id = $this->parseUrl($bookToUpdate->google_drive_url);
+            $book->docs_id = Str::slug($book->docs_id[0]);
+            UpdateBookJob::dispatch($book, auth()->user());
             return redirect(route('books'));
         }
         return redirect(route('books'));

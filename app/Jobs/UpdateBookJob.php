@@ -9,7 +9,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Book;
-use App\Models\User;
+use stdClass;
 
 class UpdateBookJob implements ShouldQueue
 {
@@ -17,16 +17,14 @@ class UpdateBookJob implements ShouldQueue
 
 
     private $book;
-    private $user;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(\stdClass $book, User $user)
+    public function __construct(\stdClass $book)
     {
         $this->book = $book;
-        $this->user = $user;
     }
 
     /**
@@ -41,7 +39,7 @@ class UpdateBookJob implements ShouldQueue
         $content = '
         <?php
         return [
-            \'title\' => \''.$this->book->name.'\',
+            \'title\' => \''.$this->book->docs_id.'\',
             \'author\' => \'PRACTICE\',
             \'fonts\' => [],
             \'document\' => [
@@ -70,15 +68,11 @@ class UpdateBookJob implements ShouldQueue
         $cmd = 'cd public & cd book & ibis build';
         exec($cmd, $output, $code);
         array_map('unlink', glob(public_path()."\book\content\*.md"));
-        
-        $this->user->books()->create([
-            'name' => $this->book->name,
-            'description' => $this->book->description,
-            'google_drive_url' => $this->book->google_drive_url,
-            'build_status' => $this->book->build_status,
-            'build_output' => $this->book->build_output,
-            'pdf_path' => $this->book->pdf_path
-        ]);
+
+        $book = Book::find($this->book->id);
+        $book->build_status = 'done';
+        $book->build_output = $output;
+        $book->save();
 
     }
 }

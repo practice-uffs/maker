@@ -41,7 +41,7 @@ class MakeBookJob implements ShouldQueue
         $content = '
         <?php
         return [
-            \'title\' => \''.$this->book->name.'\',
+            \'title\' => \''.$this->book->docs_id.'\',
             \'author\' => \'PRACTICE\',
             \'fonts\' => [],
             \'document\' => [
@@ -70,14 +70,21 @@ class MakeBookJob implements ShouldQueue
         $cmd = 'cd public & cd book & ibis build';
         exec($cmd, $output, $code);
         array_map('unlink', glob(public_path()."\book\content\*.md"));
-        
-        $this->user->books()->create([
-            'name' => $this->book->name,
-            'description' => $this->book->description,
-            'google_drive_url' => $this->book->google_drive_url,
-            'build_status' => $this->book->build_status,
-            'build_output' => $this->book->build_output,
-            'pdf_path' => $this->book->pdf_path
-        ]);
+        $book = Book::where('pdf_path', '=', $this->book->pdf_path)->first();
+        if ($book === null) {
+            $this->user->books()->create([
+                'name' => $this->book->name,
+                'description' => $this->book->description,
+                'google_drive_url' => $this->book->google_drive_url,
+                'build_status' => 'done',
+                'build_output' => implode(" ",$output),
+                'pdf_path' => $this->book->pdf_path
+            ]);
+        } else{
+            $newBook = Book::where('google_drive_url', '=', $this->book->google_drive_url)->first();
+            $newBook->build_status = 'done';
+            $newBook->build_output = $output;
+            $newBook->save();
+        }
     }
 }

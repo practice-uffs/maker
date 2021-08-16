@@ -1,7 +1,7 @@
 
         <?php
         return [
-            'title' => 'Artigo de Grafos, Resume',
+            'title' => '1hlv99lckhtqj4ecrg16tgkp20pqq7mm9vcwnuym8g-e',
             'author' => 'PRACTICE',
             'fonts' => [],
             'document' => [
