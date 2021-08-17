@@ -21,10 +21,23 @@ class BookController extends Controller
     }
 
     public function show(Book $book){
-        return view('book/show', compact('book'));
+        $userHasBook = 0;
+        foreach(auth()->user()->books()->get() as $bookFromQuery){
+            if($book == $bookFromQuery) {
+                $userHasBook = 1;
+            }
+        }
+        if($userHasBook == 1){
+            return view('book/show', compact('book'));
+        } else {
+            return redirect(route('books'));
+        }
+        
+        
     }
 
     public function update(Book $bookToUpdate){
+        $bookToUpdate->build_status = 'processing';
         $docs = new GoogleDoc(config('google.docs'));
         if ($docs->downloadFileById($this->parseUrl($bookToUpdate->google_drive_url))){
             $book = new stdClass();

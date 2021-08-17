@@ -34,7 +34,14 @@
                                 {{ $docsContent['content'] }}
                             </div>
                             <div class="flex justify-center">
-                                <button wire:click="createBook" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                                <button wire:click="createBook" 
+                                        type="button"
+                                        id="btn-submit-index" 
+                                        class="btn btn-primary bg-blue-500 hover:bg-blue-700 text-white font-bold border-0" 
+                                        onclick="   el = document.getElementById('btn-submit-index'); 
+                                                    el.innerHTML = '<i class=\'bi bi-arrow-repeat\'></i>'; 
+                                                    el.disabled = true; 
+                                                    el.innerHTML = '<div class=\'spinner-border\'></div>Aguarde';">
                                     Está tudo certo, transforme em um e-book!
                                 </button>
                             </div>
