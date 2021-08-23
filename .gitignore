@@ -1,4 +1,9 @@
-/config/google
+/public/book/content/*
+!/public/book/content/.gitkeep
+/public/book/export/*
+!/public/book/export/.gitkeep
+/config/google/* 
+!/config/google/.gitkeep
 /node_modules
 /public/hot
 /public/storage
