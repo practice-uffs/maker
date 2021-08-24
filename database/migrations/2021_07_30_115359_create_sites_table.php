@@ -20,6 +20,7 @@ class CreateSitesTable extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->text('google_drive_url')->nullable();
+            $table->text('google_drive_id')->nullable();
             $table->string('build_status')->default('');
             $table->timestamp('build_status_changed_at')->nullable();
             $table->text('build_output')->nullable();

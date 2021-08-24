@@ -53,17 +53,15 @@
                 <div class="flex rounded-lg h-full bg-gray-100 p-8 flex-col">
                     <div class="flex items-center mb-3">
                         <div class="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-indigo-500 text-white flex-shrink-0">
-                            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
-                                <circle cx="6" cy="6" r="3"></circle>
-                                <circle cx="6" cy="18" r="3"></circle>
-                                <path d="M20 4L8.12 15.88M14.47 14.48L20 20M8.12 8.12L12 12"></path>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
                             </svg>
                         </div>
-                        <h2 class="text-gray-900 text-lg title-font font-medium">Neptune</h2>
+                        <h2 class="text-gray-900 text-lg title-font font-medium">Gerador de site 30002</h2>
                     </div>
                     <div class="flex-grow">
-                        <p class="leading-relaxed text-base">Blue bottle crucifix vinyl post-ironic four dollar toast vegan taxidermy. Gastropub indxgo juice poutine.</p>
-                        <a class="mt-3 text-indigo-500 inline-flex items-center">Learn More
+                        <p class="leading-relaxed text-base">Outra magnifica ferramenta, esta é capaz de gerar um site através de um documento google que contenha as instruções para q seja gerada a página, legal né? Basta compartilhar o seu documento google com practiceuffs.ebooks@gmail.com e tá feito!</p>
+                        <a href="{{ route('site.create') }}" class="mt-3 text-indigo-500 inline-flex items-center">Vamos lá!
                             <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
                                 <path d="M5 12h14M12 5l7 7-7 7"></path>
                             </svg>
