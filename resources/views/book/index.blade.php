@@ -15,15 +15,15 @@
                             <img alt="Placeholder" class="block h-auto w-full" src="https://picsum.photos/600/400/?random">
                         </a>
 
-                        <header class="flex items-center justify-between leading-tight p-2 md:p-4">
+                        <header class="flex flex-column items-center justify-between leading-tight p-2 md:p-4">
                             <h1 class="text-lg">
                                 <a class="no-underline hover:underline text-black" href="{{ route('book.show', ['book' => $book]) }}">
                                     {{ $book->name }}
                                 </a>
                             </h1>
                             <div class="text-grey-darker text-sm">
-                                <p> Última atualização: {{ $book->updated_at->format('d/m/Y') }} </p>
-                                <p class="text-center"> Às: {{ $book->updated_at->format('H:i') }} </p>
+                                <p class="text-sm"> Última atualização: {{ $book->updated_at->format('d/m/Y') }} </p>
+                                <p class="text-center text-sm"> Às: {{ $book->updated_at->format('H:i') }} </p>
                             </div>
                             
                         </header>
