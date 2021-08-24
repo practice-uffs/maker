@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 class SiteController extends Controller
 {
     public function index(){
-        return view('site.index');
+        $sites = auth()->user()->sites()->get();
+        return view('site.index', compact('sites'));
+    }
+    
+    public function create(){
+        return view('site.create');
     }
 }

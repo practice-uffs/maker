@@ -38,6 +38,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/livro/index', [BookController::class, 'index'])->name('books');
     Route::get('/livro/show/{book}', [BookController::class, 'show'])->name('book.show');
     Route::get('/livro/update/{bookToUpdate}', [BookController::class, 'update'])->name('book.update');
+    
+    Route::get('/site/create', [SiteController::class, 'create'])->name('site.create');
+    Route::get('/site/index', [SiteController::class, 'index'])->name('sites');
 
     // Admin
     Route::group(['middleware' => 'check.admin'], function () {
