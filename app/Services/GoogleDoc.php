@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Google\Client;
+use Illuminate\Support\Str;
 use Google_Service_Drive;
 
 class GoogleDoc
@@ -142,8 +143,8 @@ class GoogleDoc
             $response = $this->service->files->export($fileId, 'text/plain', array('alt' => 'media' ));
             $content = $response->getBody()->getContents();
             $data = $content;
-            $title = $this->service->files->get($fileId)->getName();
-            file_put_contents("book/content/$title.md",$data);
+            $fileDirectoryName = Str::slug($fileId[0]);
+            file_put_contents("book/content/$fileDirectoryName.md",$data);
             return true;
         } catch (\Google_Service_Exception $e){
             return false;

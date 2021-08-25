@@ -34,18 +34,20 @@
                                 {{ $docsContent['content'] }}
                             </div>
                             <div class="flex justify-center">
-                                <button wire:click="createBook" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                                <button wire:click="createBook" 
+                                        type="button"
+                                        id="btn-submit-index" 
+                                        class="btn btn-primary bg-blue-500 hover:bg-blue-700 text-white font-bold border-0" 
+                                        onclick="   el = document.getElementById('btn-submit-index'); 
+                                                    el.innerHTML = '<i class=\'bi bi-arrow-repeat\'></i>'; 
+                                                    el.disabled = true; 
+                                                    el.innerHTML = '<div class=\'spinner-border\'></div>Aguarde';">
                                     Está tudo certo, transforme em um e-book!
                                 </button>
                             </div>
                             @if ($createBookError)
                                 <div class="pt-4  flex justify-center">
                                     <p class="text-center font-medium text-red-700 font-bold pt-4">Algum erro ocorreu durante a criação do seu e-book.</p>
-                                </div>
-                            @endif
-                            @if ($pdf != null)
-                                <div class="pt-4  flex justify-center">
-                                    <a href="/book/export/{{ str_replace(' ','-', $pdf) }}-light.pdf" download="{{ $docsContent['title'] }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Faça o download em PDF</a>
                                 </div>
                             @endif
                         </div>
