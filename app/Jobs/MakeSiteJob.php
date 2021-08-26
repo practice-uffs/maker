@@ -49,23 +49,25 @@ class MakeSiteJob implements ShouldQueue
                 'serve_url' => $this->site->serve_url
             ]); 
             $code = 1;
-            $path = $this->site->google_drive_id;
-            $cmd = "cd storage & cd app & cd public & cd sites & mkdir $path";
+            $folderName = $this->site->google_drive_id;
+            $cmd = "cd storage & cd app & cd public & cd sites & mkdir $folderName";
             exec($cmd, $output, $code);
-            file_put_contents(storage_path()+"/app/public/sites/$path/index.html",$this->site->content);
+            $storagePath = storage_path();
+            file_put_contents($storagePath.'\app\public\sites\\'.$folderName.'\index.html',$this->site->content);
         } else {
-            $newSite = Site::where('google_drive_id', '=', $this->site->google_drive_id)->first();
-            $newSite->name = $this->site->name;
-            $newSite->description = $this->site->description;
-            $newSite->google_drive_id = $this->site->google_drive_id;
-            $newSite->google_drive_url = $this->site->google_drive_url;
-            $newSite->build_status = $this->site->build_status;
-            $newSite->build_status_changed_at = $this->site->build_status_changed_at;
-            $newSite->build_output = $this->site->build_output;
-            $newSite->serve_url = $this->site->serve_url;
-            $path = $this->site->google_drive_id;
-            file_put_contents("/storage/app/public/sites/$path/index.html",$this->site->content);
-            $newSite->save();
+            $updatedSite = Site::where('google_drive_id', '=', $this->site->google_drive_id)->first();
+            $updatedSite->name = $this->site->name;
+            $updatedSite->description = $this->site->description;
+            $updatedSite->google_drive_id = $this->site->google_drive_id;
+            $updatedSite->google_drive_url = $this->site->google_drive_url;
+            $updatedSite->build_status = $this->site->build_status;
+            $updatedSite->build_status_changed_at = $this->site->build_status_changed_at;
+            $updatedSite->build_output = $this->site->build_output;
+            $updatedSite->serve_url = $this->site->serve_url;
+            $folderName = $this->site->google_drive_id;
+            $storagePath = storage_path();
+            file_put_contents($storagePath.'\app\public\sites\\'.$folderName.'\index.html',$this->site->content);
+            $updatedSite->save();
         }
         
     }
