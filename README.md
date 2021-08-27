@@ -44,7 +44,7 @@ Feito a instalação das dependências, é necessário obter uma cópia do proje
 Para isso, rode:
 
 ```
-git clone --recurse-submodules https://github.com/practice-uffs/template && cd template
+git clone --recurse-submodules https://github.com/practice-uffs/maker.git && cd maker
 ```
 
 Isso criará e trocará para a pasta `template` com o código do projeto.
