@@ -19,8 +19,9 @@
         <script src="{{ mix('js/app.js') }}" defer></script>
     </head>
     <body class="font-sans antialiased text-ccuffs-quaternary">
+        @include('layouts.header')
         <div class="min-h-screen bg-ccuffs-light">
-            @livewire('navigation-dropdown')
+            {{-- @livewire('navigation-dropdown') --}}
 
             <!-- Page Heading -->
             <header class="bg-ccuffs-light shadow">
@@ -38,5 +39,6 @@
         @stack('modals')
 
         @livewireScripts
+        <script src="{{ asset('js/app.js') }}"></script>
     </body>
 </html>
