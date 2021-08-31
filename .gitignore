@@ -1,3 +1,4 @@
+/storage/app/public/sites/*
 /public/book/content/*
 !/public/book/content/.gitkeep
 /public/book/export/*
