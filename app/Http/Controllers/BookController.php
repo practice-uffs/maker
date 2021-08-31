@@ -32,12 +32,11 @@ class BookController extends Controller
         } else {
             return redirect(route('books'));
         }
-        
-        
     }
 
     public function update(Book $bookToUpdate){
         $bookToUpdate->build_status = 'processing';
+        $bookToUpdate->save();
         $docs = new GoogleDoc(config('google.docs'));
         if ($docs->downloadFileById($this->parseUrl($bookToUpdate->google_drive_url))){
             $book = new stdClass();
