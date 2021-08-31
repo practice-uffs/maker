@@ -21,11 +21,7 @@
                                     {{ $book->name }}
                                 </a>
                             </h1>
-<<<<<<< HEAD
                             <div class="text-grey-darker text-sm">
-=======
-                            <div class="text-grey-darker pt-2">
->>>>>>> dev
                                 <p class="text-sm"> Última atualização: {{ $book->updated_at->format('d/m/Y') }} </p>
                                 <p class="text-center text-sm"> Às: {{ $book->updated_at->format('H:i') }} </p>
                             </div>
