@@ -41,7 +41,7 @@ class SiteController extends Controller
         if ($document = $docs->findFileById($this->parseUrl($siteToUpdate->google_drive_url))){
             $site = new stdClass();
             $site->google_drive_id = $this->parseUrl($siteToUpdate->google_drive_url);
-            $site->google_drive_id = Str::slug($site->google_drive_id[0]);
+            $site->google_drive_id = Str::slug($site->google_drive_id);
             $site->content = $document['content'];
             UpdateSiteJob::dispatch($site);
             return redirect(route('sites'));
@@ -50,7 +50,11 @@ class SiteController extends Controller
     }
 
     public function parseUrl($url){
-        preg_match('/(?<=\/d\/).*(?=\/edit)/', $url, $id);
-        return $id;
+        preg_match('/(?<=\/d\/).*(?=\/edit)/', $url, $id); 
+        if( $id != null){
+            return $id[0];
+        } else {
+            return '';
+        }
     }
 }

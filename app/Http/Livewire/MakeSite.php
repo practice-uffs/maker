@@ -22,12 +22,12 @@ class MakeSite extends Component
     {
         $docs = new GoogleDoc(config('google.docs'));
         $this->docsContent = $docs->findFileById($this->parseUrl($this->docsUrl));
-        if ($this->docsContent['error'] != 'Arquivo não encontrado'){
+        if ($this->docsContent['error'] != 'File not found'){
             $site = new stdClass();
             $site->name = $this->docsContent['title'];
             $site->description = '';
             $site->google_drive_id = $this->parseUrl($this->docsUrl);
-            $site->google_drive_id = Str::slug($site->google_drive_id[0]);
+            $site->google_drive_id = Str::slug($site->google_drive_id);
             $site->google_drive_url = $this->docsUrl;
             $site->build_status = 'done';
             $site->build_status_changed_at = now()->toDateTimeString();
@@ -41,7 +41,11 @@ class MakeSite extends Component
         }
     }
     public function parseUrl($url){
-        preg_match('/(?<=\/d\/).*(?=\/edit)/', $url, $id);
-        return $id;
+        preg_match('/(?<=\/d\/).*(?=\/edit)/', $url, $id); 
+        if( $id != null){
+            return $id[0];
+        } else {
+            return '';
+        }
     }
 }
