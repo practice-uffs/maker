@@ -42,6 +42,8 @@ Route::group(['middleware' => 'auth'], function () {
     
     Route::get('/site/create', [SiteController::class, 'create'])->name('site.create');
     Route::get('/site/index', [SiteController::class, 'index'])->name('sites');
+    Route::get('/site/show/{site}', [SiteController::class, 'show'])->name('site.show');
+    Route::get('/site/update/{siteToUpdate}', [SiteController::class, 'update'])->name('site.update');
 
     // Admin
     Route::group(['middleware' => 'check.admin'], function () {
