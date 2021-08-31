@@ -123,9 +123,9 @@
                     </svg>
                 </div>
                 <div class="flex-grow">
-                    <h2 class="text-gray-900 text-lg title-font font-medium mb-3">Gerador de site 30001</h2>
+                    <h2 class="text-gray-900 text-lg title-font font-medium mb-3">Página Web</h2>
                     <p class="leading-relaxed text-base">
-                        Outra magnifica ferramenta, esta é capaz de gerar um site através de um documento google que contenha as instruções para q seja gerada a página, legal né? Basta compartilhar o seu documento google com practiceuffs.ebooks@gmail.com e tá feito!
+                        Outra magnifica ferramenta, esta é capaz de gerar uma página web através de um documento google que contenha as instruções para que seja gerada a página, legal né? Basta compartilhar o seu documento google com practiceuffs.ebooks@gmail.com e tá feito!
                     </p>
                     <a href="{{ route('site.create') }}" class="mt-3 text-indigo-500 inline-flex items-center">
                         Vamos lá!

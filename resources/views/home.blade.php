@@ -57,10 +57,10 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
                             </svg>
                         </div>
-                        <h2 class="text-gray-900 text-lg title-font font-medium">Gerador de site 30002</h2>
+                        <h2 class="text-gray-900 text-lg title-font font-medium">Página Web</h2>
                     </div>
                     <div class="flex-grow">
-                        <p class="leading-relaxed text-base">Outra magnifica ferramenta, esta é capaz de gerar um site através de um documento google que contenha as instruções para q seja gerada a página, legal né? Basta compartilhar o seu documento google com practiceuffs.ebooks@gmail.com e tá feito!</p>
+                        <p class="leading-relaxed text-base">Outra magnifica ferramenta, esta é capaz de gerar uma página web através de um documento google que contenha as instruções para que seja gerada a página, legal né? Basta compartilhar o seu documento google com practiceuffs.ebooks@gmail.com e tá feito!</p>
                         <a href="{{ route('site.create') }}" class="mt-3 text-indigo-500 inline-flex items-center">Vamos lá!
                             <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
                                 <path d="M5 12h14M12 5l7 7-7 7"></path>
