@@ -133,8 +133,7 @@ class GoogleDoc
             $fileInfo['error'] = 'File Found';
             return $fileInfo;
         } catch (\Google_Service_Exception $e){
-            $fileInfo['error'] = 'Arquivo não encontrado';
-            return $fileInfo;
+            return false;
         }
     }
 
