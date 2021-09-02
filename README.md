@@ -101,6 +101,15 @@ npm run dev
 
 >*DICA:* enquanto estiver desenvolvendo, rode `npm run watch` para manter os scripts javascript sendo gerados sob demanda quando alterados.
 
+
+#### 2.5 Ibis
+
+Instalar a ferramenta [Ibis](https://github.com/themsaid/ibis) para que seja possível a geração do livro digital em sua máquina localmente:
+
+```
+composer global require themsaid/ibis
+```
+
 ### 3. Utilizacão
 
 #### 3.1 Rodando o projeto
