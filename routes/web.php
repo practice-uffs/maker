@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\SiteController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,6 +39,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/livro/index', [BookController::class, 'index'])->name('books');
     Route::get('/livro/show/{book}', [BookController::class, 'show'])->name('book.show');
     Route::get('/livro/update/{bookToUpdate}', [BookController::class, 'update'])->name('book.update');
+    
+    Route::get('/site/create', [SiteController::class, 'create'])->name('site.create');
+    Route::get('/site/index', [SiteController::class, 'index'])->name('sites');
+    Route::get('/site/show/{site}', [SiteController::class, 'show'])->name('site.show');
+    Route::get('/site/update/{siteToUpdate}', [SiteController::class, 'update'])->name('site.update');
 
     // Admin
     Route::group(['middleware' => 'check.admin'], function () {

@@ -32,12 +32,11 @@ class BookController extends Controller
         } else {
             return redirect(route('books'));
         }
-        
-        
     }
 
     public function update(Book $bookToUpdate){
         $bookToUpdate->build_status = 'processing';
+        $bookToUpdate->save();
         $docs = new GoogleDoc(config('google.docs'));
         if ($docs->downloadFileById($this->parseUrl($bookToUpdate->google_drive_url))){
             $book = new stdClass();
@@ -45,7 +44,7 @@ class BookController extends Controller
             $book->id = $bookToUpdate->id;
             $book->name = $bookToUpdate->name;
             $book->docs_id = $this->parseUrl($bookToUpdate->google_drive_url);
-            $book->docs_id = Str::slug($book->docs_id[0]);
+            $book->docs_id = Str::slug($book->docs_id);
             UpdateBookJob::dispatch($book, auth()->user());
             return redirect(route('books'));
         }
@@ -53,8 +52,12 @@ class BookController extends Controller
     }
 
     public function parseUrl($url){
-        preg_match('/(?<=\/d\/).*(?=\/edit)/', $url, $id);
-        return $id;
+        preg_match('/(?<=\/d\/).*(?=\/edit)/', $url, $id); 
+        if( $id != null){
+            return $id[0];
+        } else {
+            return '';
+        }
     }
 
 }

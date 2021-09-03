@@ -19,6 +19,7 @@ class Site extends Model
         'user_id',
         'name',
         'description',
+        'google_drive_id',
         'google_drive_url',
         'build_status',
         'build_status_changed_at',
