@@ -27,6 +27,17 @@
         <div class="wrapper">
             <div class="row brand align-middle">
                 <div class="col">
+                    <h2>
+                        <a href="/">
+                            <span class="badge badge-pill badge-light"><i class="fa fa-arrow-left"></i> <img  class="h-full" width="100px" src="../../img/logo-practice.png" alt=""></span>
+                        </a>
+                    </h2>
+                </div>
+            </div>
+
+
+            <div class="row brand align-middle">
+                <div class="col">
                     <h4>
                         <span class="badge badge-pill badge-danger"><i class="fa fa-video"></i> Live</span>
                         Broadcast Kit
@@ -36,75 +47,76 @@
             </div>
            
             <form id="settings" name="settings">
-                <p class="title" data-toggle="collapse" data-target="#settingsContent"><i class="fa fa-tv"></i> Content area</p>
+                <p class="title" data-toggle="collapse" data-target="#settingsContent"><i class="fa fa-tv"></i> Área de conteúdo</p>
                 <div id="settingsContent" class="collapse show">
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="settingsSizePreset">Size presets</label>
+                            <label for="settingsSizePreset">Configurações</label>
                             <select class="form-control contentParam" id="settingsSizePreset" name="settingsSizePreset">
                                 <!-- Added dynamically -->
                             </select>
                         </div>
                         <div class="form-group col-md-3">
-                            <label for="settingsContentWidth">Width</label>
+                            <label for="settingsContentWidth">Largura</label>
                             <input type="input" class="form-control contentParam" id="settingsContentWidth" name="settingsContentWidth" value="1920">
                         </div>
                         <div class="form-group col-md-3">
-                            <label for="settingsContentHeight">Height</label>
+                            <label for="settingsContentHeight">Altura</label>
                             <input type="input" class="form-control contentParam" id="settingsContentHeight" name="settingsContentHeight" value="1080">
                         </div>
                     </div>
 
+                    <label for="settingsSizePreset">Margens</label>
                     <div class="form-row">
                         <div class="form-group col-md-3">
-                            <label for="settingsContentPaddingLeft">Left</label>
+                            <label for="settingsContentPaddingLeft">Esquerda</label>
                             <input type="input" class="form-control contentParam" id="settingsContentPaddingLeft" value="0">
                         </div>
                         <div class="form-group col-md-3">
-                            <label for="settingsContentPaddingTop">Top</label>
+                            <label for="settingsContentPaddingTop">Superior</label>
                             <input type="input" class="form-control contentParam" id="settingsContentPaddingTop" value="0">
                         </div>
                         <div class="form-group col-md-3">
-                            <label for="settingsContentPaddingRight">Right</label>
+                            <label for="settingsContentPaddingRight">Direita</label>
                             <input type="input" class="form-control contentParam" id="settingsContentPaddingRight" value="0">
                         </div>
                         <div class="form-group col-md-3">
-                            <label for="settingsContentPaddingBottom">Bottom</label>
+                            <label for="settingsContentPaddingBottom">Inferior</label>
                             <input type="input" class="form-control contentParam" id="settingsContentPaddingBottom" value="0">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="settingsContentScale">Scale</label>
+                            <label for="settingsContentScale">Escala</label>
                             <input type="number" step="0.1" min="0.1" class="form-control contentParam" id="settingsContentScale" value="1.0">
                         </div>
                         
                         <div class="form-group col-md-6">
-                            <label for="settingsContentBgColor">background-color</label>
+                            <label for="settingsContentBgColor">Cor de Fundo</label>
                             <input type="color" class="form-control contentParam" id="settingsContentBgColor" value="#ff00ff">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="settingsContentExternaWindow">External window</label>
+                            <label for="settingsContentExternaWindow">Aba externa</label>
                             <input type="checkbox" class="form-control contentParam" id="settingsContentExternaWindow" data-toggle="toggle" data-onstyle="primary" data-offstyle="outline-secondary" data-size="sm">
                         </div>
                     </div>
                 </div>
 
-                <p class="title" data-toggle="collapse" data-target="#settingsCreation"><i class="fa fa-cubes"></i> Creation</p>
+                <p class="title" data-toggle="collapse" data-target="#settingsCreation"><i class="fa fa-cubes"></i> Detalhes do arquivo</p>
 
                 <div id="settingsCreation" class="collapse show panel">
                     <div class="form-row">
                         <div class="form-group col-md-12">
-                            <label for="settingsCreationName">Name</label>
+                            <label for="settingsCreationName">Nome</label>
                             <input type="text" class="form-control contentParam" name="settingsCreationName" id="settingsCreationName" value="" placeholder="E.g. Show ad bottom corner">
 
                         </div>
                         <div class="form-group col-md-12">
-                            <label for="settingsCreationType">Type</label>
+                            <label for="settingsCreationType">Modelo</label>
                             <select class="form-control contentParam" id="settingsCreationType">
                                 <option></option>
                             </select>
@@ -171,36 +183,20 @@
 
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <a class="btn btn-block btn-primary" id="btnTest"><i class="fa fa-play-circle"></i> Test</a>
+                            <a class="btn btn-block btn-primary" id="btnTest"><i class="fa fa-play-circle"></i> Atualizar</a>
                         </div>
                         <div class="form-group col-md-6">
-                            <a class="btn btn-block btn-primary" id="btnAdd"><i class="fa fa-plus-square"></i> Add</a>
+                            <a class="btn btn-block btn-primary" id="btnAdd"><i class="fa fa-plus-square"></i> Salvar Modelo</a>
                         </div>
 
                         <div class="form-group col-md-6">
-                            <a class="btn btn-block btn-primary" onclick="window.parent.download_frame()"><i class="fa fa-arrow-down"></i> Download Frame</a>
+                            <a class="btn btn-block btn-primary" onclick="window.parent.download_frame()"><i class="fa fa-arrow-down"></i> Baixar Imagem</a>
                         </div>
 
                     </div>
                 </div>
 
-                <p class="title" data-toggle="collapse" data-target="#settingsRecording"><i class="fa fa-cubes"></i> Recording</p>
-
-                <div id="settingsRecording" class="collapse show panel">
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="settingsRecordingEnabledToggle">Recording is currently</label>
-                        </div>
-                        <div class="form-group col-md-6 justify-content-center">
-                            <input type="checkbox" class="form-control" id="settingsRecordingEnabledToggle" data-toggle="toggle" data-onstyle="primary" data-offstyle="outline-danger" data-on="Enabled" data-off="Disabled" data-size="sm">
-                        </div>
-                    </div>
-
-                    <div id="settingsRecordingPanel" class="form-row collapse hide panel">
-                    </div>
-                </div>
-                
-                <p class="title" data-toggle="collapse" data-target="#settingsElements"><i class="fa fa-cubes"></i> Elements</p>
+                <p class="title" data-toggle="collapse" data-target="#settingsElements"><i class="fa fa-cubes"></i> Modelos Salvos</p>
 
                 <div id="settingsElements" class="collapse show panel">
                     <ul class="list-group">
@@ -239,6 +235,27 @@
                         <li class="list-group-item"><a href="./screens/notification/icon-content.html?text=Fernando Bevilacqua&subtext=&ttl=20&icon=cc.svg" target="content">icon-content</a></li>
                     </ul>
                 </div>
+
+
+
+                <p class="title" data-toggle="collapse" data-target="#settingsRecording"><i class="fa fa-cubes"></i> Compartilhar Tela</p>
+
+                <div id="settingsRecording" class="collapse show panel">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="settingsRecordingEnabledToggle">Recording is currently</label>
+                        </div>
+                        <div class="form-group col-md-6 justify-content-center">
+                            <input type="checkbox" class="form-control" id="settingsRecordingEnabledToggle" data-toggle="toggle" data-onstyle="primary" data-offstyle="outline-danger" data-on="Enabled" data-off="Disabled" data-size="sm">
+                        </div>
+                    </div>
+
+                    <div id="settingsRecordingPanel" class="form-row collapse hide panel">
+                    </div>
+                </div>
+                
+
+                
 
                 <p class="title" data-toggle="collapse" data-target="#settingsApplication"><i class="fa fa-cubes"></i> Application</p>
 
