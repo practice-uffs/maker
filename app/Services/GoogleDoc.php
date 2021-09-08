@@ -130,7 +130,7 @@ class GoogleDoc
             }
             $fileInfo['content'] = $content;
             $fileInfo['title'] =  $this->service->files->get($fileId)->getName();
-            $fileInfo['error'] = 'File Found';
+            $fileInfo['error'] = 'File found';
             return $fileInfo;
         } catch (\Google_Service_Exception $e){
             $fileInfo['error'] = 'File not found';
