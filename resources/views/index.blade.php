@@ -65,11 +65,11 @@
 <section class="text-gray-600 body-font">
     <div class="container px-5 py-10 mx-auto">
         <div class="text-center mb-20">
-            <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 mb-4">Raw Denim Heirloom Man Braid</h1>
+            <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 mb-4">Ferramentas disponíveis</h1>
             <p class="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500s">
-                Blue bottle crucifix vinyl
-                post-ironic four dollar toast vegan taxidermy. Gastropub indxgo juice poutine, ramps microdosing banh mi
-                pug.
+                Aqui se encontram as ferramentas
+                que que a equipe do PRACTICE desenvolveu 
+                até o momento.
             </p>
             <div class="flex mt-6 justify-center">
                 <div class="w-16 h-1 rounded-full bg-indigo-500 inline-flex"></div>
@@ -85,7 +85,7 @@
                 <div class="flex-grow">
                     <h2 class="text-gray-900 text-lg title-font font-medium mb-3">Livro Digital</h2>
                     <p class="leading-relaxed text-base">
-                        Esta magnifica ferramenta transforma um documento google com markdown em um e-book, basta compartilhar com o e-mail quickstartteste@gmail.com, simples assim!
+                        Esta magnifica ferramenta transforma um documento google com markdown em um e-book, basta compartilhar o Google Docs com o e-mail practiceuffs.maker@gmail.com, simples assim!
                     </p>
                     <a href="{{ route('book.create') }}" class="mt-3 text-indigo-500 inline-flex items-center">
                         Vamos lá!
@@ -125,7 +125,7 @@
                 <div class="flex-grow">
                     <h2 class="text-gray-900 text-lg title-font font-medium mb-3">Página Web</h2>
                     <p class="leading-relaxed text-base">
-                        Outra magnifica ferramenta, esta é capaz de gerar uma página web através de um documento google que contenha as instruções para que seja gerada a página, legal né? Basta compartilhar o seu documento google com practiceuffs.ebooks@gmail.com e tá feito!
+                        Outra magnifica ferramenta, esta é capaz de gerar uma página web através de um documento google que contenha as instruções para que seja gerada a página, legal né? Basta compartilhar o seu Google Docs com o e-mail practiceuffs.maker@gmail.com e tá feito!
                     </p>
                     <a href="{{ route('site.create') }}" class="mt-3 text-indigo-500 inline-flex items-center">
                         Vamos lá!
