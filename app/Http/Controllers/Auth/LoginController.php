@@ -52,9 +52,10 @@ class LoginController extends Controller
         return redirect()->route('home');
     }
 
-    public function logout(Request $resquest)
+    public function logout(Request $request)
     {
         Auth::logout();
+        $request->session()->flush();
         return redirect()->intended('login');
     }
 
