@@ -520,7 +520,7 @@ var LBK = new function() {
             inputs += this.generateFormElementFromScreenEntry(type, id, name, value);
         }
 
-        $('#settingsCreationScreenParams').empty().html(inputs);
+        $('#settingsCreationScreenParams').empty().html('<p class="title" data-toggle="collapse" data-target="#settingsCreation" style="margin-bottom:0"><i class="fa fa-cog"></i> Configurações do Modelo</p><br>'+inputs);
         this.hidrateCreationPanelParamInputs();
     };
 
