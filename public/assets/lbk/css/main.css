@@ -9,24 +9,17 @@
     overflow: scroll;
 }
 
-#menu label {
-  opacity: 0.7;
+#menu p.title {
+  color: rgb(1,41,112);
+  font-weight: 500;
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: solid 1px rgb(163, 163, 163);
 }
 
-#menu p.title {
-  opacity: 0.9;
-  font-weight: 500;
-  font-size: 1.1em;
-  margin-top: 15px;
-  margin-bottom: 10px;
-  padding: 6px;
-  background: #101113;
-}
-#menu p.title i {
-  color: #ff8989;
-  opacity: 0.8;
-  font-size: 1.1em;
-  margin-right: 3px;
+#menu p.title:not(:first-child) {
+    margin-top: 2.0rem;
 }
 
 #menu div.wrapper {

@@ -520,11 +520,11 @@ var LBK = new function() {
                 value = entry.value;
             }
 
-            inputs += '<label for="' + id + '" class="mt-2">' + label + '</label>';
+            inputs += '<label for="' + id + '" class="mt-2 label"><span class="label-text">' + label + '</span></label>';
             inputs += this.generateFormElementFromScreenEntry(type, id, name, value);
         }
 
-        $('#settingsCreationScreenParams').empty().html('<p class="title" data-toggle="collapse" data-target="#settingsCreation" style="margin-bottom:0"><i class="fa fa-cog"></i> Configurações do Modelo</p><br>'+inputs);
+        $('#settingsCreationScreenParams').empty().html(inputs);
         this.hidrateCreationPanelParamInputs();
     };
 
@@ -575,13 +575,13 @@ var LBK = new function() {
         switch(type) {
             case 'text':
             case 'color':
-                inputs += '<input type="' + type + '" class="form-control contentParam screenParam" id="' + id + '" name="' + name + '" value="' + value + '" />';
+                inputs += '<input type="' + type + '" class="input input-bordered w-full contentParam screenParam" id="' + id + '" name="' + name + '" value="' + value + '" />';
                 break;
             case 'textarea':
-                inputs += '<textarea class="form-control contentParam screenParam" id="' + id + '" name="' + name + '" rows="3">' + value + '</textarea>';
+                inputs += '<textarea class="input input-bordered w-full h-12 contentParam screenParam" id="' + id + '" name="' + name + '" rows="3">' + value + '</textarea>';
                 break;                    
             case 'select':
-                inputs += '<select class="form-control contentParam screenParam" id="' + id + '" name="' + name + '">';
+                inputs += '<select class="select select-bordered w-full contentParam screenParam" id="' + id + '" name="' + name + '">';
                 value.map(function(option) {
                     inputs += '<option>' + option + '</option>';
                 });
@@ -589,7 +589,7 @@ var LBK = new function() {
                 break; 
             case 'file':
                 inputs += 
-                    '<input type="file" class="form-control contentParam screenParam" id="' + id + '" name="' + name + '" accept="image/*" />' +
+                    '<input type="file" class="input input-bordered w-full contentParam screenParam" id="' + id + '" name="' + name + '" accept="image/*" />' +
                     '<div id="preview_' + id + '" style="display:none;" class="file-preview"></div>';
                 break;  
         }

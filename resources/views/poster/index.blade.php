@@ -1,61 +1,68 @@
 @extends('layouts.base')
 @section('wideTopContent')
 
+<!--
 <link href="{{ asset('assets/lbk/media/fontawesome-5.13.0/css/all.min.css') }}" type="text/css" rel="stylesheet">
 <link href="{{ asset('assets/lbk/media/cssanimation.io/cssanimation.min.css') }}" type="text/css" rel="stylesheet">
 <link href="{{ asset('assets/lbk/media/woah/woah.css') }}" type="text/css" rel="stylesheet">
 <link href="{{ asset('assets/lbk/media/animate.css/animate.min.css') }}" type="text/css" rel="stylesheet">
 
-<!-- 3rd party styles -->
 <link href="{{ asset('assets/lbk/css/bootstrap4-toggle.min.css') }}" rel="stylesheet">
-
+-->
 <!-- app styles -->
 <link href="{{ asset('assets/lbk/css/main.css') }}" rel="stylesheet">
 
 <div id="lbkContainer" class="relative h-screen mt-28 mb-10">
     <div id="menu" class="h-screen">
         <div class="wrapper">
-            <form id="settings" name="settings">
-                <p class="title" data-toggle="collapse" data-target="#settingsContent"><i class="fa fa-tv"></i> Área de conteúdo</p>
+            <form id="settings" name="settings" class="w-full max-w-lg">
+                <p class="title" data-toggle="collapse" data-target="#settingsContent">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
+                    </svg>
+                    Tamanhos
+                </p>
+                
                 <div id="settingsContent" class="collapse show">
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="settingsSizePreset">Configurações</label>
-                            <select class="form-control contentParam" id="settingsSizePreset" name="settingsSizePreset">
+                    <div class="form-row grid grid-cols-4 gap-1">
+                        <div class="form-group col-span-2">
+                            <label for="settingsSizePreset" class="label"><span class="label-text">Configurações</span></label>
+                            <select class="select select-bordered w-full max-w-xs select-sm contentParam" id="settingsSizePreset" name="settingsSizePreset">
                                 <!-- Added dynamically -->
                             </select>
                         </div>
-                        <div class="form-group col-md-3">
-                            <label for="settingsContentWidth">Largura</label>
-                            <input type="input" class="form-control contentParam" id="settingsContentWidth" name="settingsContentWidth" value="1920">
+                        <div class="form-group">
+                            <label for="settingsContentWidth" class="label"><span class="label-text">Largura</span></label>
+                            <input type="input" class="input input-bordered input-sm w-full contentParam" id="settingsContentWidth" name="settingsContentWidth" value="1920">
                         </div>
-                        <div class="form-group col-md-3">
-                            <label for="settingsContentHeight">Altura</label>
-                            <input type="input" class="form-control contentParam" id="settingsContentHeight" name="settingsContentHeight" value="1080">
-                        </div>
-                    </div>
-
-                    <label for="settingsSizePreset">Margens</label>
-                    <div class="form-row">
-                        <div class="form-group col-md-3">
-                            <label for="settingsContentPaddingLeft">Esquerda</label>
-                            <input type="input" class="form-control contentParam" id="settingsContentPaddingLeft" value="0">
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label for="settingsContentPaddingTop">Superior</label>
-                            <input type="input" class="form-control contentParam" id="settingsContentPaddingTop" value="0">
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label for="settingsContentPaddingRight">Direita</label>
-                            <input type="input" class="form-control contentParam" id="settingsContentPaddingRight" value="0">
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label for="settingsContentPaddingBottom">Inferior</label>
-                            <input type="input" class="form-control contentParam" id="settingsContentPaddingBottom" value="0">
+                        <div class="form-group">
+                            <label for="settingsContentHeight" class="label"><span class="label-text">Altura</span></label>
+                            <input type="input" class="input input-bordered input-sm w-full contentParam" id="settingsContentHeight" name="settingsContentHeight" value="1080">
                         </div>
                     </div>
 
-                    <div class="form-row">
+                    <!-- TODO: pensar se temos que colocar isso de novo -->
+                    <label for="settingsSizePreset" class="hidden">Margens</label>
+                    <div class="form-row grid grid-cols-4 gap-1 hidden">
+                        <div class="form-group">
+                            <label for="settingsContentPaddingLeft" class="label"><span class="label-text">Esquerda</span></label>
+                            <input type="input" class="input input-bordered input-sm w-full contentParam" id="settingsContentPaddingLeft" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="settingsContentPaddingTop" class="label"><span class="label-text">Superior</span></label>
+                            <input type="input" class="input input-bordered input-sm w-full contentParam" id="settingsContentPaddingTop" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="settingsContentPaddingRight" class="label"><span class="label-text">Direita</span></label>
+                            <input type="input" class="input input-bordered input-sm w-full contentParam" id="settingsContentPaddingRight" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="settingsContentPaddingBottom" class="label"><span class="label-text">Inferior</span></label>
+                            <input type="input" class="input input-bordered input-sm w-full contentParam" id="settingsContentPaddingBottom" value="0">
+                        </div>
+                    </div>
+
+                    <div class="form-row hidden">
                         <div class="form-group col-md-6">
                             <label for="settingsContentScale">Escala</label>
                             <input type="number" step="0.1" min="0.1" class="form-control contentParam" id="settingsContentScale" value="1.0">
@@ -67,26 +74,27 @@
                         </div>
                     </div>
 
-                    <div class="form-row">
+                    <div class="form-row hidden">
                         <div class="form-group col-md-6">
                             <label for="settingsContentExternaWindow">Aba externa</label>
                             <input type="checkbox" class="form-control contentParam" id="settingsContentExternaWindow" data-toggle="toggle" data-onstyle="primary" data-offstyle="outline-secondary" data-size="sm">
                         </div>
                     </div>
+                    
                 </div>
 
-                <p class="title" data-toggle="collapse" data-target="#settingsCreation"><i class="fa fa-cubes"></i> Detalhes do arquivo</p>
+                <p class="title" data-toggle="collapse" data-target="#settingsCreation">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>    
+                    Conteúdo
+                </p>
 
                 <div id="settingsCreation" class="collapse show panel">
-                    <div class="form-row">
-                        <div class="form-group col-md-12">
-                            <label for="settingsCreationName">Nome</label>
-                            <input type="text" class="form-control contentParam" name="settingsCreationName" id="settingsCreationName" value="" placeholder="E.g. Show ad bottom corner">
-
-                        </div>
-                        <div class="form-group col-md-12">
-                            <label for="settingsCreationType">Modelo</label>
-                            <select class="form-control contentParam" id="settingsCreationType">
+                    <div class="grid-cols-2 gap-1">
+                        <div class="form-group col-span-2">
+                            <label for="settingsCreationType" class="label"><span class="label-text">Modelo</span></label>
+                            <select class="select select-bordered w-full contentParam" id="settingsCreationType">
                                 <option></option>
                             </select>
                         </div>
@@ -96,6 +104,11 @@
                         <!-- screen params -->
                         <div class="form-group col-md-12" id="settingsCreationScreenParams">
                             <!-- will be populated dynamically -->
+                        </div>
+
+                        <div class="form-group">
+                            <label for="settingsCreationName" class="label"><span class="label-text">Nome</span></label>
+                            <input type="text" class="input input-bordered w-full contentParam" name="settingsCreationName" id="settingsCreationName" value="" placeholder="E.g. Cartaz para evento">
                         </div>
 
                         <!-- creation in -->
@@ -150,16 +163,31 @@
                         </div>
                     </div>      
 
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <a class="btn btn-block btn-primary" id="btnTest"><i class="fa fa-play-circle"></i> Atualizar</a>
+                    <div class="form-row grid grid-cols-2 gap-2 mt-4">
+                        <div class="form-group hidden">
+                            <a class="btn btn-primary w-full" id="btnTest">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                </svg>
+                                Atualizar
+                            </a>
                         </div>
-                        <div class="form-group col-md-6">
-                            <a class="btn btn-block btn-primary" id="btnAdd"><i class="fa fa-plus-square"></i> Salvar Modelo</a>
+                        <div class="form-group">
+                            <a class="btn btn-primary w-full" id="btnAdd">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                </svg>
+                                Salvar modelo
+                            </a>
                         </div>
 
-                        <div class="form-group col-md-6">
-                            <a class="btn btn-block btn-primary" onclick="window.parent.download_frame()"><i class="fa fa-arrow-down"></i> Baixar Imagem</a>
+                        <div class="form-group">
+                            <a class="btn btn-primary w-full" onclick="window.parent.download_frame()">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                                Baixar Imagem
+                            </a>
                         </div>
 
                     </div>
@@ -205,9 +233,9 @@
                     </ul>
                 </div>
 
-                <p class="title" data-toggle="collapse" data-target="#settingsRecording"><i class="fa fa-cubes"></i> Compartilhar Tela</p>
+                <p class="title hidden" data-toggle="collapse" data-target="#settingsRecording"><i class="fa fa-cubes"></i> Compartilhar Tela</p>
 
-                <div id="settingsRecording" class="collapse show panel">
+                <div id="settingsRecording" class="collapse show panel hidden">
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="settingsRecordingEnabledToggle">Recording is currently</label>
@@ -221,9 +249,9 @@
                     </div>
                 </div>
 
-                <p class="title" data-toggle="collapse" data-target="#settingsApplication"><i class="fa fa-cubes"></i> Application</p>
+                <p class="title hidden" data-toggle="collapse" data-target="#settingsApplication"><i class="fa fa-cubes"></i> Application</p>
 
-                <div id="settingsApplication" class="collapse show panel">
+                <div id="settingsApplication" class="collapse show panel hidden">
                     <div class="form-row">
                         <div class="form-group col-md-10">
                             <label for="settingsAppSomething"><strong>Test</strong><br />Configuration settings</label>
