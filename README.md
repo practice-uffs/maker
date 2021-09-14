@@ -116,6 +116,14 @@ Também é necessário habilitar a extenção _gd_ do PHP, então rode o seguint
 sudo apt-get install php7.x-gd
 ```
 
+O próximo passo é adicionar o ibis para que possa ser rodado através do terminal, para isso rode:
+
+```
+sudo nano /etc/bash.bashrc
+```
+Adicione a seguinte linha no final do arquivo aberto com o comando anterior: _export ibis="/home/seu_usuario/.config/composer/vendor/themsaid/ibis/ibis"_
+
+
 
 ### 3. Utilizacão
 
