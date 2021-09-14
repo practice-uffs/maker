@@ -9,7 +9,7 @@ var LBK = new function() {
 
     this.SAVE_KEY = 'livebroadcastkit_store_v1';
     this.DEFAULT_RUN_ELEMENT = 'default.blank';
-    this.SCREENS_FILE = 'screens/screens.json';
+    this.SCREENS_FILE = '/screens/screens.json';
     this.ANIMATION_FILES = [
         'woah.json',
         'cssanimationio.json'
@@ -19,8 +19,8 @@ var LBK = new function() {
     };
 
     this.elements = {
-        'default.blank': {url: './screens/blank', name: 'Blank'},
-        'default.test': {url: './screens/test', name: 'Color test'},
+        'default.blank': {url: '/screens/blank', name: 'Blank'},
+        'default.test': {url: '/screens/test', name: 'Color test'},
     };
 
     this.elementBeingRun = undefined;
@@ -80,6 +80,10 @@ var LBK = new function() {
     this.tick = function() {
         this.updateRecordingUI();
     };
+
+    this.url = function(url) {
+        return window.LBK_BASE_URL + url;
+    }
 
     this.buildSizePresetsSelect = function() {
         var self = this;
@@ -693,7 +697,7 @@ var LBK = new function() {
             return params[entry];
         });
 
-        return finalUrl;
+        return this.url(finalUrl);
     };
 
     this.setContentAreaAsExternalWindow = function(value, url) {
@@ -784,7 +788,7 @@ var LBK = new function() {
         var self = this;
 
         files.forEach(function(url) {
-            fetch('./media/' + url)
+            fetch(self.url('/media/' + url))
                 .then(response => response.json())
                 .then(function(json) {
                     self.animations.push(json);
@@ -800,7 +804,7 @@ var LBK = new function() {
     this.loadScreens = function(fileUrl, callback) {
         var self = this;
 
-        fetch(fileUrl)
+        fetch(self.url(fileUrl))
             .then(response => response.json())
             .then(function(json) {
                 self.screens = json;
@@ -1127,6 +1131,26 @@ var LBK = new function() {
             window.URL.revokeObjectURL(url);
             console.log(`${a.download} save option shown`);
         }, 100);
+    };
+
+    //recebe um dataurl e baixa um arquivo com nome filename
+    this.download = function(dataurl, filename) {
+        var a = document.createElement("a");
+        a.href = dataurl;
+        a.setAttribute("download", filename);
+        a.click();
+    };
+
+    // Função que faz o download de um frame em png
+    this.downloadFrame = function() {
+        var iframe = document.getElementById("content2");
+        var iframe2 = iframe.contentWindow.document.getElementById("content");
+        var element = iframe2.contentWindow.document.getElementsByTagName("html")[0];
+
+        htmlToImage.toPng(element)
+            .then(function (dataUrl) {
+                download(dataUrl, 'contents.png');
+        });   
     };
 };
 
