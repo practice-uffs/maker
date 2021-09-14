@@ -104,11 +104,18 @@ npm run dev
 
 #### 2.5 Ibis
 
-Instalar a ferramenta [Ibis](https://github.com/themsaid/ibis) para que seja possível a geração do livro digital em sua máquina localmente:
+Instale a ferramenta [Ibis](https://github.com/themsaid/ibis) para que seja possível a geração do livro digital em sua máquina localmente:
 
 ```
 composer global require themsaid/ibis
 ```
+
+Também é necessário habilitar a extenção _gd_ do PHP, então rode o seguinte comando em seu terminal, com _x_ estando de acordo com o seu PHP:
+
+```
+sudo apt-get install php7.x-gd
+```
+
 
 ### 3. Utilizacão
 
