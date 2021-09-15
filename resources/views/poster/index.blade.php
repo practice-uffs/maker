@@ -1,14 +1,11 @@
 @extends('layouts.base')
 @section('wideTopContent')
 
-<!--
 <link href="{{ asset('assets/lbk/media/fontawesome-5.13.0/css/all.min.css') }}" type="text/css" rel="stylesheet">
 <link href="{{ asset('assets/lbk/media/cssanimation.io/cssanimation.min.css') }}" type="text/css" rel="stylesheet">
 <link href="{{ asset('assets/lbk/media/woah/woah.css') }}" type="text/css" rel="stylesheet">
 <link href="{{ asset('assets/lbk/media/animate.css/animate.min.css') }}" type="text/css" rel="stylesheet">
 
-<link href="{{ asset('assets/lbk/css/bootstrap4-toggle.min.css') }}" rel="stylesheet">
--->
 <!-- app styles -->
 <link href="{{ asset('assets/lbk/css/main.css') }}" rel="stylesheet">
 
@@ -193,7 +190,12 @@
                     </div>
                 </div>
 
-                <p class="title" data-toggle="collapse" data-target="#settingsElements"><i class="fa fa-cubes"></i> Modelos Salvos</p>
+                <p class="title" data-toggle="collapse" data-target="#settingsElements">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+                    </svg>
+                    Modelos Salvos
+                </p>
 
                 <div id="settingsElements" class="collapse show panel">
                     <ul class="list-group">
