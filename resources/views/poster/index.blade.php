@@ -9,8 +9,8 @@
 <!-- app styles -->
 <link href="{{ asset('assets/lbk/css/main.css') }}" rel="stylesheet">
 
-<div id="lbkContainer" class="relative h-screen mt-28 mb-10">
-    <div id="menu" class="h-screen">
+<div id="lbkContainer" class="flex h-screen mt-28 mb-10">
+    <div id="menu" class="">
         <div class="wrapper">
             <form id="settings" name="settings" class="w-full max-w-lg">
                 <p class="title" data-toggle="collapse" data-target="#settingsContent">
@@ -23,7 +23,7 @@
                 <div id="settingsContent" class="collapse show">
                     <div class="form-row grid grid-cols-4 gap-1">
                         <div class="form-group col-span-2">
-                            <label for="settingsSizePreset" class="label"><span class="label-text">Configurações</span></label>
+                            <label for="settingsSizePreset" class="label"><span class="label-text">Pré-definidos</span></label>
                             <select class="select select-bordered w-full max-w-xs select-sm contentParam" id="settingsSizePreset" name="settingsSizePreset">
                                 <!-- Added dynamically -->
                             </select>
@@ -183,7 +183,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                 </svg>
-                                Baixar Imagem
+                                Download
                             </a>
                         </div>
 
@@ -194,7 +194,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
                     </svg>
-                    Modelos Salvos
+                    Modelos salvos
                 </p>
 
                 <div id="settingsElements" class="collapse show panel">
@@ -267,7 +267,9 @@
         </div>
     </div>
 
-    <iframe src="{{ asset('assets/lbk/screens/blank/') }}" name="content" id="content" scrolling="no" allow="display-capture"></iframe>
+    <div id="contentContainer" class="">
+        <iframe src="{{ asset('assets/lbk/screens/blank/') }}" name="content" id="content" scrolling="no" allow="display-capture"></iframe>
+    </div>
 
 </div>
 

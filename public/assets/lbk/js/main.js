@@ -93,7 +93,7 @@ var LBK = new function() {
         var self = this;
         var select = document.getElementById('settingsSizePreset');
 
-        select.options[select.options.length] = new Option('custom', 'custom');
+        select.options[select.options.length] = new Option('', 'custom');
 
         for(var id in this.SIZE_PRESETS) {
             var entry = this.SIZE_PRESETS[id];
