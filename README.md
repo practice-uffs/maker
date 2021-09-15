@@ -110,7 +110,7 @@ Instale a ferramenta [Ibis](https://github.com/themsaid/ibis) para que seja poss
 composer global require themsaid/ibis
 ```
 
-Também é necessário habilitar a extenção _gd_ do PHP, então rode o seguinte comando em seu terminal, com _x_ estando de acordo com o seu PHP:
+Também é necessário habilitar a extenção _gd_ do PHP, então rode o seguinte comando em seu terminal, com _x_ estando de acordo com a versão do seu PHP:
 
 ```
 sudo apt-get install php7.x-gd
