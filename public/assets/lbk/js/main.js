@@ -82,6 +82,10 @@ var LBK = new function() {
     };
 
     this.url = function(url) {
+        // check if url begins with a slash, if not, add it
+        if(url.charAt(0) !== '/') {
+            url = '/' + url;
+        }
         return window.LBK_BASE_URL + url;
     }
 
@@ -226,6 +230,12 @@ var LBK = new function() {
         var self = this;
         var content = '';
 
+        var elementIcon = `
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+        `;
+
         $('#settingsElements ul').empty();
 
         for(var id in this.elements) {
@@ -234,6 +244,7 @@ var LBK = new function() {
             var isRecordable = false; // TODO: implement this
 
             content += '<li class="list-group-item">' +
+                            elementIcon +
                             '<a href="javascript:void(0);" data-action="run" data-element="' + id + '">'+ element.name +'</a> ' +
                             (isDeletable ? '<a href="javascript:void(0);" class="float-right" data-action="delete" data-element="' + id + '">[Delete]</a> ' : '') +
                             (isRecordable ? '<a href="javascript:void(0);" class="float-right" data-action="record" data-element="' + id + '">[Record]</a>' : '') +
