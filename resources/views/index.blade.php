@@ -31,10 +31,6 @@
                 Crie diversos materiais digitais de forma rápida e descomplicada. E o melhor de tudo? Não precisa de conhecimento técnico algum! 
                 Deixe essa parte para o <strong>Maker</strong> fazer por você. Se preocupe com o conteúdo, o resto é criado automaticamente.
             </p>
-            <div data-aos="fade-up" data-aos-delay="600" class="flex justify-center">
-                <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Button</button>
-                <button class="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg">Button</button>
-            </div>
         </div>
     </div>
 </section>
@@ -51,10 +47,6 @@
                 Já imaginou escrever <em>"quero uma imagem para rede social de um evento dia 20, às 19 horas"</em> e ter como resultado um cartaz lindo?
                 Não imagine mais, isso é uma realidade aqui.
             </p>
-            <div class="flex justify-center">
-                <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Button</button>
-                <button class="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg">Button</button>
-            </div>
         </div>
         <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0">
             <img class="object-cover object-center rounded" alt="hero" src="{{ asset('img/manypixels.co/artificial-intelligence-monochromatic.svg') }}">
