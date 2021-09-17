@@ -39,7 +39,7 @@ class UpdateSiteJob implements ShouldQueue
         $updatedSite->build_status_changed_at = now();
         $folderName = $this->site->google_drive_id;
         $storagePath = storage_path();
-        file_put_contents($storagePath.'\app\public\sites\\'.$folderName.'\index.html',$this->site->content);
+        file_put_contents($storagePath.'/app/public/sites/'.$folderName.'/index.html',$this->site->content);
         $updatedSite->save();
     }
 }

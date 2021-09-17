@@ -27,7 +27,7 @@
         </div>
     </div>
     <div class="overflow-y-auto h-96 flex justify-center pt-8">
-        {{ readfile(storage_path()."\app\public\sites\\$site->google_drive_id\index.html")[0] }}
+        {{{ readfile(storage_path()."/app/public/sites/$site->google_drive_id/index.html") }}}
     </div>
 </div>
 @endsection

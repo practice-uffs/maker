@@ -48,20 +48,21 @@ class MakeSiteJob implements ShouldQueue
                 'build_output' => $this->site->build_output,
                 'serve_url' => $this->site->serve_url
             ]); 
-            $code = 1;
+
             $folderName = $this->site->google_drive_id;
-            $cmd = "cd storage & cd app & cd public & cd sites & mkdir $folderName";
-            exec($cmd, $output, $code);
+            $cmd = "cd storage && cd app && cd public && cd sites && mkdir $folderName";
+            $output = shell_exec($cmd);
             $storagePath = storage_path();
-            file_put_contents($storagePath.'\app\public\sites\\'.$folderName.'\index.html',$this->site->content);
+            file_put_contents($storagePath.'/app/public/sites/'.$folderName.'/index.html',$this->site->content);
+
         } else {
             $updatedSite = Site::where('google_drive_id', '=', $this->site->google_drive_id)->first();
             $updatedSite->build_status = 'Done';
             $updatedSite->build_status_changed_at = $this->site->build_status_changed_at;
-            $updatedSite->build_output = 'Site Created';
+            $updatedSite->build_output = 'Done';
             $folderName = $this->site->google_drive_id;
             $storagePath = storage_path();
-            file_put_contents($storagePath.'\app\public\sites\\'.$folderName.'\index.html',$this->site->content);
+            file_put_contents($storagePath.'/app/public/sites/'.$folderName.'/index.html',$this->site->content);
             $updatedSite->save();
         }
         
