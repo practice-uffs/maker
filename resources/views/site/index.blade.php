@@ -51,7 +51,7 @@
                 <p>Parece que você não possui sites.</p>
             </div>  
             <a href="{{ route('site.create') }}" class="pt-4">
-                <button class="btn btn-primary bg-blue-500 hover:bg-blue-700 text-white font-bold border-0">Voltar ara a criação de sites</button>
+                <button class="btn btn-primary bg-blue-500 hover:bg-blue-700 text-white font-bold border-0">Voltar para a criação de sites</button>
             </a>
         </div>
     </div>

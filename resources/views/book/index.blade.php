@@ -2,6 +2,7 @@
 @section('content')
     <div class="container my-12 mx-auto px-4 md:px-12">
         
+        @if (count($books) != 0)
         <div class="flex flex-wrap -mx-1 lg:-mx-4">
 
             <!-- Column -->
@@ -44,5 +45,20 @@
                 <!-- END Column -->
             @endforeach
         </div>
+        @else
+        <div class="flex justify-center pt-28 pb-28">
+            <div class="flex flex-column ">
+                <div class="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4" role="alert">
+                    <p class="font-bold">Aviso!</p>
+                    <p>Parece que você não possui livros digitais.</p>
+                </div>  
+                <a href="{{ route('book.create') }}" class="pt-4">
+                    <button class="btn btn-primary bg-blue-500 hover:bg-blue-700 text-white font-bold border-0">
+                        Voltar para a criação de livros digitais
+                    </button>
+                </a>
+            </div>
+        </div>
+        @endif
     </div>
 @endsection

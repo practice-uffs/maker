@@ -34,8 +34,6 @@ class UpdateBookJob implements ShouldQueue
      */
     public function handle()
     {
-        $output = [];
-        $code = -1;
         $content = '
         <?php
         return [
@@ -61,13 +59,13 @@ class UpdateBookJob implements ShouldQueue
             \'sample_notice\' => \'This is a sample from "Laravel Queues in Action" by Mohamed Said. <br> 
                                 For more information, <a href="https://www.learn-laravel-queues.com/">Click here</a>.\',
         ];';
-        $file = public_path()."\book\ibis.php";
+        $file = public_path()."/book/ibis.php";
         $fh = fopen($file, 'w') or die("can't open file");
         fwrite($fh, $content);
         fclose($fh);
-        $cmd = 'cd public & cd book & ibis build';
-        exec($cmd, $output, $code);
-        array_map('unlink', glob(public_path()."\book\content\*.md"));
+        $cmd = 'cd public && cd book && $ibis build';
+        $output = shell_exec($cmd);
+        array_map('unlink', glob(public_path()."/book/content/*.md"));
 
         $book = Book::find($this->book->id);
         $book->build_status = 'done';
