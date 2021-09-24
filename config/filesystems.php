@@ -51,7 +51,10 @@ return [
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
         ],
-
+        'sites' => [
+            'driver' => 'local',
+            'root' => env('PATH_TO_STORE_SITES', '/'),
+        ],
     ],
 
     /*
