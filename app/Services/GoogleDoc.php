@@ -35,7 +35,7 @@ class GoogleDoc
     }
 
 
-    public function findFileById($fileId){
+    public function findBookById($fileId){
         $fileInfo = [];
         try {
             $response = $this->service->files->export($fileId, 'text/plain', array('alt' => 'media' ));
@@ -59,6 +59,50 @@ class GoogleDoc
             return $fileInfo;
         }
     }
+
+    public function findSiteById($fileId){
+        $fileInfo = [];
+        try {
+            $response = $this->service->files->export($fileId, 'text/plain', array('alt' => 'media' ));
+            $content = $response->getBody()->getContents();
+            
+            $pages = array();
+            $page = 0;
+
+            while (strpos($content, '<<') && strpos($content, '>>') && strpos($content, '<<') < strpos($content, '>>')) {
+                
+                $pages[$page]['title'] = substr($content, strpos($content, '<<')+2, strpos($content, '>>')-strpos($content, '<<')-2);
+                $content = substr($content, strpos($content, '>>')+2, strlen($content));
+                $pages[$page]['content'] = substr($content, 0, strpos($content, '<<')-1);
+            
+                $page++;
+            }
+            if(empty($pages)){
+                $fileInfo['error'] = 'Empty Google Document';
+                return $fileInfo;
+            } 
+            
+            $parameters = array();
+            $parameters['fields'] = 'permissions(*)';
+            $permissions = $this->service->permissions->listPermissions($fileId, $parameters);
+            
+            $countPermissions = 0;
+            foreach ($permissions->getPermissions() as $permission){
+                $fileInfo['ownerEmail'][$countPermissions] = $permission['emailAddress'];
+                $countPermissions++;
+            }
+
+            $fileInfo['content'] = $pages;
+            $fileInfo['title'] =  $this->service->files->get($fileId)->getName();
+            $fileInfo['error'] = 'File found';
+            return $fileInfo;
+
+        } catch (\Google_Service_Exception $e){
+            $fileInfo['error'] = 'File not found';
+            return $fileInfo;
+        }
+    }
+
 
     public function downloadFileById($fileId){
         try {
