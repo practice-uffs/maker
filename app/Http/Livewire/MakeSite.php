@@ -21,7 +21,7 @@ class MakeSite extends Component
     public function submit()
     {
         $docs = new GoogleDoc(config('google.docs'));
-        $this->docsContent = $docs->findFileById($this->parseUrl($this->docsUrl));
+        $this->docsContent = $docs->findSiteById($this->parseUrl($this->docsUrl));
         if ($this->docsContent['error'] != 'File not found'){
             $site = new stdClass();
             $site->name = $this->docsContent['title'];
@@ -33,7 +33,7 @@ class MakeSite extends Component
             $site->build_status_changed_at = now()->toDateTimeString();
             $site->build_output = '';
             $site->serve_url = $this->siteUrl;
-            $site->content = $this->docsContent['content'];
+            $site->contents = $this->docsContent['content'];
             MakeSiteJob::dispatch($site, auth()->user());
             return redirect(route('sites'));
         } else {

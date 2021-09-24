@@ -22,7 +22,7 @@ class MakeBook extends Component
     public function submit()
     {
         $docs = new GoogleDoc(config('google.docs'));
-        $this->docsContent = $docs->findFileById($this->parseUrl($this->docsUrl));
+        $this->docsContent = $docs->findBookById($this->parseUrl($this->docsUrl));
         return;
     }
 

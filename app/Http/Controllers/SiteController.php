@@ -38,7 +38,7 @@ class SiteController extends Controller
         $siteToUpdate->build_status = 'processing';
         $siteToUpdate->save();
         $docs = new GoogleDoc(config('google.docs'));
-        if ($document = $docs->findFileById($this->parseUrl($siteToUpdate->google_drive_url))){
+        if ($document = $docs->findBookById($this->parseUrl($siteToUpdate->google_drive_url))){
             $site = new stdClass();
             $site->google_drive_id = $this->parseUrl($siteToUpdate->google_drive_url);
             $site->google_drive_id = Str::slug($site->google_drive_id);
