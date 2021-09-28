@@ -68,20 +68,20 @@ class GoogleDoc
             
             $pages = array();
             $page = 0;
-
-            while (strpos($content, '<<') && strpos($content, '>>') && strpos($content, '<<') < strpos($content, '>>')) {
-                
-                $pages[$page]['title'] = substr($content, strpos($content, '<<')+2, strpos($content, '>>')-strpos($content, '<<')-2);
-                $content = substr($content, strpos($content, '>>')+2, strlen($content));
-                $pages[$page]['content'] = substr($content, 0, strpos($content, '<<')-1);
-            
-                $page++;
+            if( strpos($content, '<<') && strpos($content, '>>') ){
+                while ( strpos($content, '<<') && strpos($content, '>>') )  {
+                    if ( strpos($content, '<<') < strpos($content, '>>') ){
+                        $pages[$page]['title'] = substr($content, strpos($content, '<<')+2, strpos($content, '>>')-strpos($content, '<<')-2);
+                        $content = substr($content, strpos($content, '>>')+2, strlen($content));
+                        $pages[$page]['content'] = substr($content, 0, strpos($content, '<<')-1);
+                        $page++;
+                    }
+                }
+            } else {
+                $pages[$page]['title'] = 'index';
+                $pages[$page]['content'] = $content;
             }
-            if(empty($pages)){
-                $fileInfo['error'] = 'Empty Google Document';
-                return $fileInfo;
-            } 
-            
+
             $parameters = array();
             $parameters['fields'] = 'permissions(*)';
             $permissions = $this->service->permissions->listPermissions($fileId, $parameters);
@@ -94,11 +94,11 @@ class GoogleDoc
 
             $fileInfo['content'] = $pages;
             $fileInfo['title'] =  $this->service->files->get($fileId)->getName();
-            $fileInfo['error'] = 'File found';
+            $fileInfo['error'] = '';
             return $fileInfo;
 
         } catch (\Google_Service_Exception $e){
-            $fileInfo['error'] = 'File not found';
+            $fileInfo['error'] = 'Arquivo não encontrado, verifique se você compartilhou corretamente o seu Google Docs com practiceuffs.maker@gmail.com';
             return $fileInfo;
         }
     }

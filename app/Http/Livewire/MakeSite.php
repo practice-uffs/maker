@@ -22,7 +22,7 @@ class MakeSite extends Component
     {
         $docs = new GoogleDoc(config('google.docs'));
         $this->docsContent = $docs->findSiteById($this->parseUrl($this->docsUrl));
-        if ($this->docsContent['error'] != 'File not found'){
+        if ($this->docsContent['error'] == ''){
             $site = new stdClass();
             $site->name = $this->docsContent['title'];
             $site->description = '';
