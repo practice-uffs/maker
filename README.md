@@ -123,7 +123,13 @@ sudo nano /etc/bash.bashrc
 ```
 Adicione a seguinte linha no final do arquivo aberto com o comando anterior: _export ibis="/home/seu_usuario/.config/composer/vendor/themsaid/ibis/ibis"_
 
+#### 2.6 Site
 
+No .env é necessário adicionar o caminho da pasta que ficarão armazenados os sites, então em  'PATH_TO_STORE_SITES' coloque tal caminho, exemplo:
+
+```
+PATH_TO_STORE_SITES=/home/seu_usuario/Documents/Sites/
+```
 
 ### 3. Utilizacão
 
