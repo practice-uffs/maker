@@ -136,6 +136,13 @@ php artisan serve
 ```
 Após isso a aplicação estará rodando na porta 8000 e poderá ser acessada em [localhost:8000](http://localhost:8000).
 
+
+Também é necessário rodar a fila de jobs do Laravel em outro terminal, então abra um novo terminal e rode:
+
+```
+php artisan queue:work
+```
+
 #### 3.2 Utilização da API
 
 Se você utilizar a API dessa aplicacão, todos endpoints estarão acessivel em `/api`, por exemplo [localhost:8000/api](http://localhost:8000/api). Os endpoints que precisam de uma chave de autenticação devem ser utilizar o seguinte cabeçalho HTTP:
