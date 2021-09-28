@@ -121,7 +121,11 @@ O próximo passo é adicionar o ibis para que possa ser rodado através do termi
 ```
 sudo nano /etc/bash.bashrc
 ```
-Adicione a seguinte linha no final do arquivo aberto com o comando anterior: _export ibis="/home/seu_usuario/.config/composer/vendor/themsaid/ibis/ibis"_
+
+Adicione a seguinte linha, que é o caminho para aonde foi instalado o ibis, no final do arquivo aberto com o comando anterior (substituindo 'seu_usuario' pelo usuario que instalou o ibis): 
+```
+export ibis="/home/seu_usuario/.config/composer/vendor/themsaid/ibis/ibis"
+```
 
 
 
