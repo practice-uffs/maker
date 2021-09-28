@@ -9,7 +9,7 @@ var LBK = new function() {
 
     this.SAVE_KEY = 'livebroadcastkit_store_v1';
     this.DEFAULT_RUN_ELEMENT = 'default.blank';
-    this.SCREENS_FILE = 'screens/screens.json';
+    this.SCREENS_FILE = '/screens/screens.json';
     this.ANIMATION_FILES = [
         'woah.json',
         'cssanimationio.json'
@@ -19,8 +19,8 @@ var LBK = new function() {
     };
 
     this.elements = {
-        'default.blank': {url: './screens/blank', name: 'Blank'},
-        'default.test': {url: './screens/test', name: 'Color test'},
+        'default.blank': {url: '/screens/blank', name: 'Blank'},
+        'default.test': {url: '/screens/test', name: 'Color test'},
     };
 
     this.elementBeingRun = undefined;
@@ -81,11 +81,19 @@ var LBK = new function() {
         this.updateRecordingUI();
     };
 
+    this.url = function(url) {
+        // check if url begins with a slash, if not, add it
+        if(url.charAt(0) !== '/') {
+            url = '/' + url;
+        }
+        return window.LBK_BASE_URL + url;
+    }
+
     this.buildSizePresetsSelect = function() {
         var self = this;
         var select = document.getElementById('settingsSizePreset');
 
-        select.options[select.options.length] = new Option('custom', 'custom');
+        select.options[select.options.length] = new Option('', 'custom');
 
         for(var id in this.SIZE_PRESETS) {
             var entry = this.SIZE_PRESETS[id];
@@ -222,6 +230,12 @@ var LBK = new function() {
         var self = this;
         var content = '';
 
+        var elementIcon = `
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+        `;
+
         $('#settingsElements ul').empty();
 
         for(var id in this.elements) {
@@ -230,6 +244,7 @@ var LBK = new function() {
             var isRecordable = false; // TODO: implement this
 
             content += '<li class="list-group-item">' +
+                            elementIcon +
                             '<a href="javascript:void(0);" data-action="run" data-element="' + id + '">'+ element.name +'</a> ' +
                             (isDeletable ? '<a href="javascript:void(0);" class="float-right" data-action="delete" data-element="' + id + '">[Delete]</a> ' : '') +
                             (isRecordable ? '<a href="javascript:void(0);" class="float-right" data-action="record" data-element="' + id + '">[Record]</a>' : '') +
@@ -516,11 +531,11 @@ var LBK = new function() {
                 value = entry.value;
             }
 
-            inputs += '<label for="' + id + '" class="mt-2">' + label + '</label>';
+            inputs += '<label for="' + id + '" class="mt-2 label"><span class="label-text">' + label + '</span></label>';
             inputs += this.generateFormElementFromScreenEntry(type, id, name, value);
         }
 
-        $('#settingsCreationScreenParams').empty().html('<p class="title" data-toggle="collapse" data-target="#settingsCreation" style="margin-bottom:0"><i class="fa fa-cog"></i> Configurações do Modelo</p><br>'+inputs);
+        $('#settingsCreationScreenParams').empty().html(inputs);
         this.hidrateCreationPanelParamInputs();
     };
 
@@ -571,13 +586,13 @@ var LBK = new function() {
         switch(type) {
             case 'text':
             case 'color':
-                inputs += '<input type="' + type + '" class="form-control contentParam screenParam" id="' + id + '" name="' + name + '" value="' + value + '" />';
+                inputs += '<input type="' + type + '" class="input input-bordered w-full contentParam screenParam" id="' + id + '" name="' + name + '" value="' + value + '" />';
                 break;
             case 'textarea':
-                inputs += '<textarea class="form-control contentParam screenParam" id="' + id + '" name="' + name + '" rows="3">' + value + '</textarea>';
+                inputs += '<textarea class="input input-bordered w-full h-12 contentParam screenParam" id="' + id + '" name="' + name + '" rows="3">' + value + '</textarea>';
                 break;                    
             case 'select':
-                inputs += '<select class="form-control contentParam screenParam" id="' + id + '" name="' + name + '">';
+                inputs += '<select class="select select-bordered w-full contentParam screenParam" id="' + id + '" name="' + name + '">';
                 value.map(function(option) {
                     inputs += '<option>' + option + '</option>';
                 });
@@ -585,7 +600,7 @@ var LBK = new function() {
                 break; 
             case 'file':
                 inputs += 
-                    '<input type="file" class="form-control contentParam screenParam" id="' + id + '" name="' + name + '" accept="image/*" />' +
+                    '<input type="file" class="input input-bordered w-full contentParam screenParam" id="' + id + '" name="' + name + '" accept="image/*" />' +
                     '<div id="preview_' + id + '" style="display:none;" class="file-preview"></div>';
                 break;  
         }
@@ -693,7 +708,7 @@ var LBK = new function() {
             return params[entry];
         });
 
-        return finalUrl;
+        return this.url(finalUrl);
     };
 
     this.setContentAreaAsExternalWindow = function(value, url) {
@@ -784,7 +799,7 @@ var LBK = new function() {
         var self = this;
 
         files.forEach(function(url) {
-            fetch('./media/' + url)
+            fetch(self.url('/media/' + url))
                 .then(response => response.json())
                 .then(function(json) {
                     self.animations.push(json);
@@ -800,7 +815,7 @@ var LBK = new function() {
     this.loadScreens = function(fileUrl, callback) {
         var self = this;
 
-        fetch(fileUrl)
+        fetch(self.url(fileUrl))
             .then(response => response.json())
             .then(function(json) {
                 self.screens = json;
@@ -1127,6 +1142,26 @@ var LBK = new function() {
             window.URL.revokeObjectURL(url);
             console.log(`${a.download} save option shown`);
         }, 100);
+    };
+
+    //recebe um dataurl e baixa um arquivo com nome filename
+    this.download = function(dataurl, filename) {
+        var a = document.createElement("a");
+        a.href = dataurl;
+        a.setAttribute("download", filename);
+        a.click();
+    };
+
+    // Função que faz o download de um frame em png
+    this.downloadFrame = function() {
+        var iframe = document.getElementById("content2");
+        var iframe2 = iframe.contentWindow.document.getElementById("content");
+        var element = iframe2.contentWindow.document.getElementsByTagName("html")[0];
+
+        htmlToImage.toPng(element)
+            .then(function (dataUrl) {
+                download(dataUrl, 'contents.png');
+        });   
     };
 };
 
