@@ -52,10 +52,10 @@ class GoogleDoc
             }
             $fileInfo['content'] = $content;
             $fileInfo['title'] =  $this->service->files->get($fileId)->getName();
-            $fileInfo['error'] = 'File found';
+            $fileInfo['error'] = '';
             return $fileInfo;
         } catch (\Google_Service_Exception $e){
-            $fileInfo['error'] = 'File not found';
+            $fileInfo['error'] = 'Arquivo não encontrado, verifique se você compartilhou corretamente o seu Google Docs com practiceuffs.maker@gmail.com';
             return $fileInfo;
         }
     }

@@ -14,56 +14,55 @@
     </form>
 
     @if ($docsContent != null)
-        @if ($docsContent['error'] != 'File not found')
+        @if ($docsContent['error'] == '')
             <div class="flex flex-col justify-center">
-                @if ($docsContent)
-                    <p class="font-medium pl-4">Título: {{ $docsContent['title'] }}</p>
-                    <p class="pl-4 font-medium">Donos do arquivo:</p>
-                    @foreach ($docsContent['ownerEmail'] as $owner)
-                        @if(isset($owner))
-                            <p class="pl-5">{{ $owner }}<p>
-                        @endif 
-                    @endforeach
-                    <dd class="group-hover:text-light-red-200 text-sm font-medium sm:mb-4 lg:mb-0 xl:mb-4">
-                        <div x-data="{show:false}">
-                            <p class="flex justify-center">
-                                <button  @click="show=!show" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
-                                Verifique se está tudo certo
-                                </button>
-                            </p> 
-                            <div x-show="show" class="bg-white border px-4 py-3 my-2 text-gray-700 rounded-lg">
-                                <div style="white-space: pre-wrap;">
-                                    {{ $docsContent['content'] }}
-                                </div>
-                                <div class="flex justify-center">
-                                    <button wire:click="createBook" 
-                                            type="button"
-                                            id="btn-submit-index" 
-                                            class="btn btn-primary bg-blue-500 hover:bg-blue-700 text-white font-bold border-0" 
-                                            onclick="   el = document.getElementById('btn-submit-index'); 
-                                                        el.innerHTML = '<i class=\'bi bi-arrow-repeat\'></i>'; 
-                                                        el.disabled = true; 
-                                                        el.innerHTML = '<div class=\'spinner-border\'></div>Aguarde';">
-                                        Está tudo certo, transforme em um e-book!
-                                    </button>
-                                </div>
-                                @if ($createBookError)
-                                    <div class="pt-4  flex justify-center">
-                                        <p class="text-center font-medium text-red-700 font-bold pt-4">Algum erro ocorreu durante a criação do seu e-book.</p>
-                                    </div>
-                                @endif
+                <p class="font-medium pl-4">Título: {{ $docsContent['title'] }}</p>
+                <p class="pl-4 font-medium">Donos do arquivo:</p>
+                @foreach ($docsContent['ownerEmail'] as $owner)
+                    @if(isset($owner))
+                        <p class="pl-5">{{ $owner }}<p>
+                    @endif 
+                @endforeach
+                <dd class="group-hover:text-light-red-200 text-sm font-medium sm:mb-4 lg:mb-0 xl:mb-4">
+                    <div x-data="{show:false}">
+                        <p class="flex justify-center">
+                            <button  @click="show=!show" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                            Verifique se está tudo certo
+                            </button>
+                        </p> 
+                        <div x-show="show" class="bg-white border px-4 py-3 my-2 text-gray-700 rounded-lg">
+                            <div style="white-space: pre-wrap;">
+                                {{ $docsContent['content'] }}
                             </div>
+                            <div class="flex justify-center">
+                                <button wire:click="createBook" 
+                                        type="button"
+                                        id="btn-submit-index" 
+                                        class="btn btn-primary bg-blue-500 hover:bg-blue-700 text-white font-bold border-0" 
+                                        onclick="   el = document.getElementById('btn-submit-index'); 
+                                                    el.innerHTML = '<i class=\'bi bi-arrow-repeat\'></i>'; 
+                                                    el.disabled = true; 
+                                                    el.innerHTML = '<div class=\'spinner-border\'></div>Aguarde';">
+                                    Está tudo certo, transforme em um e-book!
+                                </button>
+                            </div>
+                            @if ($createBookError)
+                                <div class="pt-4  flex justify-center">
+                                    <p class="text-center font-medium text-red-700 font-bold pt-4">{{ $docsContent['error'] }}</p>
+                                </div>
+                            @endif
                         </div>
-                        
-                    </dd>
-                @endif
+                    </div>
+                    
+                </dd>
+            
             </div>
         @else
             <p class="pb-4 text-center font-medium text-red-700 font-bold pt-4">{{ $docsContent['error'] }}</p>
         @endif
     @else
         <div class="flex flex-col justify-center pb-5">
-            <p class="text-center font-medium text-gray-700 font-bold">Aqui estará o seu documento assim que você procurá-lo :)</p>
+            <p class="text-center font-medium text-gray-700 font-bold">Aqui estará o seu documento assim que você procurá-lo</p>
         </div>
     @endif
 </div>
