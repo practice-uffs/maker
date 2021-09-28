@@ -8,6 +8,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use App\Models\Site;
 use stdClass;
 
@@ -34,12 +36,19 @@ class UpdateSiteJob implements ShouldQueue
      */
     public function handle()
     {
+        $folder = $this->site->google_drive_id;
+        array_map('unlink', glob(Storage::disk('sites')->path($folder)."/*.html"));
+
         $updatedSite = Site::where('google_drive_id', '=', $this->site->google_drive_id)->first();
-        $updatedSite->build_status = 'done';
-        $updatedSite->build_status_changed_at = now();
-        $folderName = $this->site->google_drive_id;
-        $storagePath = storage_path();
-        file_put_contents($storagePath.'/app/public/sites/'.$folderName.'/index.html',$this->site->content);
-        $updatedSite->save();
+        $updatedSite->build_status = 'Done';
+        $updatedSite->build_output = 'Done';
+        foreach ($this->site->contents as $content){
+            $fileName = Str::slug($content['title']);
+            if(strlen($fileName) > 200){
+                $fileName = substr($fileName, 0 , 200);
+            }
+            $fileContent = $content['content'];
+            Storage::disk('sites')->put("$folder/$fileName.html", $fileContent);
+        }
     }
 }
