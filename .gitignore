@@ -1,5 +1,3 @@
-/storage/app/public/sites/*
-!/storage/app/public/sites/.gitkeep
 /public/book/content/*
 !/public/book/content/.gitkeep
 /public/book/export/*
