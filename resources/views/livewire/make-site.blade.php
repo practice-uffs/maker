@@ -19,7 +19,7 @@
     </form>
     @if ($createSiteError != null)
         <div class="pt-1 pb-3  flex justify-center">
-            <p class="text-center font-medium text-red-700 font-bold pt-4">Algum erro ocorreu durante a criação do seu site.</p>
+            <p class="text-center font-medium text-red-700 font-bold pt-4">{{ $docsContent['error'] }}</p>
         </div>
     @endif
 </div>

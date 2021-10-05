@@ -127,7 +127,13 @@ Adicione a seguinte linha, que é o caminho para aonde foi instalado o ibis, no 
 export ibis="/home/seu_usuario/.config/composer/vendor/themsaid/ibis/ibis"
 ```
 
+#### 2.6 Site
 
+No .env é necessário adicionar o caminho da pasta que ficarão armazenados os sites, então em  'PATH_TO_STORE_SITES' coloque tal caminho, exemplo:
+
+```
+PATH_TO_STORE_SITES=/home/seu_usuario/Documents/Sites/
+```
 
 ### 3. Utilizacão
 
