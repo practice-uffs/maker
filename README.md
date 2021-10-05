@@ -121,7 +121,11 @@ O próximo passo é adicionar o ibis para que possa ser rodado através do termi
 ```
 sudo nano /etc/bash.bashrc
 ```
-Adicione a seguinte linha no final do arquivo aberto com o comando anterior: _export ibis="/home/seu_usuario/.config/composer/vendor/themsaid/ibis/ibis"_
+
+Adicione a seguinte linha, que é o caminho para aonde foi instalado o ibis, no final do arquivo aberto com o comando anterior (substituindo 'seu_usuario' pelo usuario que instalou o ibis): 
+```
+export ibis="/home/seu_usuario/.config/composer/vendor/themsaid/ibis/ibis"
+```
 
 #### 2.6 Site
 
@@ -141,6 +145,13 @@ Depois de seguir todos os passos de instalação, inicie o servidor do Laravel:
 php artisan serve
 ```
 Após isso a aplicação estará rodando na porta 8000 e poderá ser acessada em [localhost:8000](http://localhost:8000).
+
+
+Também é necessário rodar a fila de jobs do Laravel em outro terminal, então abra um novo terminal e rode:
+
+```
+php artisan queue:work
+```
 
 #### 3.2 Utilização da API
 
