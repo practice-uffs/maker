@@ -165,15 +165,21 @@ class GoogleDoc
                 $title = $bookChapter['title'];
                 $chapter = $bookChapter['chapter'];
                 $content = $bookChapter['content'];
-        
-                $content = "# $title".$content; 
-                $fileName = $chapter.$title;
-                $fileName = Str::slug($fileName);
-                if(strlen($fileName) > 200){
-                    $fileName = substr($fileName, 0 , 200);
-                }
-                file_put_contents("book/content/$fileName.md",$content);
+                
+                if($content == "" & $title == "Capítulo não informado\r\n"){
+                    continue;
+                } else {
+                    $content = "# $title".$content; 
+                    $fileName = $chapter.$title;
+                    $fileName = Str::slug($fileName);
+                    if(strlen($fileName) > 200){
+                        $fileName = substr($fileName, 0 , 200);
+                    }
+                    file_put_contents("book/content/$fileName.md",$content);
                  
+                }
+
+                
             }
             return true;
         } catch (\Google_Service_Exception $e){
