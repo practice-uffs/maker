@@ -108,9 +108,73 @@ class GoogleDoc
         try {
             $response = $this->service->files->export($fileId, 'text/plain', array('alt' => 'media' ));
             $content = $response->getBody()->getContents();
-            $data = $content;
             $fileDirectoryName = Str::slug($fileId[0]);
-            file_put_contents("book/content/$fileDirectoryName.md",$data);
+
+            $arrayOfLines = array();
+            $hasLines = true;
+            $currentLine = 0;
+            $numberOfLines = substr_count($content, "\r\n");
+
+            while ($hasLines){
+                if ($currentLine < $numberOfLines+1){
+                    if($numberOfLines == 0){
+                        $arrayOfLines[$currentLine] = $content;
+                        $hasLines = false;
+                    } else {
+                        if($currentLine == $numberOfLines){
+                            $arrayOfLines[$currentLine] = substr($content, 0);
+                        } else {
+                            $arrayOfLines[$currentLine] = substr($content, 0, strpos($content, "\r\n")+2);
+                            $content = substr( $content, strpos($content, "\r\n")+2);
+                        }
+                    }
+                } else {
+                    $hasLines = false;
+                }
+                $currentLine = $currentLine+1;
+            }
+
+            $currentLine = 0;
+            $chapter = 1;
+            $bookContent = array();
+            $bookContent[0] = array();
+            $bookContent[0]['title'] = "Capítulo não informado\r\n";
+            $bookContent[0]['content'] = '';
+            $bookContent[0]['chapter'] = 0;
+            
+
+            foreach ($arrayOfLines as $line) {
+                preg_match('/{(.*)}/', $line, $outputChapter);
+                if (empty($outputChapter)){
+                    
+                    $bookContent[$chapter-1]['content'] = $bookContent[$chapter-1]['content'].$line;
+                } else {
+                    if ( Str::slug($outputChapter[1]) == 'capitulo' ){
+                        array_push($bookContent, array( "title" => preg_replace('/{(.*)}/', '', $line),
+                                                        "content" => "",
+                                                        "chapter" => $chapter));
+                        $chapter = $chapter + 1;   
+                    } else {
+                        $bookContent[$chapter-1]['content'] = $bookContent[$chapter-1]['content'].$line;
+                    }
+                }
+                $currentLine = $currentLine + 1;
+            }  
+            
+            foreach( $bookContent as $bookChapter ){
+                $title = $bookChapter['title'];
+                $chapter = $bookChapter['chapter'];
+                $content = $bookChapter['content'];
+        
+                $content = "# $title".$content; 
+                $fileName = $chapter.$title;
+                $fileName = Str::slug($fileName);
+                if(strlen($fileName) > 200){
+                    $fileName = substr($fileName, 0 , 200);
+                }
+                file_put_contents("book/content/$fileName.md",$content);
+                 
+            }
             return true;
         } catch (\Google_Service_Exception $e){
             return false;
@@ -176,3 +240,4 @@ class GoogleDoc
         return $client;
     }
 }
+
