@@ -35,7 +35,7 @@ class GoogleDoc
     }
 
 
-    public function findFileById($fileId){
+    public function findBookById($fileId){
         $fileInfo = [];
         try {
             $response = $this->service->files->export($fileId, 'text/plain', array('alt' => 'media' ));
@@ -52,13 +52,57 @@ class GoogleDoc
             }
             $fileInfo['content'] = $content;
             $fileInfo['title'] =  $this->service->files->get($fileId)->getName();
-            $fileInfo['error'] = 'File found';
+            $fileInfo['error'] = '';
             return $fileInfo;
         } catch (\Google_Service_Exception $e){
-            $fileInfo['error'] = 'File not found';
+            $fileInfo['error'] = 'Arquivo não encontrado, verifique se você compartilhou corretamente o seu Google Docs com practiceuffs.maker@gmail.com';
             return $fileInfo;
         }
     }
+
+    public function findSiteById($fileId){
+        $fileInfo = [];
+        try {
+            $response = $this->service->files->export($fileId, 'text/plain', array('alt' => 'media' ));
+            $content = $response->getBody()->getContents();
+            
+            $pages = array();
+            $page = 0;
+            if( strpos($content, '<<') && strpos($content, '>>') ){
+                while ( strpos($content, '<<') && strpos($content, '>>') )  {
+                    if ( strpos($content, '<<') < strpos($content, '>>') ){
+                        $pages[$page]['title'] = substr($content, strpos($content, '<<')+2, strpos($content, '>>')-strpos($content, '<<')-2);
+                        $content = substr($content, strpos($content, '>>')+2, strlen($content));
+                        $pages[$page]['content'] = substr($content, 0, strpos($content, '<<')-1);
+                        $page++;
+                    }
+                }
+            } else {
+                $pages[$page]['title'] = 'index';
+                $pages[$page]['content'] = $content;
+            }
+
+            $parameters = array();
+            $parameters['fields'] = 'permissions(*)';
+            $permissions = $this->service->permissions->listPermissions($fileId, $parameters);
+            
+            $countPermissions = 0;
+            foreach ($permissions->getPermissions() as $permission){
+                $fileInfo['ownerEmail'][$countPermissions] = $permission['emailAddress'];
+                $countPermissions++;
+            }
+
+            $fileInfo['content'] = $pages;
+            $fileInfo['title'] =  $this->service->files->get($fileId)->getName();
+            $fileInfo['error'] = '';
+            return $fileInfo;
+
+        } catch (\Google_Service_Exception $e){
+            $fileInfo['error'] = 'Arquivo não encontrado, verifique se você compartilhou corretamente o seu Google Docs com practiceuffs.maker@gmail.com';
+            return $fileInfo;
+        }
+    }
+
 
     public function downloadFileById($fileId){
         try {
@@ -90,7 +134,7 @@ class GoogleDoc
         $client->setAuthConfig(config_path('google/credentials.json'));
         $client->setAccessType('offline');
         $client->setPrompt('select_account consent');
-        $client->setApprovalPrompt('force');
+        $client->setApprovalPrompt('consent');
 
         // Load previously authorized token from a file, if it exists.
         // The file token.json stores the user's access and refresh tokens, and is

@@ -26,8 +26,14 @@
                             ">Atualizar Site</button></a>
         </div>
     </div>
-    <div class="overflow-y-auto h-96 flex justify-center pt-8">
-        {{{ readfile(storage_path()."/app/public/sites/$site->google_drive_id/index.html") }}}
+    <div>
+        <?php 
+        use Illuminate\Support\Facades\Storage;
+        foreach( glob(Storage::disk('sites')->path($site->google_drive_id)."/*.html") as $path){
+            readfile( $path );
+            echo "<hr>";
+        }
+        ?>
     </div>
 </div>
 @endsection
