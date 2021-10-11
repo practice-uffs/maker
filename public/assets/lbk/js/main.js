@@ -41,6 +41,7 @@ var LBK = new function() {
 
     this.testButton = null;    
     this.addButton = null;
+    this.downloadButton = null;
 
     this.boot = function() {
         var self = this;
@@ -89,6 +90,10 @@ var LBK = new function() {
         return window.LBK_BASE_URL + url;
     }
 
+    this.buildStructureUI = function() {
+        this.buildSizePresetsSelect();
+    };
+
     this.buildSizePresetsSelect = function() {
         var self = this;
         var select = document.getElementById('settingsSizePreset');
@@ -116,7 +121,10 @@ var LBK = new function() {
     };
 
     this.resizeContentArea = function(width, height) {
-        // TODO: update iframe size here too.
+        var contentIframe = document.getElementById('content');
+
+        contentIframe.style.width = width + 'px';
+        contentIframe.style.height = height + 'px';
 
         if(!this.windowContentArea) {
             return;
@@ -165,6 +173,7 @@ var LBK = new function() {
 
         this.testButton = document.getElementById('btnTest');
         this.addButton = document.getElementById('btnAdd');
+        this.downloadButton = document.getElementById('btnDownload');
 
         $(this.testButton).on('click', function(event) {
             self.onTestButtonClick();
@@ -172,6 +181,10 @@ var LBK = new function() {
 
         $(this.addButton).on('click', function(event) {
             self.onAddButtonClick();
+        });
+
+        $(this.downloadButton).on('click', function(event) {
+            self.onDownloadButtonClick();
         });        
     };
     
@@ -194,6 +207,45 @@ var LBK = new function() {
         this.emptyCreationPanel();
     };
 
+    this.onDownloadButtonClick = function() {
+        this.downloadContentArea();
+    };
+
+    this.downloadContentArea = function(fileName) {
+        if (!navigator.mediaDevices) {
+            console.error('Unable to get mediaDevices');
+            return;
+        }
+
+        var canvas = document.createElement('canvas');
+
+        navigator.mediaDevices.getDisplayMedia().then(stream => {
+            // Grab frame from stream
+            let track = stream.getVideoTracks()[0];
+            let capture = new ImageCapture(track);
+            capture.grabFrame().then(bitmap => {
+                // Stop sharing
+                track.stop();
+                
+                // Draw the bitmap to canvas
+                canvas.width = bitmap.width;
+                canvas.height = bitmap.height;
+                canvas.getContext('2d').drawImage(bitmap, 0, 0);
+                
+                // Grab blob from canvas
+                canvas.toBlob(blob => {
+                    // download blob as png file
+                    var url = window.URL.createObjectURL(blob);
+                    var a = document.createElement('a');
+                    a.href = url;
+                    a.download = fileName || 'content-area.png';
+                    a.click();
+                });
+            });
+        })
+        .catch(e => console.log(e));
+    }
+
     this.emptyCreationPanel = function() {
         $('#settingsCreationType').val('');
         $('#settingsCreationName').val('');
@@ -206,7 +258,7 @@ var LBK = new function() {
             panel: this.getFormValuesAsObject('.contentParam')
         }
 
-        console.log('Saving app state to local storage:', state);
+        console.debug('Saving app state to local storage:', state);
         store.set(this.SAVE_KEY, state);
     };
 
@@ -224,6 +276,8 @@ var LBK = new function() {
         for(var prop in state.panel) {
             $('#' + prop).val(state.panel[prop])
         }
+
+        this.updateContentAreaSize();
     };
 
     this.refreshElementsPanel = function() {
@@ -337,8 +391,12 @@ var LBK = new function() {
         console.debug('Changing background-color of element window to conform with settingsContentBgColor', settings.settingsContentBgColor, win);
     };
 
+    this.getContentAreaWindow = function() {
+        return this.isUsingContentAreaAsExternalWindow() ? this.windowContentArea : this.windowElementBeingRun;
+    };
+
     this.initElementBeingRun = function() {
-        var win = this.isUsingContentAreaAsExternalWindow() ? this.windowContentArea : this.windowElementBeingRun;
+        var win = this.getContentAreaWindow();
         var params = this.getCreationPanelParams();
        
         if(!win) {
@@ -356,6 +414,8 @@ var LBK = new function() {
         if(win.init) {
             win.init(params);
         }
+
+        this.updateContentAreaUsingCreationPanelParams();
 
         console.debug('Already loaded element should init', params);
     };
@@ -417,7 +477,7 @@ var LBK = new function() {
     this.buildSidePanelUI = function() {
         var self = this;
 
-        this.buildSizePresetsSelect();
+        this.buildStructureUI();
         this.buildRecordingUI();
         this.buildTestAddUI();
 
@@ -426,7 +486,7 @@ var LBK = new function() {
             self.setContentAreaAsExternalWindow(checked);
         });
 
-        $('.contentParam').on('change', function(el) {
+        $('.contentParam').on('change keyup', function(el) {
             var el = $(this);
             var name = el.attr('id');
             var value = el.val();
@@ -545,38 +605,74 @@ var LBK = new function() {
         reader.readAsDataURL(file);
     };
 
+    this.updateContentAreaSize = function() {
+        var contentSize = this.getSettingsContentSizes();
+        this.resizeContentArea(contentSize.width, contentSize.height);
+    };
+
+    this.updateContentAreaUsingCreationPanelParams = function() {
+        if (!this.windowElementBeingRun) {
+            return
+        }
+
+        var params = this.getCreationPanelParams();
+        console.debug('Content area should update elements using', params);
+
+        for(var name in params) {
+            var value = params[name];
+            var element = this.windowElementBeingRun.document.getElementById(name);
+
+            if (!element) {
+                continue;
+            }
+
+            $(element).html(value);
+            console.debug('Content area [' + name + '] changed to "' + value + '"');
+        }
+    };
+
+    this.onCreationPanelInputChange = function(event, element) {
+        this.updateContentAreaUsingCreationPanelParams();
+    };
+
+    this.onCreationPanelFileInputChange = function(event, element) {
+        if(element.files.length == 0) {
+            return;
+        }
+
+        var file = element.files[0];
+
+        self.getBase64(file, function(base64Data){
+            $(el).data('value-base64', base64Data);
+        });
+        
+        var id = $(element).attr('id');
+        var objURL = window.URL.createObjectURL(file);
+
+        $('#preview_' + id)
+            .empty()
+            .html('<img src="' + objURL + '" />')
+            .show();
+        $(element).hide();
+
+        this.updateContentAreaUsingCreationPanelParams();
+    };
+
     this.hidrateCreationPanelParamInputs = function() {
         var self = this;
 
         $('#settingsCreationScreenParams input').each(function(idx, el) {
             var type = $(el).attr('type');
 
-            if(type != 'file') {
-                return;
-            }
-
-            $(el).on('change', function(event) {
-                var element = event.currentTarget;
-
-                if(element.files.length == 0) {
-                    return;
-                }
-
-                var file = element.files[0];
-
-                self.getBase64(file, function(base64Data){
-                    $(el).data('value-base64', base64Data);
+            if(type == 'file') {
+                $(el).off().on('change keyup', function(event) {
+                    self.onCreationPanelFileInputChange(event, $(this));
                 });
-                
-                var id = $(element).attr('id');
-                var objURL = window.URL.createObjectURL(file);
-
-                $('#preview_' + id)
-                    .empty()
-                    .html('<img src="' + objURL + '" />')
-                    .show();
-                $(element).hide();
-            });
+            } else {
+                $(el).off().on('change keyup', function(event) {
+                    self.onCreationPanelInputChange(event, $(this));
+                });
+            }
         });
     };
 

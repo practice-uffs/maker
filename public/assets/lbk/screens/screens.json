@@ -10,6 +10,16 @@
         }
     },
     {
+        "id": "live.cover",
+        "name": "Live cover",
+        "url": "screens/live-cover",
+        "params": {
+            "title": {"label": "Title", "type":"text", "value": "hi"},
+            "subtitle": "text",
+            "content": "textarea"
+        }
+    },    
+    {
         "id": "notification.run",
         "name": "Run",
         "url": "screens/notification/run.html?text=Fernando Bevilacqua&subtext=Coordenador, Curso de Ciência da Computação (UFFS)&ttl=20&icon=cc.svg&delay=0.3&effect=thumbslider",

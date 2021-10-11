@@ -17,24 +17,30 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
                     </svg>
-                    Tamanhos
+                    Estrutura
                 </p>
                 
                 <div id="settingsContent" class="collapse show">
                     <div class="form-row grid grid-cols-4 gap-1">
+                        <div class="form-group col-span-4">
+                            <label for="settingsCreationType" class="label"><span class="label-text">Modelo</span></label>
+                            <select class="select select-bordered w-full contentParam" id="settingsCreationType">
+                                <option></option>
+                            </select>
+                        </div>
                         <div class="form-group col-span-2">
-                            <label for="settingsSizePreset" class="label"><span class="label-text">Pré-definidos</span></label>
+                            <label for="settingsSizePreset" class="label"><span class="label-text">Tamanhos</span></label>
                             <select class="select select-bordered w-full max-w-xs select-sm contentParam" id="settingsSizePreset" name="settingsSizePreset">
                                 <!-- Added dynamically -->
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="settingsContentWidth" class="label"><span class="label-text">Largura</span></label>
-                            <input type="input" class="input input-bordered input-sm w-full contentParam" id="settingsContentWidth" name="settingsContentWidth" value="1920">
+                            <input type="number" class="input input-bordered input-sm w-full contentParam" id="settingsContentWidth" name="settingsContentWidth" min="0" step="1" value="1920">
                         </div>
                         <div class="form-group">
                             <label for="settingsContentHeight" class="label"><span class="label-text">Altura</span></label>
-                            <input type="input" class="input input-bordered input-sm w-full contentParam" id="settingsContentHeight" name="settingsContentHeight" value="1080">
+                            <input type="number" class="input input-bordered input-sm w-full contentParam" id="settingsContentHeight" name="settingsContentHeight" min="0" step="1" value="1080">
                         </div>
                     </div>
 
@@ -59,15 +65,10 @@
                         </div>
                     </div>
 
-                    <div class="form-row hidden">
-                        <div class="form-group col-md-6">
-                            <label for="settingsContentScale">Escala</label>
-                            <input type="number" step="0.1" min="0.1" class="form-control contentParam" id="settingsContentScale" value="1.0">
-                        </div>
-                        
-                        <div class="form-group col-md-6">
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
                             <label for="settingsContentBgColor">Cor de Fundo</label>
-                            <input type="color" class="form-control contentParam" id="settingsContentBgColor" value="#ff00ff">
+                            <input type="color" class="form-control contentParam" id="settingsContentBgColor" value="#fff">
                         </div>
                     </div>
 
@@ -88,15 +89,6 @@
                 </p>
 
                 <div id="settingsCreation" class="collapse show panel">
-                    <div class="grid-cols-2 gap-1">
-                        <div class="form-group col-span-2">
-                            <label for="settingsCreationType" class="label"><span class="label-text">Modelo</span></label>
-                            <select class="select select-bordered w-full contentParam" id="settingsCreationType">
-                                <option></option>
-                            </select>
-                        </div>
-                    </div>                
-
                     <div class="form-row">
                         <!-- screen params -->
                         <div class="form-group col-md-12" id="settingsCreationScreenParams">
@@ -171,16 +163,16 @@
                         </div>
                         <div class="form-group">
                             <a class="btn btn-primary w-full" id="btnAdd">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                                 </svg>
-                                Salvar modelo
+                                Salvar
                             </a>
                         </div>
 
                         <div class="form-group">
-                            <a class="btn btn-primary w-full" onclick="window.parent.download_frame()">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <a class="btn btn-primary w-full" id="btnDownload">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                 </svg>
                                 Download
@@ -267,8 +259,8 @@
         </div>
     </div>
 
-    <div id="contentContainer" class="">
-        <iframe src="{{ asset('assets/lbk/screens/blank/') }}" name="content" id="content" scrolling="no" allow="display-capture"></iframe>
+    <div id="contentContainer" class="flex justify-center items-center">
+        <iframe src="{{ asset('assets/lbk/screens/blank/') }}" name="content" id="content" class="border border-gray-900 shadow-lg" scrolling="no" allow="display-capture"></iframe>
     </div>
 
 </div>
