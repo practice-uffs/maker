@@ -491,6 +491,12 @@ var LBK = new function() {
             var name = el.attr('id');
             var value = el.val();
 
+            if (el.hasClass('debounce')) {
+                // TODO: implement debounce
+                self.onSettingsChange(name, value);        
+                return;
+            }
+
             self.onSettingsChange(name, value);
         });
 
@@ -514,6 +520,15 @@ var LBK = new function() {
             
             this.resizeContentArea(width, height);
             $('#settingsSizePreset').val('custom');
+        }
+
+        if(name == 'settingsCreationHint') {
+            this.onHintChange(value);
+        }
+
+        if(name == 'settingsContentBgColor') {
+            var win = this.getContentAreaWindow();
+            this.changeElementStyleProp(win, win.document.body, 'backgroundColor', value);
         }
 
         this.saveState();
@@ -557,6 +572,59 @@ var LBK = new function() {
     this.onScreenSelectChange = function(screenId, element) {
         this.buildCreationPanelParamsFromScreenId(screenId);
         this.runCreationPanelElement(screenId);
+    };
+
+    this.onHintChange = function(value) {
+        const self = this;
+
+        var hintables = {
+            photos: this.windowElementBeingRun.document.querySelectorAll('.hint.photo'),
+            icons: this.windowElementBeingRun.document.querySelectorAll('.hint.icon'),
+            illustrations: this.windowElementBeingRun.document.querySelectorAll('.hint.illustration')
+        }
+
+        for (var type in hintables) {
+            if (!API_ROUTES[type]) {
+                console.error('Error getting hint route: ', type);
+                continue;
+            }
+
+            var hintableElements = hintables[type];
+
+            if (hintableElements.length == 0) {
+                continue;
+            }
+
+            const url = API_ROUTES[type] + '/' + encodeURIComponent(value);
+
+            window.axios.get(url).then(function(response) {
+                if (response.status != 200) {
+                    console.error('Error getting hint', response);
+                    return;
+                }
+                    var category = response.data.category;
+                self.processHintResponse(type, hintables[category], response.data.entries);
+            });            
+        }
+    };
+
+    this.processHintResponse = function(type, hintableElements, insertIntoHintableElements) {
+        if (!this.windowElementBeingRun) {
+            return
+        }
+
+        for (var i = 0; i < hintableElements.length; i++) {
+            var index = i;
+
+            if (index > hintableElements.length) {
+                index = hintableElements.length - 1;
+            }
+
+            var toInsertContent = insertIntoHintableElements[index];
+            var target = hintableElements[i];
+
+            target.src = toInsertContent;
+        } 
     };
 
     this.buildCreationPanelParamsFromScreenId = function(screenId) {

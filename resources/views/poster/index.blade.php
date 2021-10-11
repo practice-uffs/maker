@@ -96,6 +96,16 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="settingsCreationHint" class="label">
+                                <span class="label-text">Contexto</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ml-1 inline-block text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </label>
+                            <input type="text" class="input input-bordered w-full contentParam debounce" name="settingsCreationHint" id="settingsCreationHint" value="" placeholder="E.g. Cartaz para evento">
+                        </div>                        
+
+                        <div class="form-group">
                             <label for="settingsCreationName" class="label"><span class="label-text">Nome</span></label>
                             <input type="text" class="input input-bordered w-full contentParam" name="settingsCreationName" id="settingsCreationName" value="" placeholder="E.g. Cartaz para evento">
                         </div>
@@ -270,6 +280,11 @@
 @section('scripts')
 <script>
     var LBK_BASE_URL = "{{ asset('assets/lbk/') }}";
+    var API_ROUTES = {
+        'icons': "{{ route('api.hint.icons') }}",
+        'illustrations': "{{ route('api.hint.illustrations') }}",
+        'photos': "{{ route('api.hint.photos') }}",
+    }
 </script>
 
 <script src="{{ asset('assets/lbk/js/jquery-3.5.1.min.js') }}"></script>
