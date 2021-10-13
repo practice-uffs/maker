@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ContentController;
 use App\Http\Controllers\Api\HintController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -15,11 +16,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['as' => 'api.', 'prefix' => 'hint/graphic/'], function() {
-    Route::get('any/{text?}', [HintController::class, 'index'])->name('hint.any');
-    Route::get('icons/{text?}', [HintController::class, 'icons'])->name('hint.icons');
-    Route::get('photos/{text?}', [HintController::class, 'photos'])->name('hint.photos');
-    Route::get('illustrations/{text?}', [HintController::class, 'illustrations'])->name('hint.illustrations');
+Route::group(['as' => 'api.'], function() {
+    Route::get('download', [ContentController::class, 'download'])->name('content.download');
+
+    Route::group(['prefix' => 'hint/graphic/'], function() {
+        Route::get('any', [HintController::class, 'index'])->name('hint.any');
+        Route::get('icons', [HintController::class, 'icons'])->name('hint.icons');
+        Route::get('photos', [HintController::class, 'photos'])->name('hint.photos');
+        Route::get('illustrations', [HintController::class, 'illustrations'])->name('hint.illustrations');
+    });
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

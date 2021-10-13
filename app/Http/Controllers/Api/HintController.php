@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Services\Reshot;
+use Illuminate\Http\Request;
 use MarkSitko\LaravelUnsplash\UnsplashFacade as Unsplash;
 
 class HintController extends Controller
@@ -16,69 +17,89 @@ class HintController extends Controller
     }
         
     protected function unsplashRandomPhoto($text) {
-            /*$randomPhoto = Unsplash::randomPhoto()
+        $randomPhoto = Unsplash::randomPhoto()
             ->orientation('landscape')
             ->term($text)
             ->count(1)
-            ->toJson();*/
-
-            return [
-                'images' => [
-                    [
-                        'urls' => [
-                            'full' => 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80',
-                        ],
-                    ],
-                    [
-                        'urls' => [
-                            'full' => 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80',
-                        ],
-                    ],                
-                ],
-            ];
+            ->toJson();
     }
 
-    public function photos(string $text) {
+    public function photos(Request $request)
+    {
+        $request->validate([
+            'text' => 'required|string|max:255',
+            'amount' => 'integer',
+        ]);
+
+        $text = $request->input('text');
+        $amount = $request->input('amount', 1);
+
         return response()->json([
-            'category' => 'photos',
-            'entries' => $this->reshot->photos($text)
+            'type' => 'photos',
+            'entries' => $this->reshot->photos($text, $amount),
         ]);
     }
 
-    public function icons(string $text) {
+    public function icons(Request $request)
+    {
+        $request->validate([
+            'text' => 'required|string|max:255',
+            'amount' => 'integer',
+        ]);
+
+        $text = $request->input('text');
+        $amount = $request->input('amount', 1);
+
         return response()->json([
-            'category' => 'icons',
-            'entries' => $this->reshot->icons($text)
+            'type' => 'icons',
+            'entries' => $this->reshot->icons($text, $amount),
         ]);
     }    
 
-    public function illustrations(string $text) {
+    public function illustrations(Request $request)
+    {
+        $request->validate([
+            'text' => 'required|string|max:255',
+            'amount' => 'integer',
+        ]);
+
+        $text = $request->input('text');
+        $amount = $request->input('amount', 1);
+
         return response()->json([
-            'category' => 'illustrations',
-            'entries' => $this->reshot->illustrations($text)
+            'type' => 'illustrations',
+            'entries' => $this->reshot->illustrations($text, $amount),
         ]);
     }
 
-    protected function findPhotos($text) {
-        return $this->reshot->photos($text);
+    protected function findPhotos($text, $amount) {
+        return $this->reshot->photos($text, $amount);
     }
 
-    protected function findIcons($text) {
-        return $this->reshot->icons($text);
+    protected function findIcons($text, $amount) {
+        return $this->reshot->icons($text, $amount);
     }    
 
-    protected function findIllustrations($text) {
-        return $this->reshot->illustrations($text);
+    protected function findIllustrations($text, $amount) {
+        return $this->reshot->illustrations($text, $amount);
     }   
  
-    public function index(string $text)
+    public function index(Request $request)
     {
+        $request->validate([
+            'text' => 'required|string|max:255',
+            'amount' => 'integer',
+        ]);
+
+        $text = $request->input('text');
+        $amount = $request->input('amount', 1);
+
         return response()->json([
             'category' => 'any',
             'entries' => [
-                'photos' => $this->findPhotos($text),
-                'icons' => $this->findIcons($text),
-                'illustrations' => $this->findIllustrations($text),
+                'photos' => $this->findPhotos($text, $amount),
+                'icons' => $this->findIcons($text, $amount),
+                'illustrations' => $this->findIllustrations($text, $amount),
             ]
         ]);
     }

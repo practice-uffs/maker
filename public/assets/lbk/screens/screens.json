@@ -14,7 +14,7 @@
         "name": "Live cover",
         "url": "screens/live-cover",
         "params": {
-            "title": {"label": "Title", "type":"text", "value": "hi"},
+            "title": {"label": "Title", "type":"text", "value": "hi", "hint": "photos"},
             "subtitle": "text",
             "content": "textarea"
         }
