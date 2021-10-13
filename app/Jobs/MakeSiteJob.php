@@ -42,7 +42,6 @@ class MakeSiteJob implements ShouldQueue
         $folder = $this->site->google_drive_id;
        
         if ($site === null) {
-            dd('caiu no site nulo');
             $this->user->sites()->create([
                 'name' => $this->site->name,
                 'description' => $this->site->description,
