@@ -42,6 +42,7 @@ class MakeSiteJob implements ShouldQueue
         $folder = $this->site->google_drive_id;
        
         if ($site === null) {
+            dd('caiu no site nulo');
             $this->user->sites()->create([
                 'name' => $this->site->name,
                 'description' => $this->site->description,
@@ -52,18 +53,25 @@ class MakeSiteJob implements ShouldQueue
                 'build_output' => $this->site->build_output,
                 'serve_url' => $this->site->serve_url
             ]); 
-            
             foreach ($this->site->contents as $content){
-                $fileName = Str::slug($content['title']);
-                if(strlen($fileName) > 200){
-                    $fileName = substr($fileName, 0 , 200);
+                if( $content['path'] != 'caminho-nao-informado'){
+                    $path = $content['path'];
+                    $path = str_replace('/','nova-contra-barra',$path);
+                    $path = Str::slug($path);
+                    $path = str_replace('nova-contra-barra','/',$path);
+
+                    $fileContent = $content['content'];
+                    Storage::disk('sites')->put("$folder/$path/index.html", $fileContent);
+                } else {
+                    $fileContent = $content['content'];
+                    Storage::disk('sites')->put("$folder/index.html", $fileContent);
                 }
-                $fileContent = $content['content'];
-                Storage::disk('sites')->put("$folder/$fileName.html", $fileContent);
             }
 
         } else {
-            array_map('unlink', glob(Storage::disk('sites')->path($folder)."/*.html"));
+            $absolutePathToFolder = Storage::disk('sites')->path($folder);
+
+            exec('rm -r '. $absolutePathToFolder .'*');
 
             $updatedSite = Site::where('google_drive_id', '=', $this->site->google_drive_id)->first();
             $updatedSite->build_status = 'Done';
@@ -71,16 +79,22 @@ class MakeSiteJob implements ShouldQueue
             $updatedSite->build_output = 'Done';
             
             foreach ($this->site->contents as $content){
+                if( $content['path'] != 'caminho-nao-informado'){
+                    $path = $content['path'];
+                    $path = str_replace('/','nova-contra-barra',$path);
+                    $path = Str::slug($path);
+                    $path = str_replace('nova-contra-barra','/',$path);
 
-                $fileName = Str::slug($content['title']);
-                if(strlen($fileName) > 200){
-                    $fileName = substr($fileName, 0 , 200);
+                    $fileContent = $content['content'];
+                    Storage::disk('sites')->put("$folder/$path/index.html", $fileContent);
+                } else {
+                    $fileContent = $content['content'];
+                    Storage::disk('sites')->put("$folder/index.html", $fileContent);
                 }
-                $fileContent = $content['content'];
-                Storage::disk('sites')->put("$folder/$fileName.html", $fileContent);
-
             }
         }
         
     }
+    
+    
 }
