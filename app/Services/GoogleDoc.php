@@ -66,29 +66,7 @@ class GoogleDoc
             $response = $this->service->files->export($fileId, 'text/plain', array('alt' => 'media' ));
             $content = $response->getBody()->getContents();
             
-            $arrayOfLines = array();
-            $hasLines = true;
-            $currentLine = 0;
-            $numberOfLines = substr_count($content, "\r\n");
-
-            while ($hasLines){
-                if ($currentLine < $numberOfLines+1){
-                    if($numberOfLines == 0){
-                        $arrayOfLines[$currentLine] = $content;
-                        $hasLines = false;
-                    } else {
-                        if($currentLine == $numberOfLines){
-                            $arrayOfLines[$currentLine] = substr($content, 0);
-                        } else {
-                            $arrayOfLines[$currentLine] = substr($content, 0, strpos($content, "\r\n")+2);
-                            $content = substr( $content, strpos($content, "\r\n")+2);
-                        }
-                    }
-                } else {
-                    $hasLines = false;
-                }
-                $currentLine = $currentLine+1;
-            }
+            $arrayOfLines = $this->parseDocsToArray($content);
 
             $currentLine = 0;
             $path = 1;
@@ -97,15 +75,12 @@ class GoogleDoc
             $siteContent[0]['path'] = "caminho-nao-informado";
             $siteContent[0]['content'] = '';
             
-            
-
             foreach ($arrayOfLines as $line) {
                 preg_match('/{(.*)}/', $line, $outputPath);
                 if (empty($outputPath)){
                     $siteContent[$path-1]['content'] = $siteContent[$path-1]['content'].$line;
                 } else {
-                    array_push($siteContent, array( "path" => $outputPath[1],
-                                                    "content" => ""));
+                    $siteContent[] = [ "path" => $outputPath[1], "content" => ""];
                     $path = $path + 1;   
                 }
                 $currentLine = $currentLine + 1;
@@ -139,63 +114,39 @@ class GoogleDoc
             $content = $response->getBody()->getContents();
             $fileDirectoryName = Str::slug($fileId[0]);
 
-            $arrayOfLines = array();
-            $hasLines = true;
-            $currentLine = 0;
-            $numberOfLines = substr_count($content, "\r\n");
-
-            while ($hasLines){
-                if ($currentLine < $numberOfLines+1){
-                    if($numberOfLines == 0){
-                        $arrayOfLines[$currentLine] = $content;
-                        $hasLines = false;
-                    } else {
-                        if($currentLine == $numberOfLines){
-                            $arrayOfLines[$currentLine] = substr($content, 0);
-                        } else {
-                            $arrayOfLines[$currentLine] = substr($content, 0, strpos($content, "\r\n")+2);
-                            $content = substr( $content, strpos($content, "\r\n")+2);
-                        }
-                    }
-                } else {
-                    $hasLines = false;
-                }
-                $currentLine = $currentLine+1;
-            }
+            $arrayOfLines = $this->parseDocsToArray($content);
 
             $currentLine = 0;
             $chapter = 1;
-            $bookContent = array();
-            $bookContent[0] = array();
-            $bookContent[0]['title'] = "Capítulo não informado\r\n";
-            $bookContent[0]['content'] = '';
-            $bookContent[0]['chapter'] = 0;
-            
+
+            $bookContent = [
+                [
+                    'title' => "Capítulo não informado\r\n",
+                    'content' => '',
+                    'chapter' => 0,
+               ]
+            ];
 
             foreach ($arrayOfLines as $line) {
                 preg_match('/{(.*)}/', $line, $outputChapter);
                 if (empty($outputChapter)){
-                    
                     $bookContent[$chapter-1]['content'] = $bookContent[$chapter-1]['content'].$line;
                 } else {
                     if ( Str::slug($outputChapter[1]) == 'capitulo' ){
-                        array_push($bookContent, array( "title" => preg_replace('/{(.*)}/', '', $line),
-                                                        "content" => "",
-                                                        "chapter" => $chapter));
+                        $bookContent[] = [ "title" => preg_replace('/{(.*)}/', '', $line), "content" => "", "chapter" => $chapter];
                         $chapter = $chapter + 1;   
                     } else {
                         $bookContent[$chapter-1]['content'] = $bookContent[$chapter-1]['content'].$line;
                     }
                 }
                 $currentLine = $currentLine + 1;
-            }  
-            
+            } 
             foreach( $bookContent as $bookChapter ){
                 $title = $bookChapter['title'];
                 $chapter = $bookChapter['chapter'];
                 $content = $bookChapter['content'];
                 
-                if($content == "" & $title == "Capítulo não informado\r\n"){
+                if($content == "" && $title == "Capítulo não informado\r\n"){
                     continue;
                 } else {
                     $content = "# $title".$content; 
@@ -212,6 +163,37 @@ class GoogleDoc
             return false;
         }
     }
+    
+    public function parseDocsToArray($content){
+    
+        $arrayOfLines = array();
+        $hasLines = true;
+        $currentLine = 0;
+        $numberOfLines = substr_count($content, "\r\n");
+
+        while ($hasLines){
+            if ($currentLine < $numberOfLines+1){
+                if($numberOfLines == 0){
+                    $arrayOfLines[$currentLine] = $content;
+                    $hasLines = false;
+                } else {
+                    if($currentLine == $numberOfLines){
+                        $arrayOfLines[$currentLine] = substr($content, 0);
+                    } else {
+                        $arrayOfLines[$currentLine] = substr($content, 0, strpos($content, "\r\n")+2);
+                        $content = substr( $content, strpos($content, "\r\n")+2);
+                    }
+                }
+            } else {
+                $hasLines = false;
+            }
+            $currentLine = $currentLine+1;
+        }
+
+        return $arrayOfLines;
+    }
+
+
 
     /**
      * Returns an authorized API client.

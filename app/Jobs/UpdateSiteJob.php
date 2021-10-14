@@ -37,26 +37,24 @@ class UpdateSiteJob implements ShouldQueue
     public function handle()
     {
         $folder = $this->site->google_drive_id;
-        $absolutePathToFolder = Storage::disk('sites')->path($folder);
-        exec('rm -r '. $absolutePathToFolder .'*');
+        
+        Storage::disk('sites')->deleteDirectory($folder);
 
         $updatedSite = Site::where('google_drive_id', '=', $this->site->google_drive_id)->first();
         $updatedSite->build_status = 'Done';
         $updatedSite->build_output = 'Done';
 
         foreach ($this->site->contents as $content){
-            if( $content['path'] != 'caminho-nao-informado'){
-                $path = $content['path'];
+            $path = $content['path'];
+            if( $path != 'caminho-nao-informado'){
                 $path = str_replace('/','nova-contra-barra',$path);
                 $path = Str::slug($path);
                 $path = str_replace('nova-contra-barra','/',$path);
-
-                $fileContent = $content['content'];
-                Storage::disk('sites')->put("$folder/$path/index.html", $fileContent);
+                $path = "$folder/$path/index.html";
             } else {
-                $fileContent = $content['content'];
-                Storage::disk('sites')->put("$folder/index.html", $fileContent);
+                $path = "$folder/index.html";
             }
+            Storage::disk('sites')->put($path, $content['content']);
         }
     }
 }
