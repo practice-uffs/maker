@@ -68,23 +68,7 @@ class GoogleDoc
             
             $arrayOfLines = $this->parseDocsToArray($content);
 
-            $currentLine = 0;
-            $path = 1;
-            $siteContent = array();
-            $siteContent[0] = array();
-            $siteContent[0]['path'] = "caminho-nao-informado";
-            $siteContent[0]['content'] = '';
-            
-            foreach ($arrayOfLines as $line) {
-                preg_match('/{(.*)}/', $line, $outputPath);
-                if (empty($outputPath)){
-                    $siteContent[$path-1]['content'] = $siteContent[$path-1]['content'].$line;
-                } else {
-                    $siteContent[] = [ "path" => $outputPath[1], "content" => ""];
-                    $path = $path + 1;   
-                }
-                $currentLine = $currentLine + 1;
-            }  
+            $siteContent = $this->parseLineArrayToPageArray($arrayOfLines);
 
             $parameters = array();
             $parameters['fields'] = 'permissions(*)';
@@ -112,35 +96,11 @@ class GoogleDoc
         try {
             $response = $this->service->files->export($fileId, 'text/plain', array('alt' => 'media' ));
             $content = $response->getBody()->getContents();
-            $fileDirectoryName = Str::slug($fileId[0]);
 
             $arrayOfLines = $this->parseDocsToArray($content);
 
-            $currentLine = 0;
-            $chapter = 1;
+            $bookContent = $this->parseLineArrayToChapterArray($arrayOfLines);
 
-            $bookContent = [
-                [
-                    'title' => "Capítulo não informado\r\n",
-                    'content' => '',
-                    'chapter' => 0,
-               ]
-            ];
-
-            foreach ($arrayOfLines as $line) {
-                preg_match('/{(.*)}/', $line, $outputChapter);
-                if (empty($outputChapter)){
-                    $bookContent[$chapter-1]['content'] = $bookContent[$chapter-1]['content'].$line;
-                } else {
-                    if ( Str::slug($outputChapter[1]) == 'capitulo' ){
-                        $bookContent[] = [ "title" => preg_replace('/{(.*)}/', '', $line), "content" => "", "chapter" => $chapter];
-                        $chapter = $chapter + 1;   
-                    } else {
-                        $bookContent[$chapter-1]['content'] = $bookContent[$chapter-1]['content'].$line;
-                    }
-                }
-                $currentLine = $currentLine + 1;
-            } 
             foreach( $bookContent as $bookChapter ){
                 $title = $bookChapter['title'];
                 $chapter = $bookChapter['chapter'];
@@ -163,7 +123,9 @@ class GoogleDoc
             return false;
         }
     }
+
     
+
     public function parseDocsToArray($content){
     
         $arrayOfLines = array();
@@ -193,7 +155,56 @@ class GoogleDoc
         return $arrayOfLines;
     }
 
+    public function parseLineArrayToChapterArray($arrayOfLines){
+        $currentLine = 0;
+        $chapter = 1;
+        $bookContent = [
+            [
+                'title' => "Capítulo não informado\r\n",
+                'content' => '',
+                'chapter' => 0,
+            ]
+        ];
 
+        foreach ($arrayOfLines as $line) {
+            preg_match('/{(.*)}/', $line, $outputChapter);
+            if (empty($outputChapter)){
+                $bookContent[$chapter-1]['content'] = $bookContent[$chapter-1]['content'].$line;
+            } else {
+                if ( Str::slug($outputChapter[1]) == 'capitulo' ){
+                    $bookContent[] = [ "title" => preg_replace('/{(.*)}/', '', $line), "content" => "", "chapter" => $chapter];
+                    $chapter = $chapter + 1;   
+                } else {
+                    $bookContent[$chapter-1]['content'] = $bookContent[$chapter-1]['content'].$line;
+                }
+            }
+            $currentLine = $currentLine + 1;
+        } 
+
+        return $bookContent;
+    }
+
+    public function parseLineArrayToPageArray($arrayOfLines){
+        $currentLine = 0;
+        $path = 1;
+        $siteContent = [
+            [
+                'path' => "caminho-nao-informado",
+                'content' => '',
+            ]
+        ];
+        foreach ($arrayOfLines as $line) {
+            preg_match('/{(.*)}/', $line, $outputPath);
+            if (empty($outputPath)){
+                $siteContent[$path-1]['content'] = $siteContent[$path-1]['content'].$line;
+            } else {
+                $siteContent[] = [ "path" => $outputPath[1], "content" => ""];
+                $path = $path + 1;   
+            }
+            $currentLine = $currentLine + 1;
+        }  
+        return $siteContent;
+    }
 
     /**
      * Returns an authorized API client.
