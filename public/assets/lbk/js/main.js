@@ -18,11 +18,17 @@ var LBK = new function() {
         '16:9': {name: '16:9', width: 1920, height: 1080}
     };
 
+    this.SVG_HINT_ICON = '' + 
+        '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">' + 
+            '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />' + 
+        '</svg>';
+
     this.elements = {
         'default.blank': {url: '/screens/blank', name: 'Blank'},
         'default.test': {url: '/screens/test', name: 'Color test'},
     };
 
+    this.debounces = [];
     this.elementBeingRun = undefined;
     this.windowElementBeingRun = undefined;
 
@@ -41,6 +47,7 @@ var LBK = new function() {
 
     this.testButton = null;    
     this.addButton = null;
+    this.downloadButton = null;
 
     this.boot = function() {
         var self = this;
@@ -59,6 +66,8 @@ var LBK = new function() {
 
         this.restoreState();
         this.buildSidePanelUI();
+        this.adjustSidePanelInputChangeEvents();
+
         this.runElementById(this.DEFAULT_RUN_ELEMENT);
         
         // Create a ticker function
@@ -89,6 +98,10 @@ var LBK = new function() {
         return window.LBK_BASE_URL + url;
     }
 
+    this.buildStructureUI = function() {
+        this.buildSizePresetsSelect();
+    };
+
     this.buildSizePresetsSelect = function() {
         var self = this;
         var select = document.getElementById('settingsSizePreset');
@@ -116,7 +129,10 @@ var LBK = new function() {
     };
 
     this.resizeContentArea = function(width, height) {
-        // TODO: update iframe size here too.
+        var contentIframe = document.getElementById('content');
+
+        contentIframe.style.width = width + 'px';
+        contentIframe.style.height = height + 'px';
 
         if(!this.windowContentArea) {
             return;
@@ -165,6 +181,7 @@ var LBK = new function() {
 
         this.testButton = document.getElementById('btnTest');
         this.addButton = document.getElementById('btnAdd');
+        this.downloadButton = document.getElementById('btnDownload');
 
         $(this.testButton).on('click', function(event) {
             self.onTestButtonClick();
@@ -172,6 +189,10 @@ var LBK = new function() {
 
         $(this.addButton).on('click', function(event) {
             self.onAddButtonClick();
+        });
+
+        $(this.downloadButton).on('click', function(event) {
+            self.onDownloadButtonClick();
         });        
     };
     
@@ -194,6 +215,61 @@ var LBK = new function() {
         this.emptyCreationPanel();
     };
 
+    this.onDownloadButtonClick = function() {
+        const self = this;
+        
+        const url = API_ROUTES.download;
+        const payload = {
+           id: 'dd',
+        }
+        const params = new URLSearchParams(payload);
+
+        window.axios.get(url + '?' + params).then(function(response) {
+            if (response.status != 200) {
+                console.error('Error downloaing content', response);
+                return;
+            }
+
+            const downloadUrl = response.data.download_url;
+            self.download(downloadUrl, self.getContentName());
+        });
+    };
+
+    this.downloadContentArea = function(fileName) {
+        if (!navigator.mediaDevices) {
+            console.error('Unable to get mediaDevices');
+            return;
+        }
+
+        var canvas = document.createElement('canvas');
+
+        navigator.mediaDevices.getDisplayMedia().then(stream => {
+            // Grab frame from stream
+            let track = stream.getVideoTracks()[0];
+            let capture = new ImageCapture(track);
+            capture.grabFrame().then(bitmap => {
+                // Stop sharing
+                track.stop();
+                
+                // Draw the bitmap to canvas
+                canvas.width = bitmap.width;
+                canvas.height = bitmap.height;
+                canvas.getContext('2d').drawImage(bitmap, 0, 0);
+                
+                // Grab blob from canvas
+                canvas.toBlob(blob => {
+                    // download blob as png file
+                    var url = window.URL.createObjectURL(blob);
+                    var a = document.createElement('a');
+                    a.href = url;
+                    a.download = fileName || 'content-area.png';
+                    a.click();
+                });
+            });
+        })
+        .catch(e => console.log(e));
+    }
+
     this.emptyCreationPanel = function() {
         $('#settingsCreationType').val('');
         $('#settingsCreationName').val('');
@@ -206,7 +282,7 @@ var LBK = new function() {
             panel: this.getFormValuesAsObject('.contentParam')
         }
 
-        console.log('Saving app state to local storage:', state);
+        console.info('Saving app state to local storage:', state);
         store.set(this.SAVE_KEY, state);
     };
 
@@ -218,12 +294,14 @@ var LBK = new function() {
             return;
         }
 
-        console.log('Restoring app state from local storage', state);
+        console.info('Restoring app state from local storage', state);
 
         this.elements = state.elements;
         for(var prop in state.panel) {
             $('#' + prop).val(state.panel[prop])
         }
+
+        this.updateContentAreaSize();
     };
 
     this.refreshElementsPanel = function() {
@@ -337,8 +415,12 @@ var LBK = new function() {
         console.debug('Changing background-color of element window to conform with settingsContentBgColor', settings.settingsContentBgColor, win);
     };
 
+    this.getContentAreaWindow = function() {
+        return this.isUsingContentAreaAsExternalWindow() ? this.windowContentArea : this.windowElementBeingRun;
+    };
+
     this.initElementBeingRun = function() {
-        var win = this.isUsingContentAreaAsExternalWindow() ? this.windowContentArea : this.windowElementBeingRun;
+        var win = this.getContentAreaWindow();
         var params = this.getCreationPanelParams();
        
         if(!win) {
@@ -356,6 +438,8 @@ var LBK = new function() {
         if(win.init) {
             win.init(params);
         }
+
+        this.updateContentAreaUsingCreationPanelParams();
 
         console.debug('Already loaded element should init', params);
     };
@@ -417,21 +501,13 @@ var LBK = new function() {
     this.buildSidePanelUI = function() {
         var self = this;
 
-        this.buildSizePresetsSelect();
+        this.buildStructureUI();
         this.buildRecordingUI();
         this.buildTestAddUI();
 
         $('#settingsContentExternaWindow').off().on('change', function(event) {
             var checked = event.currentTarget.checked;
             self.setContentAreaAsExternalWindow(checked);
-        });
-
-        $('.contentParam').on('change', function(el) {
-            var el = $(this);
-            var name = el.attr('id');
-            var value = el.val();
-
-            self.onSettingsChange(name, value);
         });
 
         this.refreshElementsPanel();
@@ -446,7 +522,9 @@ var LBK = new function() {
         return ret;
     };
 
-    this.onSettingsChange = function(name, value) {
+    this.onContentParamChange = function(name, value, element) {
+        console.log('contentParam change', name, value);
+
         if(name == 'settingsContentWidth' || name == 'settingsContentHeight') {
             var sizes = this.getSettingsContentSizes();
             var width = name == 'settingsContentWidth' ? value : sizes.width;
@@ -456,8 +534,15 @@ var LBK = new function() {
             $('#settingsSizePreset').val('custom');
         }
 
-        this.saveState();
+        if(name == 'settingsContentBgColor') {
+            var win = this.getContentAreaWindow();
+            this.changeElementStyleProp(win, win.document.body, 'backgroundColor', value);
+        }
     };
+
+    this.onScreenParamChange = function(name, value, element) {
+        console.debug('screenParam change', name, value);
+    }    
 
     this.buildScreensUI = function() {
         var self = this;
@@ -499,6 +584,31 @@ var LBK = new function() {
         this.runCreationPanelElement(screenId);
     };
 
+    this.processHintResponse = function(type, hintableElements, insertIntoHintableElements) {
+        if (!this.windowElementBeingRun) {
+            return
+        }
+
+        console.log('Procesing hint response: ', type, hintableElements, insertIntoHintableElements);
+
+        for (var i = 0; i < hintableElements.length; i++) {
+            var index = i;
+
+            if (index > hintableElements.length) {
+                index = hintableElements.length - 1;
+            }
+
+            var toInsertContent = insertIntoHintableElements[index];
+            var target = hintableElements[i];
+
+            if (!toInsertContent) {
+                continue;
+            }
+
+            target.src = toInsertContent;
+        } 
+    };
+
     this.buildCreationPanelParamsFromScreenId = function(screenId) {
         var screen = this.getScreenById(screenId);
         var inputs = '';
@@ -516,7 +626,7 @@ var LBK = new function() {
         for(var name in screen.params) {
             var entry = screen.params[name];
             var id = prefix + name;            
-            var label, type, type = 'text', value = '';
+            var label, type = 'text', value = '', hint = '';
 
             if(this.isString(entry)) {
                 label = name;
@@ -531,12 +641,20 @@ var LBK = new function() {
                 value = entry.value;
             }
 
-            inputs += '<label for="' + id + '" class="mt-2 label"><span class="label-text">' + label + '</span></label>';
-            inputs += this.generateFormElementFromScreenEntry(type, id, name, value);
+            if (entry.hint !== undefined) {
+                hint = 'hint ' + entry.hint + ' debounce';
+            }
+
+            inputs += 
+                '<label for="' + id + '" class="mt-2 label">' + 
+                    '<span class="label-text">' + label + '</span>' + 
+                    (hint.length ? '<span class="text-gray-400 text-sm" title="Conteúdo adicional será criado com base no texto informado">Aprimorado ' + this.SVG_HINT_ICON + '</span>': '') +
+                '</label>';
+            inputs += this.generateFormElementFromScreenEntry(type, id, name, value, hint);
         }
 
         $('#settingsCreationScreenParams').empty().html(inputs);
-        this.hidrateCreationPanelParamInputs();
+        this.adjustSidePanelInputChangeEvents();
     };
 
     this.getBase64 = function(file, callback) {
@@ -545,54 +663,183 @@ var LBK = new function() {
         reader.readAsDataURL(file);
     };
 
-    this.hidrateCreationPanelParamInputs = function() {
-        var self = this;
+    this.updateContentAreaSize = function() {
+        var contentSize = this.getSettingsContentSizes();
+        this.resizeContentArea(contentSize.width, contentSize.height);
+    };
 
-        $('#settingsCreationScreenParams input').each(function(idx, el) {
-            var type = $(el).attr('type');
+    this.updateContentAreaUsingCreationPanelParams = function() {
+        if (!this.windowElementBeingRun) {
+            return
+        }
 
-            if(type != 'file') {
-                return;
+        var params = this.getCreationPanelParams();
+
+        for(var name in params) {
+            var value = params[name];
+            var element = this.windowElementBeingRun.document.getElementById(name);
+
+            if (!element) {
+                continue;
             }
 
-            $(el).on('change', function(event) {
-                var element = event.currentTarget;
+            $(element).html(value);
+            console.debug('Content area [' + name + '] changed to "' + value + '"');
+        }
+    };
 
-                if(element.files.length == 0) {
+    this.debounce = function(key, func, time, context) {
+        var self = this;
+
+        if (this.debounces.indexOf(key) != -1) {
+            return;
+        }
+
+        this.debounces.push(key);
+
+        setTimeout(function() {
+            func.call(context);
+            self.debounces.splice(self.debounces.indexOf(key), 1);
+        }, time);
+    };
+
+    this.onSidePanelInputChange = function(event, element) {
+        var self = this;
+        var name = element.attr('id');
+        var value = element.val();
+        var mustDebounce = element.hasClass('debounce');
+        var isContentParam = element.hasClass('contentParam');
+        var isScreenParam = element.hasClass('screenParam');
+        var handlerFunction;
+
+        if (isScreenParam) {
+            handlerFunction = this.onScreenParamChange;
+        } else if (isContentParam) {
+            handlerFunction = this.onContentParamChange;
+        }
+
+        if (!handlerFunction) {
+            return;
+        }
+
+        if (mustDebounce) {
+            this.debounce(name, function() {
+                handlerFunction.call(self, name, value, element);
+                self.processHintLogicIfElementHasIt(element);
+                self.updateContentAreaUsingCreationPanelParams();
+            }, 1500, this);
+            return;
+        }
+
+        handlerFunction.call(this, name, value, element);
+        this.processHintLogicIfElementHasIt(element);
+        this.updateContentAreaUsingCreationPanelParams();
+    };
+
+    this.processHintLogicIfElementHasIt = function(element) {
+        const self = this;
+        const hasHint = element.hasClass('hint');
+        const elementValue = element.val();
+
+        if (!hasHint || !elementValue) {
+            return;
+        }
+
+        var hintables = {
+            photos: this.windowElementBeingRun.document.querySelectorAll('.hint.photo'),
+            icons: this.windowElementBeingRun.document.querySelectorAll('.hint.icon'),
+            illustrations: this.windowElementBeingRun.document.querySelectorAll('.hint.illustration')
+        }
+
+        for (var type in hintables) {
+            if (!API_ROUTES[type]) {
+                console.error('Error getting hint route: ', type);
+                continue;
+            }
+
+            const hintableElements = hintables[type];
+            const inputElementHasHintType = element.hasClass(type);
+
+            if (!inputElementHasHintType || hintableElements.length == 0) {
+                continue;
+            }
+
+            const url = API_ROUTES[type];
+            const payload = {
+                text: element.val(),
+                amount: hintableElements.length
+            }
+
+            console.log('Fetching hint for input id:', element.attr('id'), 'type:', type, 'hintables:', hintableElements);
+
+            const params = new URLSearchParams(payload);
+
+            window.axios.get(url + '?' + params).then(function(response) {
+                if (response.status != 200) {
+                    console.error('Error getting hint', response);
                     return;
                 }
-
-                var file = element.files[0];
-
-                self.getBase64(file, function(base64Data){
-                    $(el).data('value-base64', base64Data);
-                });
-                
-                var id = $(element).attr('id');
-                var objURL = window.URL.createObjectURL(file);
-
-                $('#preview_' + id)
-                    .empty()
-                    .html('<img src="' + objURL + '" />')
-                    .show();
-                $(element).hide();
+                const type = response.data.type;
+                self.processHintResponse(type, hintables[type], response.data.entries);
             });
+        }
+    }
+
+    this.onCreationPanelFileInputChange = function(event, element) {
+        if(element.files.length == 0) {
+            return;
+        }
+
+        var file = element.files[0];
+
+        self.getBase64(file, function(base64Data){
+            $(el).data('value-base64', base64Data);
+        });
+        
+        var id = $(element).attr('id');
+        var objURL = window.URL.createObjectURL(file);
+
+        $('#preview_' + id)
+            .empty()
+            .html('<img src="' + objURL + '" />')
+            .show();
+        $(element).hide();
+
+        this.updateContentAreaUsingCreationPanelParams();
+    };
+
+    this.adjustSidePanelInputChangeEvents = function() {
+        var self = this;
+
+        $('#settings :input').each(function(idx, el) {
+            var type = $(el).attr('type');
+
+            if(type == 'file') {
+                $(el).off().on('change keyup', function(event) {
+                    self.onSidePanelInputChange(event, $(this));
+                    self.onCreationPanelFileInputChange(event, $(this));
+                });
+            } else {
+                $(el).off().on('change keyup', function(event) {
+                    self.onSidePanelInputChange(event, $(this));
+                });
+            }
         });
     };
 
-    this.generateFormElementFromScreenEntry = function(type, id, name, value) {
+    this.generateFormElementFromScreenEntry = function(type, id, name, value, hint) {
         var inputs = '';
 
         switch(type) {
             case 'text':
             case 'color':
-                inputs += '<input type="' + type + '" class="input input-bordered w-full contentParam screenParam" id="' + id + '" name="' + name + '" value="' + value + '" />';
+                inputs += '<input type="' + type + '" class="input input-bordered w-full contentParam screenParam ' + hint + '" id="' + id + '" name="' + name + '" value="' + value + '" />';
                 break;
             case 'textarea':
-                inputs += '<textarea class="input input-bordered w-full h-12 contentParam screenParam" id="' + id + '" name="' + name + '" rows="3">' + value + '</textarea>';
+                inputs += '<textarea class="input input-bordered w-full h-12 contentParam screenParam ' + hint + '" id="' + id + '" name="' + name + '" rows="3">' + value + '</textarea>';
                 break;                    
             case 'select':
-                inputs += '<select class="select select-bordered w-full contentParam screenParam" id="' + id + '" name="' + name + '">';
+                inputs += '<select class="select select-bordered w-full contentParam screenParam ' + hint + '" id="' + id + '" name="' + name + '">';
                 value.map(function(option) {
                     inputs += '<option>' + option + '</option>';
                 });
@@ -600,7 +847,7 @@ var LBK = new function() {
                 break; 
             case 'file':
                 inputs += 
-                    '<input type="file" class="input input-bordered w-full contentParam screenParam" id="' + id + '" name="' + name + '" accept="image/*" />' +
+                    '<input type="file" class="input input-bordered w-full contentParam screenParam ' + hint + '" id="' + id + '" name="' + name + '" accept="image/*" />' +
                     '<div id="preview_' + id + '" style="display:none;" class="file-preview"></div>';
                 break;  
         }
@@ -650,6 +897,17 @@ var LBK = new function() {
             .replace(/-+/g, '-'); // collapse dashes
     
         return str;
+    }
+
+    this.getContentName = function() {
+        var name = $('#settingsCreationName').val();
+        var type = $('#settingsCreationType').val();
+
+        if (name.length == 0) {
+            name = Math.random().toString(36).substr(2, 9);
+        }
+
+        return this.slugify(type) + '_' + this.slugify(name);
     }
 
     this.addElementFromCreationPanel = function() {
