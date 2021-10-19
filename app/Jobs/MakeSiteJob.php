@@ -52,18 +52,21 @@ class MakeSiteJob implements ShouldQueue
                 'build_output' => $this->site->build_output,
                 'serve_url' => $this->site->serve_url
             ]); 
-            
             foreach ($this->site->contents as $content){
-                $fileName = Str::slug($content['title']);
-                if(strlen($fileName) > 200){
-                    $fileName = substr($fileName, 0 , 200);
+                $path = $content['path'];
+                if( $path != 'caminho-nao-informado'){
+                    $path = str_replace('/','nova-contra-barra',$path);
+                    $path = Str::slug($path);
+                    $path = str_replace('nova-contra-barra','/',$path);
+                    $path = "$folder/$path/index.html";
+                } else {
+                    $path = "$folder/index.html";
                 }
-                $fileContent = $content['content'];
-                Storage::disk('sites')->put("$folder/$fileName.html", $fileContent);
+                Storage::disk('sites')->put($path, $content['content']);
             }
 
         } else {
-            array_map('unlink', glob(Storage::disk('sites')->path($folder)."/*.html"));
+            Storage::disk('sites')->deleteDirectory($folder);
 
             $updatedSite = Site::where('google_drive_id', '=', $this->site->google_drive_id)->first();
             $updatedSite->build_status = 'Done';
@@ -71,16 +74,20 @@ class MakeSiteJob implements ShouldQueue
             $updatedSite->build_output = 'Done';
             
             foreach ($this->site->contents as $content){
-
-                $fileName = Str::slug($content['title']);
-                if(strlen($fileName) > 200){
-                    $fileName = substr($fileName, 0 , 200);
+                $path = $content['path'];
+                if( $path != 'caminho-nao-informado'){
+                    $path = str_replace('/','nova-contra-barra',$path);
+                    $path = Str::slug($path);
+                    $path = str_replace('nova-contra-barra','/',$path);
+                    $path = "$folder/$path/index.html";
+                } else {
+                    $path = "$folder/index.html";
                 }
-                $fileContent = $content['content'];
-                Storage::disk('sites')->put("$folder/$fileName.html", $fileContent);
-
+                Storage::disk('sites')->put($path, $content['content']);
             }
         }
         
     }
+    
+    
 }

@@ -66,21 +66,9 @@ class GoogleDoc
             $response = $this->service->files->export($fileId, 'text/plain', array('alt' => 'media' ));
             $content = $response->getBody()->getContents();
             
-            $pages = array();
-            $page = 0;
-            if( strpos($content, '<<') && strpos($content, '>>') ){
-                while ( strpos($content, '<<') && strpos($content, '>>') )  {
-                    if ( strpos($content, '<<') < strpos($content, '>>') ){
-                        $pages[$page]['title'] = substr($content, strpos($content, '<<')+2, strpos($content, '>>')-strpos($content, '<<')-2);
-                        $content = substr($content, strpos($content, '>>')+2, strlen($content));
-                        $pages[$page]['content'] = substr($content, 0, strpos($content, '<<')-1);
-                        $page++;
-                    }
-                }
-            } else {
-                $pages[$page]['title'] = 'index';
-                $pages[$page]['content'] = $content;
-            }
+            $arrayOfLines = $this->parseDocsToArray($content);
+
+            $siteContent = $this->parseLineArrayToPageArray($arrayOfLines);
 
             $parameters = array();
             $parameters['fields'] = 'permissions(*)';
@@ -92,7 +80,7 @@ class GoogleDoc
                 $countPermissions++;
             }
 
-            $fileInfo['content'] = $pages;
+            $fileInfo['content'] = $siteContent;
             $fileInfo['title'] =  $this->service->files->get($fileId)->getName();
             $fileInfo['error'] = '';
             return $fileInfo;
@@ -108,13 +96,114 @@ class GoogleDoc
         try {
             $response = $this->service->files->export($fileId, 'text/plain', array('alt' => 'media' ));
             $content = $response->getBody()->getContents();
-            $data = $content;
-            $fileDirectoryName = Str::slug($fileId[0]);
-            file_put_contents("book/content/$fileDirectoryName.md",$data);
+
+            $arrayOfLines = $this->parseDocsToArray($content);
+
+            $bookContent = $this->parseLineArrayToChapterArray($arrayOfLines);
+
+            foreach( $bookContent as $bookChapter ){
+                $title = $bookChapter['title'];
+                $chapter = $bookChapter['chapter'];
+                $content = $bookChapter['content'];
+                
+                if($content == "" && $title == "Capítulo não informado\r\n"){
+                    continue;
+                } else {
+                    $content = "# $title".$content; 
+                    $fileName = $chapter.$title;
+                    $fileName = Str::slug($fileName);
+                    if(strlen($fileName) > 200){
+                        $fileName = substr($fileName, 0 , 200);
+                    }
+                    file_put_contents("book/content/$fileName.md",$content);
+                }
+            }
             return true;
         } catch (\Google_Service_Exception $e){
             return false;
         }
+    }
+
+    
+
+    public function parseDocsToArray($content){
+    
+        $arrayOfLines = array();
+        $hasLines = true;
+        $currentLine = 0;
+        $numberOfLines = substr_count($content, "\r\n");
+
+        while ($hasLines){
+            if ($currentLine < $numberOfLines+1){
+                if($numberOfLines == 0){
+                    $arrayOfLines[$currentLine] = $content;
+                    $hasLines = false;
+                } else {
+                    if($currentLine == $numberOfLines){
+                        $arrayOfLines[$currentLine] = substr($content, 0);
+                    } else {
+                        $arrayOfLines[$currentLine] = substr($content, 0, strpos($content, "\r\n")+2);
+                        $content = substr( $content, strpos($content, "\r\n")+2);
+                    }
+                }
+            } else {
+                $hasLines = false;
+            }
+            $currentLine = $currentLine+1;
+        }
+
+        return $arrayOfLines;
+    }
+
+    public function parseLineArrayToChapterArray($arrayOfLines){
+        $currentLine = 0;
+        $chapter = 1;
+        $bookContent = [
+            [
+                'title' => "Capítulo não informado\r\n",
+                'content' => '',
+                'chapter' => 0,
+            ]
+        ];
+
+        foreach ($arrayOfLines as $line) {
+            preg_match('/{(.*)}/', $line, $outputChapter);
+            if (empty($outputChapter)){
+                $bookContent[$chapter-1]['content'] = $bookContent[$chapter-1]['content'].$line;
+            } else {
+                if ( Str::slug($outputChapter[1]) == 'capitulo' ){
+                    $bookContent[] = [ "title" => preg_replace('/{(.*)}/', '', $line), "content" => "", "chapter" => $chapter];
+                    $chapter = $chapter + 1;   
+                } else {
+                    $bookContent[$chapter-1]['content'] = $bookContent[$chapter-1]['content'].$line;
+                }
+            }
+            $currentLine = $currentLine + 1;
+        } 
+
+        return $bookContent;
+    }
+
+    public function parseLineArrayToPageArray($arrayOfLines){
+        $currentLine = 0;
+        $path = 1;
+        $siteContent = [
+            [
+                'path' => "caminho-nao-informado",
+                'content' => '',
+            ]
+        ];
+        foreach ($arrayOfLines as $line) {
+            preg_match('/{(.*)}/', $line, $outputPath);
+            if (empty($outputPath)){
+                $siteContent[$path-1]['content'] = $siteContent[$path-1]['content'].$line;
+            } else {
+                $siteContent[] = [ "path" => $outputPath[1], "content" => ""];
+                $path = $path + 1;   
+            }
+            $currentLine = $currentLine + 1;
+        }  
+        return $siteContent;
     }
 
     /**
@@ -176,3 +265,4 @@ class GoogleDoc
         return $client;
     }
 }
+
