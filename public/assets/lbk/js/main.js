@@ -95,8 +95,12 @@ var LBK = new function() {
         if(url.charAt(0) !== '/') {
             url = '/' + url;
         }
-        return window.LBK_BASE_URL + url;
-    }
+        return this.getBaseUrl() + url;
+    };
+
+    this.getBaseUrl = function() {
+        return window.LBK_BASE_URL;
+    };
 
     this.buildStructureUI = function() {
         this.buildSizePresetsSelect();
@@ -215,23 +219,39 @@ var LBK = new function() {
         this.emptyCreationPanel();
     };
 
+    this.getContentAreaAsRawHtml = function() {
+        const html = this.windowElementBeingRun.document.getElementsByTagName('html')[0].outerHTML;
+        return html;
+    }
+
+    this.randomId = function() {
+        return Math.random().toString(36).substring(2, 15) +
+               Math.random().toString(36).substring(2, 15) +
+               Math.random().toString(36).substring(2, 15);
+    }
+
     this.onDownloadButtonClick = function() {
         const self = this;
         
-        const url = API_ROUTES.download;
         const payload = {
-           id: 'dd',
+           id: this.randomId(),
+           content: this.getContentAreaAsRawHtml(),
+           params: JSON.stringify(this.getContentAreaURLParams())
         }
-        const params = new URLSearchParams(payload);
 
-        window.axios.get(url + '?' + params).then(function(response) {
+        const url = API_ROUTES.download;        
+        const payloadEncoded = new URLSearchParams(payload);
+
+        console.log('Requesting download', payload);
+
+        window.axios.get(url + '?' + payloadEncoded).then(function(response) {
             if (response.status != 200) {
                 console.error('Error downloaing content', response);
                 return;
             }
 
-            const downloadUrl = response.data.download_url;
-            self.download(downloadUrl, self.getContentName());
+            const downloadBase64 = response.data.image_base64;
+            self.download(downloadBase64, self.getContentName());
         });
     };
 
@@ -440,6 +460,7 @@ var LBK = new function() {
         }
 
         this.updateContentAreaUsingCreationPanelParams();
+        this.adjustBaseUrlWithinContentArea();
 
         console.debug('Already loaded element should init', params);
     };
@@ -687,6 +708,23 @@ var LBK = new function() {
             console.debug('Content area [' + name + '] changed to "' + value + '"');
         }
     };
+
+    this.adjustBaseUrlWithinContentArea = function() {
+        if (!this.windowElementBeingRun) {
+            return
+        }
+
+        var baseUrlTag = this.windowElementBeingRun.document.getElementById('baseUrl');
+        var baseUrl = this.getBaseUrl() + '/';
+
+        if (!baseUrlTag) {
+            console.log('Content area has no baseUrl element. It might not be able to export render.');
+            return;
+        }
+
+        baseUrlTag.href = baseUrl;
+        console.log('Content area [baseUrl] changed to "' + baseUrl + '"');
+    }    
 
     this.debounce = function(key, func, time, context) {
         var self = this;
