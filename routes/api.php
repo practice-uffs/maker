@@ -16,8 +16,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('content/view/{id}', [ContentController::class, 'view'])->name('content.view');
+
 Route::group(['as' => 'api.'], function() {
-    Route::get('download', [ContentController::class, 'download'])->name('content.download');
+    Route::get('content/download', [ContentController::class, 'download'])->name('content.download');
 
     Route::group(['prefix' => 'hint/graphic/'], function() {
         Route::get('any', [HintController::class, 'index'])->name('hint.any');
