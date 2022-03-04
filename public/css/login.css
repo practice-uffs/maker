@@ -37,13 +37,21 @@ b:hover{
 .login-img{
     transition: 1s;
 }
-
+.maker-icon{
+    transition: 1s;
+    display: none;
+}
 @media screen and (max-width:991px){
     .login-img{
         transition: 1s;
         display: none;
     }
+    .maker-icon{
+        transition: 1s;
+        display: inline;
+    }
 }
+
 
 @media screen and (min-width:481px) and (max-width:767px){
     .login-form{
