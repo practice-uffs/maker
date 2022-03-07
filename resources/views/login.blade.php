@@ -1,7 +1,7 @@
 @extends("layouts.base-raw", ["view_name" => "Login"])
 
 @section('content')
-<div class="login container row mx-auto my-5 pt-5" >
+<div class="login container row mx-auto login-size" >
     <div class="login-img col-md-5 pr-lg-5 mb-5 mb-md-0 mt-5">
         <div class="text-center">
             <img src="assets/img/practice-maker.png" alt="" class="mb-5 img-fluid" width="70%">
@@ -18,7 +18,7 @@
             <div class="text-center maker-icon">
                 <h1><strong>Maker</strong></h1>
             </div>
-            <img src="assets/img/practice-maker.png" alt="" class="maker-icon img-fluid mb-5 mt-1" width="20%">
+            <img src="assets/img/practice-maker.png" alt="" class="maker-img-litle img-fluid mb-5 mt-1" width="20%">
         </a>
 
         <h1 class="h4 mb-3 font-weight-normal">Entre com seu idUFFS</h1>
