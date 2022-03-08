@@ -37,12 +37,50 @@ b:hover{
 .login-img{
     transition: 1s;
 }
+.maker-icon{
+    transition: 1s;
+    display: none;
+}
+
+.maker-img-litle{
+    transition: 1s;
+    display: none;
+}
+
+.login-size{
+    margin-top: 55px;  
+    margin-bottom: 55px;
+    padding-top: 55px;  
+    padding-bottom: 55px; 
+}
 
 @media screen and (max-width:991px){
     .login-img{
         transition: 1s;
         display: none;
     }
+    .maker-icon{
+        transition: 1s;
+        display: inline;
+    }
+    .maker-img-litle{
+        transition: 1s;
+        display: inline;
+    }
+}
+
+@media screen and (max-height:510px){
+    .login-size{
+        margin-top: 0px;  
+        margin-bottom: 0px;
+        padding-top: 0px;  
+        padding-bottom: 0px; 
+    }
+    .maker-img-litle{
+        transition: 1s;
+        display: none;
+    }
+    
 }
 
 @media screen and (min-width:481px) and (max-width:767px){

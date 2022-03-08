@@ -332,14 +332,8 @@ section {
   color: #fff;
 }
 
-@media (max-width: 991px) {
-  .mobile-nav-toggle {
-    display: block;
-  }
-  .navbar ul {
-    display: none;
-  }
-}
+
+
 
 .navbar-mobile {
   position: fixed;
