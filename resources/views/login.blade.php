@@ -25,7 +25,7 @@
 
             <h1 class="h4 mb-3 font-weight-normal">Entre com seu idUFFS</h1>
             @if ($errors->any())
-                <div class="alert-error">
+                <div class="alert-error text-danger pb-3">
                     @foreach ($errors->all() as $error)
                         {{ $error }}
                     @endforeach
