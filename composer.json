@@ -20,7 +20,7 @@
         "laravel/sanctum": "^2.6",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.3",
-        "livewire/livewire": "^2.0",
+        "livewire/livewire": "^2.6.2",
         "marksitko/laravel-unsplash": "^1.1",
         "mydnic/laravel-subscribers": "^1.7",
         "paquettg/php-html-parser": "^3.1"
