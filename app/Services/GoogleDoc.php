@@ -101,6 +101,7 @@ class GoogleDoc
 
             $bookContent = $this->parseLineArrayToChapterArray($arrayOfLines);
 
+            $interactions = 0;
             foreach( $bookContent as $bookChapter ){
                 $title = $bookChapter['title'];
                 $chapter = $bookChapter['chapter'];
@@ -109,13 +110,21 @@ class GoogleDoc
                 if($content == "" && $title == "Capítulo não informado\r\n"){
                     continue;
                 } else {
+                    
                     $content = "# $title".$content; 
-                    $fileName = "10000".$chapter.$title;
+                    
+                    if ($interactions < 9){
+                        $fileName = "0".$chapter.$title;
+                    } else {
+                        $fileName = $chapter.$title;
+                    }
+                    
                     $fileName = Str::slug($fileName);
                     if(strlen($fileName) > 200){
                         $fileName = substr($fileName, 0 , 200);
                     }
                     file_put_contents("book/content/$fileName.md",$content);
+                    $interactions++;
                 }
             }
             return true;
