@@ -3,8 +3,11 @@
 @section('content')
     <div class="login container row mx-auto login-size">
         <div class="login-img col-md-5 pr-lg-5 mb-5 mb-md-0 mt-5">
-            <div class="text-center">
-                <img src="assets/img/practice-maker.png" alt="" class="mb-5 img-fluid" width="70%">
+            <div class="d-flex justify-content-center">
+                <a href="{{ route('index') }}">
+                    <img class="img-fluid" src="{{ asset('img/practice-maker.png') }}" alt="Logo do Maker"
+                        width="272">
+                </a>
             </div>
 
             <h1>Conecte-se ao PRACTICE <strong>{{ config('app.name') }}</strong></h1>
@@ -18,9 +21,10 @@
                 <img class=" login-img  mb-5" src="{{ asset('img/logo-practice.png') }}" alt="Logo do Practice"
                     width="272">
                 <div class="text-center maker-icon">
-                    <h1><strong>Maker</strong></h1>
+                    <h1 class="m-0"><strong>{{ config('app.name') }}</strong></h1>
                 </div>
-                <img src="assets/img/practice-maker.png" alt="" class="maker-img-litle img-fluid mb-5 mt-1" width="20%">
+                <img src="{{ asset('img/practice-maker.png') }}" alt="Logo do Maker" class="maker-img-litle img-fluid mb-4"
+                    width="50%">
             </a>
 
             <h1 class="h4 mb-3 font-weight-normal">Entre com seu idUFFS</h1>
