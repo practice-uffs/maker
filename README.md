@@ -113,23 +113,18 @@ composer global require themsaid/ibis
 Também é necessário habilitar a extenção _gd_ do PHP, então rode o seguinte comando em seu terminal, com _x_ estando de acordo com a versão do seu PHP:
 
 ```
-sudo apt-get install php7.x-gd
+sudo apt-get install php8.x-gd
 ```
 
-O próximo passo é adicionar o ibis para que possa ser rodado através do terminal, para isso rode:
+O próximo passo é adicionar o caminho de onde o ibis foi instalado no arquivo `.env`:
 
 ```
-sudo nano /etc/bash.bashrc
-```
-
-Adicione a seguinte linha, que é o caminho para aonde foi instalado o ibis, no final do arquivo aberto com o comando anterior (substituindo 'seu_usuario' pelo usuario que instalou o ibis): 
-```
-export ibis="/home/seu_usuario/.config/composer/vendor/themsaid/ibis/ibis"
+IBIS="~/.config/composer/vendor/themsaid/ibis/ibis"
 ```
 
 #### 2.6 Site
 
-No .env é necessário adicionar o caminho da pasta que ficarão armazenados os sites, então em  'PATH_TO_STORE_SITES' coloque tal caminho, exemplo:
+No `.env` é necessário adicionar o caminho da pasta que ficarão armazenados os sites, então em  'PATH_TO_STORE_SITES' coloque tal caminho, exemplo:
 
 ```
 PATH_TO_STORE_SITES=/home/seu_usuario/Documents/Sites/
