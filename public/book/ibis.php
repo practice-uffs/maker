@@ -3,7 +3,9 @@
         return [
             'title' => '1loxe3yftf-7gt7yceeigljlaw2uj6zeqjnxmatg7-gc',
             'author' => 'PRACTICE',
-            'fonts' => [],
+            'fonts' => [
+                'roboto' => 'Roboto-Regular.ttf',
+            ],
             'document' => [
                 'format' => [210, 297],
                 'margin_left' => 27,
@@ -20,6 +22,5 @@
                 [80, 85],
                 [100, 103]
             ],
-            'sample_notice' => 'This is a sample from "Laravel Queues in Action" by Mohamed Said. <br> 
-                                For more information, <a href="https://www.learn-laravel-queues.com/">Click here</a>.',
+            'sample_notice' => 'This is a book generated using Ibis, more information about ibis in: https://github.com/themsaid/ibis',
         ];

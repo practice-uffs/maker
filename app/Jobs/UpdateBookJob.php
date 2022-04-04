@@ -39,7 +39,9 @@ class UpdateBookJob implements ShouldQueue
         return [
             \'title\' => \''.$this->book->docs_id.'\',
             \'author\' => \'PRACTICE\',
-            \'fonts\' => [],
+            \'fonts\' => [
+                \'roboto\' => \'Roboto-Regular.ttf\',
+            ],
             \'document\' => [
                 \'format\' => [210, 297],
                 \'margin_left\' => 27,
@@ -56,8 +58,7 @@ class UpdateBookJob implements ShouldQueue
                 [80, 85],
                 [100, 103]
             ],
-            \'sample_notice\' => \'This is a sample from "Laravel Queues in Action" by Mohamed Said. <br>
-                                For more information, <a href="https://www.learn-laravel-queues.com/">Click here</a>.\',
+            \'sample_notice\' => \'This is a book generated using Ibis, more information about ibis in: https://github.com/themsaid/ibis\',
         ];';
         $file = public_path()."/book/ibis.php";
         $fh = fopen($file, 'w') or die("can't open file");
