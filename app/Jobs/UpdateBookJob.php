@@ -56,14 +56,14 @@ class UpdateBookJob implements ShouldQueue
                 [80, 85],
                 [100, 103]
             ],
-            \'sample_notice\' => \'This is a sample from "Laravel Queues in Action" by Mohamed Said. <br> 
+            \'sample_notice\' => \'This is a sample from "Laravel Queues in Action" by Mohamed Said. <br>
                                 For more information, <a href="https://www.learn-laravel-queues.com/">Click here</a>.\',
         ];';
         $file = public_path()."/book/ibis.php";
         $fh = fopen($file, 'w') or die("can't open file");
         fwrite($fh, $content);
         fclose($fh);
-        $cmd = 'cd public && cd book && $ibis build';
+        $cmd = 'cd public && cd book && ' . env("IBIS") . ' build';
         $output = shell_exec($cmd);
         array_map('unlink', glob(public_path()."/book/content/*.md"));
 
