@@ -55,7 +55,7 @@ class GoogleDoc
             $fileInfo['error'] = '';
             return $fileInfo;
         } catch (\Google_Service_Exception $e){
-            $fileInfo['error'] = 'Arquivo não encontrado, verifique se você compartilhou corretamente o seu Google Docs com practiceuffs.maker@gmail.com';
+            $fileInfo['error'] = 'Arquivo não encontrado, verifique se você compartilhou corretamente o seu Google Docs no modo \'Editor\'';
             return $fileInfo;
         }
     }
@@ -86,7 +86,7 @@ class GoogleDoc
             return $fileInfo;
 
         } catch (\Google_Service_Exception $e){
-            $fileInfo['error'] = 'Arquivo não encontrado, verifique se você compartilhou corretamente o seu Google Docs com practiceuffs.maker@gmail.com';
+            $fileInfo['error'] = 'Arquivo não encontrado, verifique se você compartilhou o documento no modo \'Editor\'!';
             return $fileInfo;
         }
     }
@@ -98,6 +98,8 @@ class GoogleDoc
             $content = $response->getBody()->getContents();
 
             $arrayOfLines = $this->parseDocsToArray($content);
+
+            $arrayOfLines = $this->findImageAndAdaptLink($arrayOfLines);
 
             $bookContent = $this->parseLineArrayToChapterArray($arrayOfLines);
 
@@ -162,6 +164,34 @@ class GoogleDoc
         }
 
         return $arrayOfLines;
+    }
+
+    public function findImageAndAdaptLink($arrayOfLines){
+        $currentLine = 0;
+        
+        foreach ($arrayOfLines as $line) {
+            preg_match('/!\[(.*)\]\((.*)\)/', $line, $output_array);
+            $oldLine = $line;
+            if (!empty($output_array)){
+                $title = $output_array[1];
+                $link = $output_array[2];
+                $bookIdArray = $this->parseUrl($link);
+                if(!empty($bookIdArray)){
+                    $bookId = $bookIdArray[0];
+                    $newLink = "https://drive.google.com/uc?export=view&id=$bookId";
+                    $arrayOfLines[$currentLine] = "![$title]($newLink)";
+                } else {
+                    $arrayOfLines[$currentLine] = $oldLine;
+                }
+            } 
+            $currentLine = $currentLine + 1;
+        } 
+        return $arrayOfLines;
+    }
+
+    public function parseUrl($url){
+        preg_match('/(?<=\/d\/).*(?=\/view)/', $url, $id);
+        return $id;
     }
 
     public function parseLineArrayToChapterArray($arrayOfLines){
