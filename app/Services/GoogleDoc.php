@@ -175,8 +175,9 @@ class GoogleDoc
             if (!empty($output_array)){
                 $title = $output_array[1];
                 $link = $output_array[2];
-                $bookId = $this->parseUrl($link);
-                if(!empty($bookId)){
+                $bookIdArray = $this->parseUrl($link);
+                if(!empty($bookIdArray)){
+                    $bookId = $bookIdArray[0];
                     $newLink = "https://drive.google.com/uc?export=view&id=$bookId";
                     $arrayOfLines[$currentLine] = "![$title]($newLink)";
                 } else {
@@ -190,7 +191,7 @@ class GoogleDoc
 
     public function parseUrl($url){
         preg_match('/(?<=\/d\/).*(?=\/view)/', $url, $id);
-        return $id[0];
+        return $id;
     }
 
     public function parseLineArrayToChapterArray($arrayOfLines){
