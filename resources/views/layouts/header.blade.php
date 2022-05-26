@@ -20,9 +20,7 @@
                     <li class="dropdown ml-3">
                         <div tabindex="0" class="btn btn-primary btn-outline">Admin <i class="bi bi-chevron-down"></i></div>
                         <ul class="shadow menu dropdown-content bg-base-100 rounded-box w-52">
-                            <li>
-                                <hr />
-                            </li>
+                            <li><hr /></li>
                             <li><a href="{{ route('admin.user') }}">Usuários</a></li>
                             <li><a href="{{ route('admin.subscriber') }}">Newsletter</a></li>
                         </ul>
