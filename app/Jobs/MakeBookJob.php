@@ -67,7 +67,12 @@ class MakeBookJob implements ShouldQueue
         fwrite($fh, $content);
         fclose($fh);
 
-        $cmd = 'cd public && cd book && '.env("IBIS").' build';
+        if ($this->book->theme == 'dark'){
+            $cmd = 'cd public && cd book && '.env("IBIS").' build dark';
+        } else {
+            $cmd = 'cd public && cd book && '.env("IBIS").' build';
+        }
+
         $output = shell_exec($cmd);
 
         array_map('unlink', glob(public_path()."/book/content/*.md"));
@@ -80,7 +85,8 @@ class MakeBookJob implements ShouldQueue
                 'google_drive_url' => $this->book->google_drive_url,
                 'build_status' => 'done',
                 'build_output' => $output,
-                'pdf_path' => $this->book->pdf_path
+                'pdf_path' => $this->book->pdf_path,
+                'theme' => $this->book->theme
             ]);
         } else{
             $newBook = Book::where('google_drive_url', '=', $this->book->google_drive_url)->first();

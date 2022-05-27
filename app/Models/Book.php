@@ -24,6 +24,7 @@ class Book extends Model
         'build_status_changed_at',
         'build_output',
         'pdf_path',
+        'theme',
     ];
 
     /**

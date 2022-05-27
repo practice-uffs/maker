@@ -64,7 +64,13 @@ class UpdateBookJob implements ShouldQueue
         $fh = fopen($file, 'w') or die("can't open file");
         fwrite($fh, $content);
         fclose($fh);
-        $cmd = 'cd public && cd book && ' . env("IBIS") . ' build';
+
+        if ($this->book->theme == 'dark'){
+            $cmd = 'cd public && cd book && '.env("IBIS").' build dark';
+        } else {
+            $cmd = 'cd public && cd book && '.env("IBIS").' build';
+        }
+        
         $output = shell_exec($cmd);
         array_map('unlink', glob(public_path()."/book/content/*.md"));
 
