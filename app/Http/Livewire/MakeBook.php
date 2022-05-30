@@ -34,7 +34,7 @@ class MakeBook extends Component
 
     public function createBook($theme){
         $docs = new GoogleDoc(config('google.docs'));
-        if ($docs->downloadFileById($this->parseUrl($this->docsUrl))){
+        if ($docs->verifyFileById($this->parseUrl($this->docsUrl))){
             $book = new stdClass();
             $book->name = $this->docsContent['title'];
             $book->theme = $theme;

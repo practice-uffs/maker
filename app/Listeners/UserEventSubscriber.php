@@ -27,7 +27,7 @@ class UserEventSubscriber
      */
     public function handleUserCreated(UserCreated $event)
     {
-        $event->user->notify(new UserWelcome());
+        // $event->user->notify(new UserWelcome());
     }    
 
     /**
