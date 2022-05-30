@@ -35,21 +35,22 @@
                                 {{ $docsContent['content'] }}
                             </div>
                             <div class="flex justify-content-around">
-                                <button wire:click="createBook('dark')" 
+                                <!-- <button wire:click="createBook('dark')" 
                                         type="button"
-                                        id="btn-submit-index" 
-                                        class="btn btn-primary bg-blue-500 hover:bg-blue-700 text-white font-bold border-0" 
-                                        onclick="   el = document.getElementById('btn-submit-index'); 
+                                        id="btn-submit-index-1" 
+                                        class="btn bg-blue-500 hover:bg-blue-700 text-white font-bold border-0"
+                                        onclick="   el = document.getElementById('btn-submit-index-1'); 
                                                     el.innerHTML = '<i class=\'bi bi-arrow-repeat\'></i>'; 
                                                     el.disabled = true; 
                                                     el.innerHTML = '<div class=\'spinner-border\'></div>Aguarde';">
                                     Está tudo certo, transforme em um e-book versão dark!
-                                </button>
+                                </button> -->
+                                <!-- Inserir aqui o botão, vou inserir assim que o cleisson terminar de fazer as mudanças no visual -->
                                 <button wire:click="createBook('light')" 
                                         type="button"
-                                        id="btn-submit-index" 
-                                        class="btn btn-primary bg-blue-500 hover:bg-blue-700 text-white font-bold border-0" 
-                                        onclick="   el = document.getElementById('btn-submit-index'); 
+                                        id="btn-submit-index-2" 
+                                        class="btn bg-blue-500 hover:bg-blue-700 text-white font-bold border-0" 
+                                        onclick="   el = document.getElementById('btn-submit-index-2'); 
                                                     el.innerHTML = '<i class=\'bi bi-arrow-repeat\'></i>'; 
                                                     el.disabled = true; 
                                                     el.innerHTML = '<div class=\'spinner-border\'></div>Aguarde';">
