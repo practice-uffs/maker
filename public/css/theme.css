@@ -127,8 +127,8 @@ section {
   position: fixed;
   visibility: hidden;
   opacity: 0;
-  right: 75px;
-  bottom: 22px;
+  right: 50px;
+  bottom: 18px;
   z-index: 99999;
   background: #4154f1;
   width: 40px;

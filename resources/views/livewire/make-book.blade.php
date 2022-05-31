@@ -1,4 +1,4 @@
-<div class="px-5 py-24 mx-auto">
+<div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-2 py-24">
     <div class="flex flex-col text-center w-full mb-20">
         <h2 class="text-2xl text-indigo-500 tracking-widest font-medium title-font mb-1">LIVRO DIGITAL</h2>
         <h1 class="sm:text-2xl text-1xl font-medium title-font text-gray-900">
@@ -48,30 +48,30 @@
                             <div x-data="{show:false}">
                                 <div class="flex justify-center bg-indigo-100 hover:bg-indigo-300">
                                     <button  @click="show=!show" class="flex items-center justify-center bg-transparent text-indigo-500 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
-                                        Validar conteúdo
+                                        Mostrar conteúdo
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
                                         </svg>
                                     </button>
                                 </div> 
                                 <p class="flex justify-center overflow-hidden bg-red-200 rounded-lg border-2 border-red-300">
-                                    Após criar o e-book é possível atualizar em seus livros!
+                                    Após criar é possível atualizar o conteúdo em Livro digital!
                                 </p>
+                                <div class="flex justify-center">
+                                    <button wire:click="createBook" 
+                                            type="button"
+                                            id="btn-submit-index" 
+                                            class="fixed bottom-3.5 center btn rounded-full bg-indigo-500 hover:bg-indigo-700 text-white font-bold border-0" 
+                                            onclick="   el = document.getElementById('btn-submit-index'); 
+                                                        el.innerHTML = '<i class=\'bi bi-arrow-repeat\'></i>'; 
+                                                        el.disabled = true; 
+                                                        el.innerHTML = '<div class=\'spinner-border\'></div>Aguarde';">
+                                        Criar livro!
+                                    </button>
+                                </div>
                                 <div x-show="show" class="bg-white border px-4 py-3 my-2 text-gray-700 rounded-lg">
                                     <div style="white-space: pre-wrap;">
                                         {{ $docsContent['content'] }}
-                                    </div>
-                                    <div class="flex justify-center">
-                                        <button wire:click="createBook" 
-                                                type="button"
-                                                id="btn-submit-index" 
-                                                class="fixed bottom-3.5 center btn rounded-full bg-indigo-500 hover:bg-indigo-700 text-white font-bold border-0" 
-                                                onclick="   el = document.getElementById('btn-submit-index'); 
-                                                            el.innerHTML = '<i class=\'bi bi-arrow-repeat\'></i>'; 
-                                                            el.disabled = true; 
-                                                            el.innerHTML = '<div class=\'spinner-border\'></div>Aguarde';">
-                                            Criar e-book!
-                                        </button>
                                     </div>
                                     @if ($createBookError)
                                         <div class="pt-4  flex justify-center">
@@ -86,13 +86,15 @@
                     <p class="pb-4 text-center font-medium text-red-700 font-bold pt-4">{{ $docsContent['error'] }}</p>
                 @endif
             @else
-                    <div class="flex items-center p-14 flex items-center justify-center">
-                        <div class="w-56 h-56 mr-3 inline-flex items-center justify-center rounded-full bg-indigo-500 text-white flex-shrink-0">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-44 w-44" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                            </svg>
-                        </div>
+                <div class="flex items-center justify-center p-14">
+                    <div class="flex flex-column ">
+                        <div class="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4" role="alert">
+                            <p class="font-bold">Aviso!</p>
+                            <p>Parece que você não buscou nenhum conteúdo.</p>
+                            <p>Insira um link válido e clique em buscar...</p>
+                        </div>  
                     </div>
+                </div>
             @endif
         </div>
     </div>
