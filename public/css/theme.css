@@ -6,6 +6,15 @@
 */
 
 /*--------------------------------------------------------------
+# Menu
+--------------------------------------------------------------*/
+@media (max-width: 1023px) {
+  .oculto {
+    top: -500px;
+  }
+}
+
+/*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
 :root {
@@ -127,13 +136,13 @@ section {
   position: fixed;
   visibility: hidden;
   opacity: 0;
-  right: 15px;
-  bottom: 15px;
+  right: 50px;
+  bottom: 18px;
   z-index: 99999;
   background: #4154f1;
   width: 40px;
   height: 40px;
-  border-radius: 4px;
+  border-radius: 24px;
   transition: all 0.4s;
 }
 
