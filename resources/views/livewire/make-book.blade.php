@@ -54,10 +54,10 @@
                                         </svg>
                                     </button>
                                 </div> 
-                                <p class="flex justify-center overflow-hidden bg-red-200 rounded-lg border-2 border-red-300">
-                                    Após criar é possível atualizar o conteúdo em Livro digital!
-                                </p>
                                 <div class="flex justify-center">
+                                    <p class="overflow-hidden bg-red-200 rounded-lg border-2 border-red-300 px-2 mt-2">
+                                        Após criar é possível atualizar o conteúdo em Livro digital!
+                                    </p>
                                     <button wire:click="createBook" 
                                             type="button"
                                             id="btn-submit-index" 
