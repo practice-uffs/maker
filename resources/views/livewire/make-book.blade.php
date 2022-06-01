@@ -1,4 +1,4 @@
-<div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-2 py-24">
+<div class="bg-white overflow-hidden sm:rounded-lg px-2 py-24">
     <div class="flex flex-col text-center w-full mb-20">
         <h2 class="text-2xl text-indigo-500 tracking-widest font-medium title-font mb-1">LIVRO DIGITAL</h2>
         <h1 class="sm:text-2xl text-1xl font-medium title-font text-gray-900">

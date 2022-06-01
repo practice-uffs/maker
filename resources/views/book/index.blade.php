@@ -8,13 +8,18 @@
                 @foreach($books as $book)
                     <div class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3" data-aos="zoom-out" data-aos-delay="500">
 
-                        <article class="overflow-hidden rounded-lg shadow-lg">
+                        <article class="rounded-lg shadow-lg">
                             <embed class="w-full h-full" src="{{ $book->pdf_path }}" />
 
                             <header class="flex flex-column items-center justify-between leading-tight p-2 md:p-4">
                                 <h1 class="text-lg">
-                                    <a href="{{ route('book.show', ['book' => $book]) }}" class="no-underline hover:underline text-indigo-500 hover:text-indigo-900">
-                                        {{ $book->name }}
+                                    <a  href="{{ route('book.show', ['book' => $book]) }}" class="no-underline hover:underline text-blue-500 hover:text-blue-900">
+                                        <p>
+                                            {{ Str::substr($book->name, 0, 28) }}
+                                            @if (strlen($book->name) > 28)
+                                                ...
+                                            @endif
+                                        </p>
                                     </a>
                                 </h1>
                                 <div class="text-grey-darker text-sm">
@@ -24,18 +29,18 @@
                             
                             <footer class="flex items-center justify-evenly leading-none p-2 md:p-4">
                                 <a href="{{ route('book.update', ['bookToUpdate' => $book]) }}">
-                                    <button
-                                        id="{{ $book->id }}" 
-                                        class="btn btn-primary rounded-full bg-blue-500 hover:bg-blue-700 text-white font-bold border-0" 
+                                    <button type="button" id="{{ $book->id }}" 
+                                        class="text-indigo-700 hover:text-white border border-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-indigo-400 dark:text-indigo-400 dark:hover:text-white dark:hover:bg-indigo-500 dark:focus:ring-indigo-900"
                                         onclick="el = document.getElementById('{{ $book->id }}'); 
                                                     el.innerHTML = '<i class=\'bi bi-arrow-repeat\'></i>'; 
                                                     el.disabled = true; 
-                                                    el.innerHTML = '<div class=\'spinner-border\'></div>Aguarde'; 
-                                    ">Atualizar
+                                                    el.innerHTML = '<div class=\'spinner-border\'></div>Aguarde';"
+                                        >
+                                        Atualizar
                                     </button>
                                 </a>
                                 <a href="{{ route('book.show', ['book' => $book]) }}">
-                                    <button class="btn btn-primary rounded-full bg-blue-500 hover:bg-blue-700 text-white font-bold border-0">
+                                    <button type="button" class="text-white border border-indigo-700 bg-indigo-500 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-indigo-400 dark:text-white dark:bg-indigo-500 dark:focus:ring-indigo-900">
                                         Acessar
                                     </button>
                                 </a>
