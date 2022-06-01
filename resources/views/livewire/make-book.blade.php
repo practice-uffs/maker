@@ -22,7 +22,7 @@
     </div>
 
     <div class="mt-12 m-auto items-center justify-center space-y-6 lg:flex lg:space-y-0 lg:space-x-6">
-        <div aria-hidden="true" class="w-full rounded-2xl shadow-xl p-6 space-y-8 bg-gray-200">
+        <div aria-hidden="true" class="w-full rounded-2xl p-6 space-y-8 bg-gray-200">
             @if ($docsContent != null)
                 @if ($docsContent['error'] == '')
 
@@ -46,7 +46,7 @@
                         <p>
                         <dd class="group-hover:text-light-red-200 text-sm font-medium sm:mb-4 lg:mb-0 xl:mb-4">
                             <div x-data="{show:false}">
-                                <div class="flex justify-center bg-indigo-100 hover:bg-indigo-300">
+                                <div class="flex justify-center bg-indigo-100 hover:bg-indigo-300 rounded-lg">
                                     <button  @click="show=!show" class="flex items-center justify-center bg-transparent text-indigo-500 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
                                         Mostrar conteúdo
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
