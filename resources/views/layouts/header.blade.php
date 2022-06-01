@@ -77,55 +77,56 @@
 
         <nav class="lg:invisible absolute pr-5 left-1 w-full d-flex justify-content-end">
             <li class="dropdown mx-2">
-                <div tabindex="0" class="btn btn-primary" data-bs-toggle="dropdown" aria-expanded="false">
-                    Menu <i class="pl-2 bi bi-chevron-down"></i>
-                </div>
-                <ul class="dropdown-menu rounded-box">
-                    <p class="text-blue-800 pl-5 d-xl-none">Ferramentas</p>
-                    <li class="dropdown-item">
-                        <a href="{{ route('home') }}" class="nav-link focus:text-white pt-1 pb-1 text-sm hover:text-blue-500">
-                            Todas
-                        </a>
-                    </li>
-                    <li class="dropdown-item">
-                        <a href="{{ route('books') }}" class="nav-link focus:text-white pt-1 pb-1 text-sm hover:text-blue-500">
-                            Livro digital
-                        </a>
-                    </li>
-                    <li class="dropdown-item">
-                        <a href="{{ route('poster') }}" class="nav-link focus:text-white pt-1 pb-1 text-sm hover:text-blue-500">
-                            Poster
-                        </a>
-                    </li>
-                    <li class="dropdown-item">
-                        <a href="{{ route('site.create') }}" class="nav-link focus:text-white pt-1 pb-1 text-sm hover:text-blue-500">
-                            Página Web
-                        </a>
-                    </li>
+                @auth
+                    <div tabindex="0" class="btn btn-primary" data-bs-toggle="dropdown" aria-expanded="false">
+                        Menu <i class="pl-2 bi bi-chevron-down"></i>
+                    </div>
+                    <ul class="dropdown-menu rounded-box">
+                        <p class="text-blue-800 pl-5 d-xl-none">Ferramentas</p>
+                        <li class="dropdown-item">
+                            <a href="{{ route('home') }}" class="nav-link focus:text-white pt-1 pb-1 text-sm hover:text-blue-500">
+                                Todas
+                            </a>
+                        </li>
+                        <li class="dropdown-item">
+                            <a href="{{ route('books') }}" class="nav-link focus:text-white pt-1 pb-1 text-sm hover:text-blue-500">
+                                Livro digital
+                            </a>
+                        </li>
+                        <li class="dropdown-item">
+                            <a href="{{ route('poster') }}" class="nav-link focus:text-white pt-1 pb-1 text-sm hover:text-blue-500">
+                                Poster
+                            </a>
+                        </li>
+                        <li class="dropdown-item">
+                            <a href="{{ route('site.create') }}" class="nav-link focus:text-white pt-1 pb-1 text-sm hover:text-blue-500">
+                                Página Web
+                            </a>
+                        </li>
 
-                    <li><hr class="dropdown-divider d-xl-none" /></li>
-                    
-                    <li class="dropdown-item d-flex d-xl-none justify-content-between">
-                        <div tabindex="0" class="avatar ml-2">
-                            <div class="rounded-full w-10 h-10 m-1">
-                                <img src="https://cc.uffs.edu.br/avatar/iduffs/{{ auth()->user()->uid }}" />
+                        <li><hr class="dropdown-divider d-xl-none" /></li>
+                        
+                        <li class="dropdown-item d-flex d-xl-none justify-content-between">
+                            <div tabindex="0" class="avatar ml-2">
+                                <div class="rounded-full w-10 h-10 m-1">
+                                    <img src="https://cc.uffs.edu.br/avatar/iduffs/{{ auth()->user()->uid }}" />
+                                </div>
+                            </div> 
+                            <div class="text-right mt-1">
+                                <p class="font-semibold">{{ auth()->user()->first_name }}</p>
+                                <p class="text-xs font-extralight -mt-1 text-gray-900">{{ auth()->user()->username }}</p>
                             </div>
-                        </div> 
-                        <div class="text-right mt-1">
-                            <p class="font-semibold">{{ auth()->user()->first_name }}</p>
-                            <p class="text-xs font-extralight -mt-1 text-gray-900">{{ auth()->user()->username }}</p>
-                        </div>
-                    </li>
-                
-                    <li class="dropdown-item">
-                        <a href="{{ route('logout') }}" class="nav-link getstarted focus:text-white">
-                            Sair <i class="bi bi-door-open"></i>
-                        </a>
-                    </li>
-                </ul>
+                        </li>
+                    
+                        <li class="dropdown-item">
+                            <a href="{{ route('logout') }}" class="nav-link getstarted focus:text-white">
+                                Sair <i class="bi bi-door-open"></i>
+                            </a>
+                        </li>
+                    </ul>
+                @endauth
             </li>
         </nav>
-
 
     </div>
 </header>
