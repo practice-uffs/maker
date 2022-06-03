@@ -1,8 +1,10 @@
 <!-- ======= Footer ======= -->
 <footer id="footer" class="footer mt-12">
-    <div class="footer-top bg-gray-200">
+    <div class="footer-top bg-gray-200 w-full">
+        
         <div class="container">
             <div class="row gy-4">
+                
                 <div class="col-lg-4 col-md-12 text-left">
                     <div class="row">
                         <div class="col-lg-12 text-left">
@@ -15,13 +17,19 @@
                           <p>Fique por dentro de todas as novidades do programa e dos projetos que estamos trabalhando.
                             Inscreva-se para receber periodicamente a nossa newsletter em seu e-mail. </p>
                         </div>
+
                         <div>
-                            <form action="{{ route('subscribers.store') }}" method="post">
+                            <form action="{{ route('subscribers.store') }}" method="post" class="flex mt-4 items-center"> 
                                 @csrf
-                                <div class="relative mt-3">
-                                    <input type="email" name="email" placeholder="Ex. fulano@email.com" class="w-full pr-16 input input-primary input-bordered"> 
-                                    <button class="absolute right-0 top-0 rounded-l-none btn btn-primary">Inscrever</button>
+                                <div class="w-full">
+                                    <input 
+                                        type="email" name="email" placeholder="Ex. fulano@email.com"
+                                        class="input input-primary input-bordered pr-16 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 p-2.5 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500" 
+                                    >
                                 </div>
+                                <button class="btn btn-primary inline-flex items-center rounded-l-none py-2.5 px-3 ml-2 text-sm font-medium text-white bg-indigo-700 rounded-lg border border-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800">
+                                    Inscrever
+                                </button>
                             </form>
 
                             <p class="text-xs text-gray-500 mt-2">
@@ -34,7 +42,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-3 pl-16">
+                <div class="col-lg-3 lg:pl-16 xl:pl-16 2xl:pl-16 footer-contact text-center text-md-start">
                     <h4>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -67,6 +75,7 @@
                         </svg>
                         Contato
                     </h4>
+                    
                     <span class="block mb-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -102,10 +111,11 @@
                         </p>
                     </span>
                 </div>
+
             </div>
         </div>
 
-        <div class="container">
+        <div class="grid justify-items-center container w-full">
             <div class="text-sm text-gray-400 mt-10">
                 <!-- All the links in the footer should remain intact. -->
                 <!-- You can delete the links only if you purchased the pro version. -->
@@ -115,22 +125,24 @@
                 As imagens utilizadas nesse site tem como fonte <a href="https://undraw.co/" rel="nofollow" target="_blank">undraw.co</a>. Created by <a href="https://twitter.com/ninaLimpi" rel="nofollow" target="_blank">Katerina Limpitsouni</a>.
                 Code / Design by <a href="https://twitter.com/anges244" rel="nofollow" target="_blank" style="color: #bfbfbf;">Aggelos Gesoulis</a>.
             </div>
+
+            <div class="grid justify-items-center w-full bg-gray-100">
+                <div class="py-6 mx-auto flex items-center sm:flex-row flex-col">
+                    <p class="text-sm text-gray-400">
+                        Feito com ❤️ pela 
+                        <a href="https://practice.uffs.cc/equipe/" rel="noopener noreferrer" class="text-gray-600 ml-1" target="_blank">equipe Practice</a>
+                    </p>
+                    <p class="text-sm text-gray-400 ml-6 mr-6">|</p>
+                    <p class="text-sm text-gray-400">
+                        <a href="https://github.com/practice-uffs/maker" rel="noopener noreferrer" class="text-gray-600 ml-1" target="_blank">v{{ config('app.version') }}</a>
+                    </p>
+                    <p class="text-sm text-gray-400 ml-6 mr-6">|</p>
+                    <p class="">
+                        <a href="https://github.com/practiceuffs" class="ml-2 text-gray-500 text-sm">Esse software é open-source e gratuíto <i class="bi bi-github" style="font-size: 1.1rem;"></i></a>
+                    </p>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="bg-gray-100">
-        <div class="container py-6 mx-auto flex items-center sm:flex-row flex-col">
-            <p class="text-sm text-gray-400">
-                Feito com ❤️ pela 
-                <a href="https://practice.uffs.cc/equipe/" rel="noopener noreferrer" class="text-gray-600 ml-1" target="_blank">equipe Practice</a>
-            </p>
-            <p class="text-sm text-gray-400 ml-6 mr-6">|</p>
-            <p class="text-sm text-gray-400">
-                <a href="https://github.com/practice-uffs/maker" rel="noopener noreferrer" class="text-gray-600 ml-1" target="_blank">v{{ config('app.version') }}</a>
-            </p>
-            <p class="text-sm text-gray-400 ml-6 mr-6">|</p>
-            <p class="">
-                <a href="https://github.com/practiceuffs" class="ml-2 text-gray-500 text-sm">Esse software é open-source e gratuíto <i class="bi bi-github" style="font-size: 1.1rem;"></i></a>
-            </p>
-        </div>
+
     </div>
 </footer><!-- End Footer -->
