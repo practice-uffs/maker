@@ -27,7 +27,7 @@
                                         class="input input-primary input-bordered pr-16 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 p-2.5 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500" 
                                     >
                                 </div>
-                                <button class="btn btn-primary inline-flex items-center rounded-l-none py-2.5 px-3 ml-2 text-sm font-medium text-white bg-indigo-700 rounded-lg border border-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800">
+                                <button class="btn btn-primary inline-flex items-center rounded-l-none pl-0 ml-0 py-2.5 px-3 text-sm font-medium text-white bg-indigo-700 rounded-lg border border-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800">
                                     Inscrever
                                 </button>
                             </form>
