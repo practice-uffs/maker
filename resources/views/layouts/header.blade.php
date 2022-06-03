@@ -64,7 +64,7 @@
                     </li>
 
                     <li>
-                        <a href="{{ route('logout') }}">Sair</a>
+                        <a href="{{ route('logout') }}">Sair <i class="bi bi-door-open"></i></a>
                     </li>
                 @endauth
 

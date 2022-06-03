@@ -23,8 +23,8 @@
                 <div class="text-center maker-icon">
                     <h1 class="m-0"><strong>{{ config('app.name') }}</strong></h1>
                 </div>
-                <img src="{{ asset('img/practice-maker.png') }}" alt="Logo do Maker" class="maker-img-litle img-fluid mb-4"
-                    width="50%">
+                
+                <img src="{{ asset('img/practice-maker.png') }}" alt="Logo do Maker" class="maker-img-litle img-fluid mb-4" width="50%">
             </a>
 
             <h1 class="h4 mb-3 font-weight-normal">Entre com seu idUFFS</h1>
