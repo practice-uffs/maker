@@ -24,6 +24,9 @@
                                 </h1>
                                 <div class="text-grey-darker text-sm">
                                     <p class="text-sm"> Última atualização: {{ $book->updated_at->format('d/m/Y') }} às {{ $book->updated_at->format('H:i') }} </p>
+                                    <p class="text-sm text-center">
+                                        Tema: {{ $book->theme }}
+                                    </p>
                                 </div>
                             </header>
                             

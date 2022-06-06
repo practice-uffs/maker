@@ -38,14 +38,15 @@ class BookController extends Controller
         $bookToUpdate->build_status = 'processing';
         $bookToUpdate->save();
         $docs = new GoogleDoc(config('google.docs'));
-        if ($docs->downloadFileById($this->parseUrl($bookToUpdate->google_drive_url))){
+        if ($docs->verifyFileById($this->parseUrl($bookToUpdate->google_drive_url))){
             $book = new stdClass();
+            $book->theme = $bookToUpdate->theme;
             $book->google_drive_url = $bookToUpdate->google_drive_url;
             $book->id = $bookToUpdate->id;
             $book->name = $bookToUpdate->name;
             $book->docs_id = $this->parseUrl($bookToUpdate->google_drive_url);
             $book->docs_id = Str::slug($book->docs_id);
-            UpdateBookJob::dispatch($book, auth()->user());
+            UpdateBookJob::dispatch($book);
             return redirect(route('books'));
         }
         return redirect(route('books'));

@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use App\Services\GoogleDoc;
 use App\Models\Book;
 use stdClass;
 
@@ -60,18 +61,33 @@ class UpdateBookJob implements ShouldQueue
             ],
             \'sample_notice\' => \'This is a book generated using Ibis, more information about ibis in: https://github.com/themsaid/ibis\',
         ];';
-        $file = public_path()."/book/ibis.php";
-        $fh = fopen($file, 'w') or die("can't open file");
-        fwrite($fh, $content);
-        fclose($fh);
-        $cmd = 'cd public && cd book && ' . env("IBIS") . ' build';
-        $output = shell_exec($cmd);
-        array_map('unlink', glob(public_path()."/book/content/*.md"));
 
-        $book = Book::find($this->book->id);
-        $book->build_status = 'done';
-        $book->build_output = $output;
-        $book->save();
+        $docs = new GoogleDoc(config('google.docs'));
+        if ($docs->downloadFileById($this->parseUrl($this->book->google_drive_url))){
 
+            $file = public_path()."/book/ibis.php";
+            $fh = fopen($file, 'w') or die("can't open file");
+            fwrite($fh, $content);
+            fclose($fh);
+
+            if ($this->book->theme == 'dark'){
+                $cmd = 'cd public && cd book && '.env("IBIS").' build dark';
+            } else {
+                $cmd = 'cd public && cd book && '.env("IBIS").' build';
+            }
+            
+            $output = shell_exec($cmd);
+            array_map('unlink', glob(public_path()."/book/content/*.md"));
+
+            $book = Book::find($this->book->id);
+            $book->build_status = 'done';
+            $book->build_output = $output;
+            $book->save();
+        }
+    }
+
+    public function parseUrl($url){
+        preg_match('/(?<=\/d\/).*(?=\/edit)/', $url, $id);
+        return $id;
     }
 }
