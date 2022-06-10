@@ -35,6 +35,10 @@
                             <h5 class="text-xl overflow-hidden text-indigo-500 font-semibold">
                                 {{ $docsContent['title'] }}
                             </h5>
+                            <div class="form-check form-switch w-100 d-flex flex-row-reverse" >
+                                <label class="form-check-label" for="flexSwitchCheckDefault">Tema escuro</label>
+                                <input class="form-check-input mr-3" type="checkbox" wire:model="bookDarkTheme" id="flexSwitchCheckDefault">
+                            </div>
                         </div>
                         <p class="pl-1 font-medium">Proprietário(s):</p>
                         <p class="pl-3 mt-0 overflow-hidden">
@@ -44,6 +48,9 @@
                                 @endif 
                             @endforeach
                         <p>
+                        
+                        
+                        
                         <dd class="group-hover:text-light-red-200 text-sm font-medium sm:mb-4 lg:mb-0 xl:mb-4">
                             <div x-data="{show:false}">
                                 <div class="flex justify-center bg-indigo-100 hover:bg-indigo-300 rounded-lg">

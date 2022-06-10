@@ -13,6 +13,7 @@ class MakeBook extends Component
     public $docsContent;
     public $docsUrl = '';
     public $createBookError = false;
+    public $bookDarkTheme = false;
 
     public function render()
     {
@@ -34,7 +35,7 @@ class MakeBook extends Component
 
     public function createBook(){
         $docs = new GoogleDoc(config('google.docs'));
-        if ($docs->downloadFileById($this->parseUrl($this->docsUrl))){
+        if ($docs->verifyFileById($this->parseUrl($this->docsUrl))){
             $book = new stdClass();
             $book->name = $this->docsContent['title'];
             $book->description = '';
@@ -43,7 +44,14 @@ class MakeBook extends Component
             $book->build_output = '';
             $book->docs_id = $this->parseUrl($this->docsUrl);
             $book->docs_id = Str::slug($book->docs_id[0]);
-            $book->pdf_path = '/book/export/'.$book->docs_id.'-light.pdf';
+
+            if ($this->bookDarkTheme){
+                $book->theme = 'dark';
+                $book->pdf_path = '/book/export/'.$book->docs_id.'-dark.pdf';
+            } else {
+                $book->theme = 'light';
+                $book->pdf_path = '/book/export/'.$book->docs_id.'-light.pdf';
+            }
             MakeBookJob::dispatch($book, auth()->user());
             return redirect(route('books'));
         } else {

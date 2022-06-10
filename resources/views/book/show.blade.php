@@ -22,6 +22,9 @@
             <h1 class="sm:text-2xl text-1xl font-small title-font text-gray-900">
                 Última atualização: {{ $book->updated_at->format('d/m/Y') }} às {{ $book->updated_at->format('H:i') }}
             </h1>
+            <p class="sm:text-2xl text-1xl font-small title-font text-gray-900">
+                Tema: {{ $book->theme }}
+            </p>
         </div>
 
         <div class="flex justify-center w-full">
