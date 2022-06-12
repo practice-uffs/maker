@@ -151,7 +151,7 @@
         </div>
     </div>
     <div class="bg-gray-100 justify-center">
-        <div class="container py-6 mx-auto flex items-center sm:flex-row flex-col">
+        <div class="container py-6 mx-auto flex items-center justify-center sm:flex-row flex-col">
             <p class="text-sm text-gray-400">
                 Feito com ❤️ pela
                 <a href="https://practice.uffs.cc/equipe/" rel="noopener noreferrer" class="text-gray-600 ml-1"
