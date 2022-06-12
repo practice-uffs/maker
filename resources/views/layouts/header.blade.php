@@ -28,7 +28,7 @@
                                     Livro digital
                                 </a>
                             </li>
-                            <li>
+                            {{-- <li>
                                 <a href="{{ route('poster') }}" class="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-300 hover:bg-gray-700 hover:text-white focus:text-white focus:bg-gray-700">
                                     Poster
                                 </a>
@@ -37,7 +37,7 @@
                                 <a href="{{ route('site.create') }}" class="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-300 hover:bg-gray-700 hover:text-white focus:text-white focus:bg-gray-700">
                                     Página Web
                                 </a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </li>
                     @admin
@@ -93,7 +93,7 @@
                                 Livro digital
                             </a>
                         </li>
-                        <li class="dropdown-item">
+                        {{-- <li class="dropdown-item">
                             <a href="{{ route('poster') }}" class="nav-link focus:text-white pt-1 pb-1 text-sm hover:text-blue-500">
                                 Poster
                             </a>
@@ -102,7 +102,7 @@
                             <a href="{{ route('site.create') }}" class="nav-link focus:text-white pt-1 pb-1 text-sm hover:text-blue-500">
                                 Página Web
                             </a>
-                        </li>
+                        </li> --}}
 
                         <li><hr class="dropdown-divider d-xl-none" /></li>
                         
