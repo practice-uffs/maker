@@ -125,10 +125,21 @@ class GoogleDoc
                     if(strlen($fileName) > 200){
                         $fileName = substr($fileName, 0 , 200);
                     }
-                    file_put_contents("book/content/$fileName.md",$content);
+                    $public_path = public_path();
+                    file_put_contents($public_path."/book/content/$fileName.md",$content);
                     $interactions++;
                 }
             }
+            return true;
+        } catch (\Google_Service_Exception $e){
+            return false;
+        }
+    }
+
+    public function verifyFileById($fileId){
+        try {
+            $response = $this->service->files->export($fileId, 'text/plain', array('alt' => 'media' ));
+            $content = $response->getBody()->getContents();
             return true;
         } catch (\Google_Service_Exception $e){
             return false;

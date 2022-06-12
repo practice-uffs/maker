@@ -9,9 +9,10 @@
         </div>
 
         <div class="mt-12 m-auto items-center justify-center space-y-6 lg:flex lg:space-y-0 lg:space-x-6 xl:w-10/12">
+
             <div class="relative p-2 z-10 group mx-auto sm:w-7/12 lg:w-4/12" data-aos="fade-up" data-aos-delay="300">
                 <a href="{{ route('book.create') }}" class="no-underline hover:no-underline">
-                    <div aria-hidden="true" class="h-80 sm:h-96 lg:h-96 rounded-2xl shadow-xl p-6 space-y-8 rounded-lg bg-gray-100 hover:bg-gray-200">
+                    <div aria-hidden="true" class="h-80 sm:h-96 lg:h-96 rounded-2xl shadow-xl p-6 space-y-8 rounded-lg bg-gray-100 hover:bg-gray-200" >
                         <div class="flex items-center">
                             <div class="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-indigo-500 text-white flex-shrink-0">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

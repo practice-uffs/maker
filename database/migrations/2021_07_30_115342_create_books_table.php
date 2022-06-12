@@ -24,6 +24,7 @@ class CreateBooksTable extends Migration
             $table->timestamp('build_status_changed_at')->nullable();
             $table->text('build_output')->nullable();
             $table->text('pdf_path')->nullable();
+            $table->string('theme')->nullable();
             $table->timestamps();
         });
     }
