@@ -71,14 +71,22 @@ class MakeBookJob implements ShouldQueue
             fwrite($fh, $content);
             fclose($fh);
             if ($this->book->theme == 'dark'){
+                rename(public_path()."/book/assets/dark.jpg", public_path()."/book/assets/cover.jpg");
                 $cmd = 'cd public && cd book && '.env("IBIS").' build dark';
             } else {
+                rename(public_path()."/book/assets/light.jpg", public_path()."/book/assets/cover.jpg");
                 $cmd = 'cd public && cd book && '.env("IBIS").' build';
             }
             
             $output = shell_exec($cmd);
 
             array_map('unlink', glob(public_path()."/book/content/*.md"));
+
+            if ($this->book->theme == 'dark'){
+                rename(public_path()."/book/assets/cover.jpg", public_path()."/book/assets/dark.jpg");
+            } else {
+                rename(public_path()."/book/assets/cover.jpg", public_path()."/book/assets/light.jpg");
+            }
 
             $book = Book::where('pdf_path', '=', $this->book->pdf_path)->first();
             if ($book === null) {
