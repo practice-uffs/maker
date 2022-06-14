@@ -1,10 +1,12 @@
 <div class="bg-white overflow-hidden sm:rounded-lg px-2 py-24">
     <div class="flex flex-col text-center w-full mb-20">
+
         <h2 class="text-2xl text-indigo-500 tracking-widest font-medium title-font mb-1">LIVRO DIGITAL</h2>
         <h1 class="sm:text-2xl text-1xl font-medium title-font text-gray-900">
             Insira o endereço do documento Google que deseja transformar em um livro.
         </h1>
-        <form wire:submit.prevent="submit" method="POST" class="flex mt-4 items-center">  
+
+        <form wire:submit.prevent="submit" method="POST" class="flex mt-4 items-center"> 
             <div class="relative w-full">
                 <input 
                     type="text" wire:model="docsUrl" id="docsUrl" required
@@ -12,7 +14,12 @@
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500" 
                 >
             </div>
-            <button type="submit" class="inline-flex items-center py-2.5 px-3 ml-2 text-sm font-medium text-white bg-indigo-700 rounded-lg border border-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800">
+            
+            <button class="inline-flex items-center py-2.5 px-3 ml-2 text-sm font-medium text-white bg-indigo-500 rounded-lg border border-indigo-600 hover:bg-indigo-700 focus:ring-4 focus:outline-none focus:ring-indigo-300 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800"
+                    type="submit" wire:click="submit" wire:loading.attr="disabled" 
+                    wire:loading.class.remove="hover:bg-indigo-700 bg-indigo-500"
+                    wire:loading.class="bg-gray-500"
+            > 
                 <svg class="mr-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                 </svg>
@@ -21,7 +28,66 @@
         </form>
     </div>
 
-    <div class="mt-12 m-auto items-center justify-center space-y-6 lg:flex lg:space-y-0 lg:space-x-6">
+    <div class="mt-12 m-auto items-center justify-center space-y-6 flex space-y-0 space-x-6">
+        <div class="fixed top-28 md:top-24  center justify-items-center">
+            <div wire:loading wire:target="submit" class="p-1 rounded-full">
+                <div class="spinner-grow inline-block w-4 h-4 bg-indigo-200 rounded-full opacity-0" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow inline-block w-4 h-4 bg-indigo-300 rounded-full opacity-0" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow inline-block w-4 h-4 bg-indigo-400 rounded-full opacity-0" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow inline-block w-4 h-4 bg-indigo-500 rounded-full opacity-0" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow inline-block w-4 h-4 bg-indigo-600 rounded-full opacity-0" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow inline-block w-4 h-4 bg-indigo-700 rounded-full opacity-0" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow inline-block w-4 h-4 bg-indigo-800 rounded-full opacity-0" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow inline-block w-4 h-4 bg-indigo-900 rounded-full opacity-0" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+            
+            <div wire:loading wire:target="createBook" class="p-1 rounded-full">
+                <div class="spinner-grow inline-block w-4 h-4 bg-indigo-100 rounded-full opacity-0" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow inline-block w-4 h-4 bg-indigo-200 rounded-full opacity-0" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow inline-block w-4 h-4 bg-indigo-300 rounded-full opacity-0" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow inline-block w-4 h-4 bg-indigo-400 rounded-full opacity-0" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow inline-block w-4 h-4 bg-indigo-500 rounded-full opacity-0" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow inline-block w-4 h-4 bg-indigo-600 rounded-full opacity-0" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow inline-block w-4 h-4 bg-indigo-700 rounded-full opacity-0" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow inline-block w-4 h-4 bg-indigo-800 rounded-full opacity-0" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow inline-block w-4 h-4 bg-indigo-900 rounded-full opacity-0" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
+        
         <div aria-hidden="true" class="w-full rounded-2xl p-6 space-y-8 bg-gray-200">
             @if ($docsContent != null)
                 @if ($docsContent['error'] == '')
@@ -49,8 +115,6 @@
                             @endforeach
                         <p>
                         
-                        
-                        
                         <dd class="group-hover:text-light-red-200 text-sm font-medium sm:mb-4 lg:mb-0 xl:mb-4">
                             <div x-data="{show:false}">
                                 <div class="flex justify-center bg-indigo-100 hover:bg-indigo-300 rounded-lg">
@@ -65,14 +129,12 @@
                                     <p class="overflow-hidden bg-red-200 rounded-lg border-2 border-red-300 px-2 mt-2">
                                         Após criar é possível atualizar o conteúdo em Livro digital!
                                     </p>
-                                    <button wire:click="createBook" 
-                                            type="button"
-                                            id="btn-submit-index" 
-                                            class="fixed bottom-3.5 center btn rounded-full bg-indigo-500 hover:bg-indigo-700 text-white font-bold border-0" 
-                                            onclick="   el = document.getElementById('btn-submit-index'); 
-                                                        el.innerHTML = '<i class=\'bi bi-arrow-repeat\'></i>'; 
-                                                        el.disabled = true; 
-                                                        el.innerHTML = '<div class=\'spinner-border\'></div>Aguarde';">
+
+                                    <button class="fixed bottom-3.5 center btn rounded-full bg-indigo-500 hover:bg-indigo-700 text-white font-bold border-0" 
+                                            type="button" wire:click="createBook" wire:loading.attr="disabled" 
+                                            wire:loading.class.remove="hover:bg-indigo-700 bg-indigo-500"
+                                            wire:loading.class="bg-gray-500"
+                                    >
                                         Criar livro!
                                     </button>
                                 </div>
@@ -93,7 +155,7 @@
                     <p class="pb-4 text-center font-medium text-red-700 font-bold pt-4">{{ $docsContent['error'] }}</p>
                 @endif
             @else
-                <div class="flex items-center justify-center p-14">
+                <div class="flex items-center justify-center">
                     <div class="flex flex-column ">
                         <div class="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4" role="alert">
                             <p class="font-bold">Aviso!</p>
