@@ -8,6 +8,9 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Firebase\JWT\JWT;
+use Carbon\Carbon;
+
 
 class User extends Authenticatable
 {
@@ -111,5 +114,30 @@ class User extends Authenticatable
 
     public function isAdmin() {
         return $this->type == SELF::ADMIN;
+    }
+
+    public function getOrCreateJWTAttribute($teste){
+        $key = env('APP_KEY');
+        $user = $this;
+        $user = array(
+            "uid" => $user->uid,
+            "email" => $user->email,
+            "name"=> $user->name
+        );
+       
+        $app_id = (int) env('APP_ID');
+
+        $payload = array(
+            'iss' => env('APP_NAME'),
+            'aud' => 'practice.uffs.edu.br',
+            'iat' => Carbon::now()->timestamp,
+            'nbf' => Carbon::now()->timestamp - 1,
+            'app_id' => $app_id,
+            'user' => $user,
+        );
+        
+        $jwt = JWT::encode($payload, $key, 'HS256');
+        
+        return $jwt;
     }
 }
